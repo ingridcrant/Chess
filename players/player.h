@@ -3,7 +3,7 @@
 
 #include <string>
 
-class Player{
+class Player {
     bool check;
     bool checkmate;
     int colour;
