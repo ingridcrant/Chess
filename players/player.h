@@ -3,15 +3,15 @@
 
 #include <string>
 
-class Player{
+class Player {
     bool check;
     bool checkmate;
     int colour;
 
     public:
-    enum {White=0, Black};
-    Player(int colour, bool check, bool checkmate);
-    virtual ~Player() = 0;
+        enum {White=0, Black};
+        Player(int colour, bool check, bool checkmate);
+        virtual ~Player() = 0;
 };
 
 
