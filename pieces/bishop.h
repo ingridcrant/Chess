@@ -7,4 +7,5 @@ class Bishop : public Motion {
 
     public:
         Bishop();
+        Position nextPos(Colour colour, Position currPos, Direction direction) override;
 };

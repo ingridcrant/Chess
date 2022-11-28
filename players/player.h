@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include <string>
+#include "shared.h"
 
 class Player {
     bool check;
@@ -9,8 +10,7 @@ class Player {
     int colour;
 
     public:
-        enum {White=0, Black};
-        Player(int colour, bool check, bool checkmate);
+        Player(Colour colour, bool check, bool checkmate);
         virtual ~Player() = 0;
 };
 
