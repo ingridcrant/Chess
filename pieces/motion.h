@@ -1,13 +1,9 @@
 #include <string>
 #include <vector>
 
-enum motion { UP, DOWN, LEFT, RIGHT, LEFT_DIAGONAL, RIGHT_DIAGOONAL };
-enum distance { ONE, INFINITE };
+enum Direction { UP, DOWN, LEFT, RIGHT, LEFT_DIAGONAL, RIGHT_DIAGONAL, KNIGHT_UP_LEFT, KNIGHT_UP_RIGHT, KNIGHT_DOWN_LEFT, KNIGHT_DOWN_RIGHT };
+enum Distance { ONE, INFINITE };
 
 class Motion {
-    distance dist;
-    std::vector<motion> directions;
-    bool specialCapture;
-
-    int* nextPos(int* currPos, std::string direction);
+    virtual int* nextPos(int* currPos, std::string direction) = 0;
 };
