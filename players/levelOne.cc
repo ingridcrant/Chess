@@ -1,5 +1,4 @@
 #include "computer.h"
-#include "player.h"
 
 Computer::Computer(int colour, bool check, bool checkmate): Player(colour, check, checkmate) {}
 
