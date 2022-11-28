@@ -15,8 +15,6 @@ class Board {
         Board(); 
         std::unique_ptr<Piece>** getBoard();
         void changeBoard(Move move); //change state of board based on move
-
-
 };
 
 #endif

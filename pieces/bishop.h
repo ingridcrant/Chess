@@ -8,4 +8,3 @@ class Bishop : public Motion {
     public:
         Bishop();
 };
-
