@@ -2,7 +2,6 @@
 #define COMP_H
 
 #include "player.h"
-#include "shared.h"
 
 class Computer : public Player {
 

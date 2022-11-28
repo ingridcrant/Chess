@@ -2,7 +2,7 @@
 #define PLAYER_H
 
 #include <string>
-#include "shared.h"
+#include "../shared.h"
 
 class Player {
     bool check;
