@@ -9,14 +9,12 @@ class Move;
 
 class Board {
     std::unique_ptr<Piece> board[8][8];
-    std::vector<std::unique_ptr<Piece>> alivePieces;
+    std::vector<std::unique_ptr<Piece> > alivePieces;
 
     public:
-    Board(); 
-    std::unique_ptr<Piece>** getBoard();
-    void changeBoard(Move move); //change state of board based on move
-
-
+        Board(); 
+        std::unique_ptr<Piece>** getBoard();
+        void changeBoard(Move move); //change state of board based on move
 };
 
 #endif

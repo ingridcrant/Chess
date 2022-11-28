@@ -2,7 +2,3 @@
 #include "player.h"
 
 Computer::~Computer() {}
-
-
-
-

@@ -4,12 +4,9 @@
 #include "player.h"
 
 class Human : public Player {
-
     public:
-    Human(int colour, bool check, bool checkmate);
-    ~Human() = default;
-
-
+        Human(Colour colour, bool check, bool checkmate);
+        ~Human() = default;
 };
 
 #endif

@@ -6,7 +6,7 @@
 class Computer : public Player {
 
     public:
-    Computer(int colour, bool check, bool checkmate);
+    Computer(Colour colour, bool check, bool checkmate);
     virtual ~Computer() = 0;
 
 };
@@ -14,7 +14,7 @@ class Computer : public Player {
 class LevelOne : public Computer {
 
     public:
-    LevelOne(int colour, bool check, bool checkmate);
+    LevelOne(Colour colour, bool check, bool checkmate);
     ~LevelOne() = default;
 };
 
