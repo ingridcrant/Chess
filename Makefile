@@ -1,4 +1,4 @@
-cd ..CXX = g++
+CXX = g++
 CXXFLAGS = -std=c++14 -g -MMD -Wall -Wextra \
 		   -I display -I gameFolder -I pieces -I players
 EXEC = main
