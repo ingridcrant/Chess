@@ -18,7 +18,7 @@ class Board {
 
     public:
         Board(); 
-        ~Board();
+        //~Board();
         std::vector<std::vector<std::shared_ptr<Piece>>> getBoard() const;
         void changeBoard(Move move); //change state of board based on move
 
