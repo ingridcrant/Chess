@@ -2,10 +2,10 @@ CXX = g++
 CXXFLAGS = -std=c++14 -g -MMD -Wall -Wextra \
 		   -I display -I gameFolder -I pieces -I players
 EXEC = main
-OBJECTS = main.o \
+OBJECTS = main.o move.o\
 		  display.o graphicalObserver.o observer.o subject.o textObserver.o\
 		  board.o motion.o piece.o king.o knight.o pawn.o queen.o rook.o bishop.o\
-		  game.o move.o\
+		  game.o\
 		  computer.o human.o levelOne.o player.o
 DEPENDS = ${OBJECTS:.o=.d}
 # The only real change from the canonical Makefile,

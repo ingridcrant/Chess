@@ -5,9 +5,9 @@
 #include "../shared.h"
 
 class Player {
+    Colour colour;
     bool check;
     bool checkmate;
-    int colour;
 
     public:
         Player(Colour colour, bool check, bool checkmate);
