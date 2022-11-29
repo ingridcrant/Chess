@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <vector>
+#include "../shared.h"
 
 class Move;
 class Piece;
@@ -10,6 +11,8 @@ class Piece;
 class Board {
     std::unique_ptr<Piece> board[8][8]; //[col (letter)][row (int)]
     std::vector<std::unique_ptr<Piece>> alivePieces;
+
+    bool validMove(Piece piece, Position curPos, Position newPos) const;
 
     public:
         Board(); 
