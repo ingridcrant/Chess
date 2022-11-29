@@ -11,15 +11,14 @@ class Piece;
 class Board {
     int boardRows = 8;
     int boardCols = 8;
-    std::vector<std::vector<std::shared_ptr<Piece>>> board; //[col (letter)][row (int)]
-    std::vector<std::shared_ptr<Piece>> alivePieces; 
+    std::vector<std::vector<Piece *>> board; //[col (letter)][row (int)]
 
     bool validMove(Piece piece, Position curPos, Position newPos) const;
 
     public:
         Board(); 
-        //~Board();
-        std::vector<std::vector<std::shared_ptr<Piece>>> getBoard() const;
+        ~Board() = delete;
+        std::vector<std::vector<Piece *>> getBoard() const;
         void changeBoard(Move move); //change state of board based on move
 
 };

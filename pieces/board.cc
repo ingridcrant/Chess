@@ -6,63 +6,63 @@
 
 Board::Board() {
     // create all the piece pointers
-    auto whitePawnOne = std::make_shared<Piece>();
-    auto whitePawnTwo = std::make_shared<Piece>();
-    auto whitePawnThree = std::make_shared<Piece>();
-    auto whitePawnFour = std::make_shared<Piece>();
-    auto whitePawnFive = std::make_shared<Piece>();
-    auto whitePawnSix = std::make_shared<Piece>();
-    auto whitePawnSev = std::make_shared<Piece>();
-    auto whitePawnEight = std::make_shared<Piece>();
-    auto whiteKing = std::make_shared<Piece>();
-    auto whiteQueen = std::make_shared<Piece>();
-    auto whiteRookOne = std::make_shared<Piece>();
-    auto whiteRookTwo = std::make_shared<Piece>();
-    auto whiteBishopOne = std::make_shared<Piece>();
-    auto whiteBishopTwo = std::make_shared<Piece>();
-    auto whiteKnightOne = std::make_shared<Piece>();
-    auto whiteKnightTwo = std::make_shared<Piece>();
+    auto whitePawnOne = std::make_unique<Piece>();
+    auto whitePawnTwo = std::make_unique<Piece>();
+    auto whitePawnThree = std::make_unique<Piece>();
+    auto whitePawnFour = std::make_unique<Piece>();
+    auto whitePawnFive = std::make_unique<Piece>();
+    auto whitePawnSix = std::make_unique<Piece>();
+    auto whitePawnSev = std::make_unique<Piece>();
+    auto whitePawnEight = std::make_unique<Piece>();
+    auto whiteKing = std::make_unique<Piece>();
+    auto whiteQueen = std::make_unique<Piece>();
+    auto whiteRookOne = std::make_unique<Piece>();
+    auto whiteRookTwo = std::make_unique<Piece>();
+    auto whiteBishopOne = std::make_unique<Piece>();
+    auto whiteBishopTwo = std::make_unique<Piece>();
+    auto whiteKnightOne = std::make_unique<Piece>();
+    auto whiteKnightTwo = std::make_unique<Piece>();
 
-    auto blackPawnOne = std::make_shared<Piece>();
-    auto blackPawnTwo = std::make_shared<Piece>();
-    auto blackPawnThree = std::make_shared<Piece>();
-    auto blackPawnFour = std::make_shared<Piece>();
-    auto blackPawnFive = std::make_shared<Piece>();
-    auto blackPawnSix = std::make_shared<Piece>();
-    auto blackPawnSev = std::make_shared<Piece>();
-    auto blackPawnEight = std::make_shared<Piece>();
-    auto blackKing = std::make_shared<Piece>();
-    auto blackQueen = std::make_shared<Piece>();
-    auto blackRookOne = std::make_shared<Piece>();
-    auto blackRookTwo = std::make_shared<Piece>();
-    auto blackBishopOne = std::make_shared<Piece>();
-    auto blackBishopTwo = std::make_shared<Piece>();
-    auto blackKnightOne = std::make_shared<Piece>();
-    auto blackKnightTwo = std::make_shared<Piece>();
+    auto blackPawnOne = std::make_unique<Piece>();
+    auto blackPawnTwo = std::make_unique<Piece>();
+    auto blackPawnThree = std::make_unique<Piece>();
+    auto blackPawnFour = std::make_unique<Piece>();
+    auto blackPawnFive = std::make_unique<Piece>();
+    auto blackPawnSix = std::make_unique<Piece>();
+    auto blackPawnSev = std::make_unique<Piece>();
+    auto blackPawnEight = std::make_unique<Piece>();
+    auto blackKing = std::make_unique<Piece>();
+    auto blackQueen = std::make_unique<Piece>();
+    auto blackRookOne = std::make_unique<Piece>();
+    auto blackRookTwo = std::make_unique<Piece>();
+    auto blackBishopOne = std::make_unique<Piece>();
+    auto blackBishopTwo = std::make_unique<Piece>();
+    auto blackKnightOne = std::make_unique<Piece>();
+    auto blackKnightTwo = std::make_unique<Piece>();
 
 
     //add all pieces to the board rows
-    std::vector<std::shared_ptr<Piece>> rowOne{whitePawnOne, whitePawnTwo, 
-                                               whitePawnThree, whitePawnFour, 
-                                               whitePawnFive, whitePawnSix, 
-                                               whitePawnSev, whitePawnEight};
-    std::vector<std::shared_ptr<Piece>> rowTwo{whiteRookOne, whiteKnightOne, 
-                                               whiteBishopOne, whiteQueen, 
-                                               whiteKing, whiteBishopTwo, 
-                                               whiteKnightTwo, whiteRookTwo};
-    std::vector<std::shared_ptr<Piece>> rowThree{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
-    std::vector<std::shared_ptr<Piece>> rowFour{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
-    std::vector<std::shared_ptr<Piece>> rowFive{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
-    std::vector<std::shared_ptr<Piece>> rowSix{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
-    std::vector<std::shared_ptr<Piece>> rowSev{blackPawnOne, blackPawnTwo, 
-                                               blackPawnThree, blackPawnFour, 
-                                               blackPawnFive, blackPawnSix, 
-                                               blackPawnSev, blackPawnEight};
+    std::vector<Piece *> rowOne{whitePawnOne.get(), whitePawnTwo.get(), 
+                                               whitePawnThree.get(), whitePawnFour.get(), 
+                                               whitePawnFive.get(), whitePawnSix.get(), 
+                                               whitePawnSev.get(), whitePawnEight.get()};
+    std::vector<Piece *> rowTwo{whiteRookOne.get(), whiteKnightOne.get(), 
+                                               whiteBishopOne.get(), whiteQueen.get(), 
+                                               whiteKing.get(), whiteBishopTwo.get(), 
+                                               whiteKnightTwo.get(), whiteRookTwo.get()};
+    std::vector<Piece *> rowThree{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
+    std::vector<Piece *> rowFour{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
+    std::vector<Piece *> rowFive{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
+    std::vector<Piece *> rowSix{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
+    std::vector<Piece *> rowSev{blackPawnOne.get(), blackPawnTwo.get(), 
+                                               blackPawnThree.get(), blackPawnFour.get(), 
+                                               blackPawnFive.get(), blackPawnSix.get(), 
+                                               blackPawnSev.get(), blackPawnEight.get()};
 
-    std::vector<std::shared_ptr<Piece>> rowEight{blackRookOne, blackKnightOne, 
-                                               blackBishopOne, blackQueen, 
-                                               blackKing, blackBishopTwo, 
-                                               blackKnightTwo, blackRookTwo};
+    std::vector<Piece *> rowEight{blackRookOne.get(), blackKnightOne.get(), 
+                                               blackBishopOne.get(), blackQueen.get(), 
+                                               blackKing.get(), blackBishopTwo.get(), 
+                                               blackKnightTwo.get(), blackRookTwo.get()};
 
     //add all rows to board
     board.push_back(rowOne);
@@ -76,6 +76,6 @@ Board::Board() {
 }
 
 
-std::vector<std::vector<std::shared_ptr<Piece>>> Board::getBoard() const {return board;}
+std::vector<std::vector<Piece *>> Board::getBoard() const {return board;}
 
 
