@@ -143,6 +143,7 @@ Piece * Board::getPieceAt(int col, int row) const {
     return board[col][row].get();
 }
 
+//still needs to be implemented
 bool Board::validMove(Piece * piece, Position curPos, Position newPos) const {
     return true;
 }
