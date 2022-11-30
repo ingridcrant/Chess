@@ -14,7 +14,7 @@ class Board : std::enable_shared_from_this<Board> {
     std::vector<std::vector<std::shared_ptr<Piece>>> board; //[col (letter)][row (int)]
     std::vector<std::shared_ptr<Piece>> alivePieces; 
 
-    bool validMove(Piece piece, Position curPos, Position newPos) const;
+    bool validMove(Piece* piece, Position curPos, Position newPos) const;
 
     public:
         Board(); 
