@@ -1,11 +1,11 @@
-#include "motion.h"
+#include "piece.h"
 
-class Bishop : public Motion {
+class Bishop : public Piece {
     Distance dist;
     std::vector<Direction> directions;
     bool specialCapture;
 
     public:
-        Bishop();
-        Position nextPos(Colour colour, Position currPos, Direction direction) override;
+        Bishop(Colour colour, char symbol, std::shared_ptr<Board> board, Position pos);
+        void generateNextPositions() override;
 };
