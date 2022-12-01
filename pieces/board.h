@@ -10,7 +10,7 @@ class Piece;
 
 class InvalidMove {};
 
-class Board {
+class Board : std::enable_shared_from_this<Board> {
     int boardRows = 8;
     int boardCols = 8;
     std::vector<std::vector<std::unique_ptr<Piece>>> board; //[col (letter)][row (int)]
