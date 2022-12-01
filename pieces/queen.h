@@ -6,6 +6,6 @@ class Queen : public Piece {
     bool specialCapture;
 
     public:
-        Queen(Colour colour, char symbol, std::shared_ptr<Board> board, Position pos);
-        void generateNextPositions() override;
+        Queen(Colour colour, char symbol, Position pos);
+        void generateNextPositions(Board* board) override;
 };

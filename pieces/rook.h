@@ -6,6 +6,6 @@ class Rook : public Piece {
     bool specialCapture;
 
     public:
-        Rook(Colour colour, char symbol, std::shared_ptr<Board> board, Position pos);
-        void generateNextPositions() override;
+        Rook(Colour colour, char symbol, Position pos);
+        void generateNextPositions(Board* board) override;
 };
