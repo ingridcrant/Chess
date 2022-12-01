@@ -9,4 +9,5 @@ class Pawn : public Piece {
     public:
         Pawn(Colour colour, char symbol, Position pos);
         void generateNextPositions(Board* board) override;
+        bool getSkipsTwo() override;
 };

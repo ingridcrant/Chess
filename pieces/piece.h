@@ -31,8 +31,9 @@ class Piece {
         bool validateMove(Position newPos);
     public:
         Piece(Colour colour, char symbol, Position currPos, Distance dist, bool specialCapture);
-        Position getPos();
-        char getSymbol();
+        virtual Position getPos();
+        virtual char getSymbol();
+        virtual bool getSkipsTwo();
 };
 
 #endif

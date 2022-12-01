@@ -130,10 +130,14 @@ bool Piece::validateMove(Position newPos) {
     return false;
 }
 
-char getSymbol() {
+char Piece::getSymbol() {
     return symbol;
 }
 
-Position getPos() {
-    return pos;
+Position Piece::getPos() {
+    return currPos;
+}
+
+bool Piece::getSkipsTwo() { 
+    return false;
 }
