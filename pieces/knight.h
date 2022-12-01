@@ -6,6 +6,6 @@ class Knight : public Piece {
     bool specialCapture;
 
     public:
-        Knight(Colour colour, char symbol, std::shared_ptr<Board> board, Position pos);
-        void generateNextPositions() override;
+        Knight(Colour colour, char symbol, Position pos);
+        void generateNextPositions(Board* board) override;
 };

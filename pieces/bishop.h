@@ -6,6 +6,6 @@ class Bishop : public Piece {
     bool specialCapture;
 
     public:
-        Bishop(Colour colour, char symbol, std::shared_ptr<Board> board, Position pos);
-        void generateNextPositions() override;
+        Bishop(Colour colour, char symbol, Position pos);
+        void generateNextPositions(Board* board) override;
 };

@@ -21,17 +21,16 @@ class Piece {
         char symbol;
         Distance dist;
         std::vector<Direction> directions;
-        std::shared_ptr<Board> board;
         std::vector<Position> nextPositions;
         Position currPos;
         bool firstMove = true;
         bool specialCapture;
-        
-        std::vector<Position> allPosInDirection(Direction direction);
-        virtual void generateNextPositions() = 0;
+
+        virtual void generateNextPositions(Board* board) = 0;
+        std::vector<Position> allPosInDirection(Direction direction, Board* board);
         bool validateMove(Position newPos);
     public:
-        Piece(Colour colour, char symbol, std::shared_ptr<Board> board, Position currPos, Distance dist, bool specialCapture);
+        Piece(Colour colour, char symbol, Position currPos, Distance dist, bool specialCapture);
 };
 
 #endif

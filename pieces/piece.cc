@@ -1,12 +1,12 @@
 #include "piece.h"
 #include "iostream"
 
-Piece::Piece(Colour colour, char symbol, std::shared_ptr<Board> board, Position pos, Distance dist, bool specialCapture):colour{colour}, symbol{symbol}, board{board}, currPos{pos}, dist{dist}, specialCapture{specialCapture} {}
+Piece::Piece(Colour colour, char symbol, Position pos, Distance dist, bool specialCapture):colour{colour}, symbol{symbol}, currPos{pos}, dist{dist}, specialCapture{specialCapture} {}
 
 InvalidDirection::InvalidDirection(std::string message): message{message} {}
 void InvalidDirection::printMessage() const {std::cout << message << std::endl;};
 
-std::vector<Position> Piece::allPosInDirection(Direction direction) {
+std::vector<Position> Piece::allPosInDirection(Direction direction, Board* board) {
     std::vector<Position> nextPositionsInD;
 
     int dx = 1;

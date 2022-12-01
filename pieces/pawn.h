@@ -7,6 +7,6 @@ class Pawn : public Piece {
     bool skipsTwo;
     
     public:
-        Pawn(Colour colour, char symbol, std::shared_ptr<Board> board, Position pos);
-        void generateNextPositions() override;
+        Pawn(Colour colour, char symbol, Position pos);
+        void generateNextPositions(Board* board) override;
 };
