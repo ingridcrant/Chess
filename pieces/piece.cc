@@ -26,7 +26,7 @@ std::vector<Position> Piece::allPosInDirection(Direction direction) {
         for (int d = 0; d < dx; d++) {
             int i = d * aim;
             if (0 < currPos.row || currPos.row >= 8 || currPos.col - i < 0 || currPos.col - i >= 8) break;
-            if (board->getBoard().at(currPos.row).at(currPos.col - i) != nullptr) break;
+            if (board->getPieceAt(currPos.row, currPos.col - i) != nullptr) break;
         
             Position nextSpot = Position{currPos.row, currPos.col - i};
             nextPositionsInD.emplace_back(nextSpot);
@@ -35,7 +35,7 @@ std::vector<Position> Piece::allPosInDirection(Direction direction) {
         for (int d = 0; d < dx; d++) {
             int i = d * aim;
             if (0 < currPos.row || currPos.row >= 8 || currPos.col + i < 0 || currPos.col + i >= 8) break;
-            if (board->getBoard().at(currPos.row).at(currPos.col + i) != nullptr) break;
+            if (board->getPieceAt(currPos.row, currPos.col + i) != nullptr) break;
         
             Position nextSpot = Position{currPos.row, currPos.col + i};
             nextPositionsInD.emplace_back(nextSpot);
@@ -44,7 +44,7 @@ std::vector<Position> Piece::allPosInDirection(Direction direction) {
         for (int d = 0; d < dy; d++) {
             int i = d * aim;
             if (0 < currPos.row + i || currPos.row + i >= 8 || currPos.col < 0 || currPos.col >= 8) break;
-            if (board->getBoard().at(currPos.row + i).at(currPos.col) != nullptr) break;
+            if (board->getPieceAt(currPos.row + i, currPos.col) != nullptr) break;
         
             Position nextSpot = Position{currPos.row + i, currPos.col};
             nextPositionsInD.emplace_back(nextSpot);
@@ -53,7 +53,7 @@ std::vector<Position> Piece::allPosInDirection(Direction direction) {
         for (int d = 0; d < dy; d++) {
             int i = d * aim;
             if (0 < currPos.row - i || currPos.row - i >= 8 || currPos.col < 0 || currPos.col >= 8) break;
-            if (board->getBoard().at(currPos.row - i).at(currPos.col) != nullptr) break;
+            if (board->getPieceAt(currPos.row - i, currPos.col) != nullptr) break;
 
             Position nextSpot = Position{currPos.row - i, currPos.col};
             nextPositionsInD.emplace_back(nextSpot);
@@ -62,7 +62,7 @@ std::vector<Position> Piece::allPosInDirection(Direction direction) {
         for (int d = 0; d < dy; d++) {
             int i = d * aim;
             if (0 < currPos.row + i || currPos.row + i >= 8 || currPos.col - i < 0 || currPos.col - i >= 8) break;
-            if (board->getBoard().at(currPos.row + i).at(currPos.col - i) != nullptr) break;
+            if (board->getPieceAt(currPos.row + i, currPos.col - i) != nullptr) break;
 
             Position nextSpot = Position{currPos.row + i, currPos.col - i};
             nextPositionsInD.emplace_back(nextSpot);
@@ -71,7 +71,7 @@ std::vector<Position> Piece::allPosInDirection(Direction direction) {
         for (int d = 0; d < dy; d++) {
             int i = d * aim;
             if (0 < currPos.row - i || currPos.row - i >= 8 || currPos.col - i < 0 || currPos.col - i >= 8) break;
-            if (board->getBoard().at(currPos.row - i).at(currPos.col - i) != nullptr) break;
+            if (board->getPieceAt(currPos.row - i, currPos.col - i) != nullptr) break;
             
             Position nextSpot = Position{currPos.row - i, currPos.col - i};
             nextPositionsInD.emplace_back(nextSpot);
@@ -80,7 +80,7 @@ std::vector<Position> Piece::allPosInDirection(Direction direction) {
         for (int d = 0; d < dy; d++) {
             int i = d * aim;
             if (0 < currPos.row + i || currPos.row + i >= 8 || currPos.col + i < 0 || currPos.col + i >= 8) break;
-            if (board->getBoard().at(currPos.row + i).at(currPos.col + i) != nullptr) break;
+            if (board->getPieceAt(currPos.row + i, currPos.col + i) != nullptr) break;
 
             Position nextSpot = Position{currPos.row + i, currPos.col + i};
             nextPositionsInD.emplace_back(nextSpot);
@@ -89,7 +89,7 @@ std::vector<Position> Piece::allPosInDirection(Direction direction) {
         for (int d = 0; d < dy; d++) {
             int i = d * aim;
             if (0 < currPos.row - i || currPos.row - i >= 8 || currPos.col + i < 0 || currPos.col + i >= 8) break;
-            if (board->getBoard().at(currPos.row - i).at(currPos.col + i) != nullptr) break;
+            if (board->getPieceAt(currPos.row - i, currPos.col + i) != nullptr) break;
 
             Position nextSpot = Position{currPos.row - i, currPos.col + i};
             nextPositionsInD.emplace_back(nextSpot);
