@@ -129,3 +129,11 @@ bool Piece::validateMove(Position newPos) {
     }
     return false;
 }
+
+char getSymbol() {
+    return symbol;
+}
+
+Position getPos() {
+    return pos;
+}
