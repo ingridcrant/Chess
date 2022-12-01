@@ -23,27 +23,6 @@ void Pawn::generateNextPositions(Board* board) {
         nextPositions.emplace_back(skipTwo);
     }
 
-    // 2.
-    char otherPawnSymbol = (colour == WHITE) ? 'p' : 'P';
-
-    if (currPos.col > 0) {
-        Piece* leftPiece = board->getPieceAt(currPos.row, currPos.col - 1);
-
-        if (leftPiece != nullptr && leftPiece->getSymbol() == otherPawnSymbol && leftPiece->getSkipsTwo()) {
-            Position enPassantLeft = Position{currPos.row, currPos.col - 1};
-            nextPositions.emplace_back(enPassantLeft);
-        }
-    }
-
-    if (currPos.col < board->getCols() - 1) {
-        Piece* rightPiece = board->getPieceAt(currPos.row, currPos.col + 1);
-
-        if (rightPiece != nullptr && rightPiece->getSymbol() == otherPawnSymbol && rightPiece->getSkipsTwo()) {
-            Position enPassantRight = Position{currPos.row, currPos.col - 1};
-            nextPositions.emplace_back(enPassantRight);
-        }
-    }
-
     for (Direction d : directions) {
         std::vector<Position> nextPositionsInD = this->allPosInDirection(d, board);
         nextPositions.insert(nextPositions.end(), nextPositionsInD.begin(), nextPositionsInD.end());
