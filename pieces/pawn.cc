@@ -11,7 +11,7 @@ bool Pawn::getSkipsTwo() {
 void Pawn::generateNextPositions(Board* board) {
     // TO DO:
     // 1. skips two move - DONE
-    // 2. en passant - DONE
+    // 2. en passant
 
     // 1.
     if (firstMove) {
