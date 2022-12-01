@@ -24,6 +24,8 @@ class Board {
         int getCols();
         Piece * getPieceAt(int col, int row) const;
         void changeBoard(Move move); //change state of board based on move
+        void changeBoard(Position pos); //for removing a piece from that position
+        void changeBoard(char piece, Position pos); //for placing piece in that position
 
 };
 

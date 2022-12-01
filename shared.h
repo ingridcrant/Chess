@@ -42,4 +42,9 @@ class Move {
         char getPromoteTo() const;
 };
 
+bool validPiece(std::string piece);
+int alphaToNum(char c);
+Position convertToPos(std::string pos);
+Colour convertToColour(std::string colour);
+
 #endif

@@ -154,13 +154,26 @@ void Board::changeBoard(Move move) {
 
     if (Board::validMove(piece, curPos, newPos)) {
         //change state of board
-        board[newPos.col][newPos.row] = std::move(board[curPos.col][curPos.row]);
+        board[newPos.col][newPos.row] = std::move(board[curPos.col][curPos.row]); //memory leak??
     } else {
-        //throw exception
         throw InvalidMove{};
     }
 
 }
+
+//TODO:
+void Board::changeBoard(Position pos) {
+    board[pos.col][pos.row] = std::move(nullptr); //memory leak??
+}
+
+//TODO:
+void Board::changeBoard(char piece, Position pos) {
+    
+}
+
+
+
+
 
 /*void test() {
     Board board{};
@@ -168,7 +181,7 @@ void Board::changeBoard(Move move) {
     for(int i = 0; i < board.getCols(); i++) {
         for (int j = 0; j < board.getRows(); j++) {
             if(board.getPieceAt(i, j)) {
-                std::cout << "P ";
+                std::cout << board.getPieceAt(i, j)->symbol;
             } else {
                 std::cout << "N ";
             }
