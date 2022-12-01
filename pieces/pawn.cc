@@ -7,8 +7,17 @@ Pawn::Pawn(Colour colour, char symbol, std::shared_ptr<Board> board, Position po
 
 void Pawn::generateNextPositions() {
     // TO DO:
-    // 1. skips two move
+    // 1. skips two move - DONE
     // 2. en passant
+    if (firstMove) {
+        Position skipTwo = Position{currPos.row + 2, currPos.col};
+        if (colour == BLACK) {
+            skipTwo.row = currPos.row - 2;
+        }
+
+        nextPositions.emplace_back(skipTwo);
+    }
+
     for (Direction d : directions) {
         std::vector<Position> nextPositionsInD = this->allPosInDirection(d);
         nextPositions.insert(nextPositions.end(), nextPositionsInD.begin(), nextPositionsInD.end());
