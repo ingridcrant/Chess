@@ -7,7 +7,7 @@ InvalidInput::InvalidInput(std::string message): message{message} {}
 
 void InvalidInput::printMessage() const {std::cout << message << std::endl;};
 
-int Move::alphaToNum(char c) {
+int alphaToNum(char c) {
     switch(c) {
         case 'a': return 0;
         case 'b': return 1;
@@ -22,7 +22,7 @@ int Move::alphaToNum(char c) {
     }
 }
 
-bool Move::validPiece(char c) {
+bool validPiece(char c) {
     switch(c) {
         case 'r':
         case 'R':
@@ -39,12 +39,13 @@ bool Move::validPiece(char c) {
 
 }
 
-void Move::convertFormat(std::string str, int counter) {
+Position convertToPos(std::string str) {
+    int col, row;
 
     // string represents a position
-    if (str.length() == 2 && counter < 2) {
-        int col = Move::alphaToNum(str[0]);
-        int row = 0;
+    if (str.length() == 2) {
+        col = alphaToNum(str[0]);
+        row = 0;
 
         // check if the row is inputted as a proper digit under 8
         if (isdigit(str[1])) {
@@ -57,20 +58,38 @@ void Move::convertFormat(std::string str, int counter) {
             throw InvalidInput{"Row not a digit."};
         }
 
-        // check if it is a curPost or newPos
-        if (counter == 0) {
-            curPos.col = col;
-            curPos.row = row;
-        }
-        else if (counter == 1) {
-            newPos.col = col;
-            newPos.row = row;
-        }
-        else {
-            throw InvalidInput{"Too much input."};
-        }
+    } else {
+        throw InvalidInput("Invalid input.");
+    }
 
-        
+    return Position{row, col};
+}
+
+
+Colour convertToColour(std::string colour) {
+    //convert to lowercase
+    for (int i = 0; i < colour.length(); i++) colour[i] = tolower(colour[i]);
+
+    if (colour == "white") {
+        return WHITE;
+    }
+    else if (colour == "black") {
+        return BLACK;
+    } else {
+        throw InvalidInput("Invalid colour.");
+    }
+}
+
+
+void Move::convertFormat(std::string str, int counter) {
+
+
+    // check if it is a curPost or newPos
+    if (counter == 0) {
+        curPos = convertToPos(str);
+    }
+    else if (counter == 1) {
+        newPos = convertToPos(str);
     }
     //string represents a piece that pawn should be promoted to
     else if (str.length() == 1 && counter == 2) {
@@ -79,9 +98,6 @@ void Move::convertFormat(std::string str, int counter) {
         } else {
             throw InvalidInput{"Not a valid piece."};
         }
-    }
-    else {
-        throw InvalidInput{"Invalid input."};
     }
 }
 
