@@ -48,40 +48,140 @@ Board::Board() {
 
 
     //add all pieces to the board rows
-    std::vector<std::shared_ptr<Piece>> rowOne{whitePawnOne, whitePawnTwo, 
-                                               whitePawnThree, whitePawnFour, 
-                                               whitePawnFive, whitePawnSix, 
-                                               whitePawnSev, whitePawnEight};
-    std::vector<std::shared_ptr<Piece>> rowTwo{whiteRookOne, whiteKnightOne, 
-                                               whiteBishopOne, whiteQueen, 
-                                               whiteKing, whiteBishopTwo, 
-                                               whiteKnightTwo, whiteRookTwo};
-    std::vector<std::shared_ptr<Piece>> rowThree{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
-    std::vector<std::shared_ptr<Piece>> rowFour{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
-    std::vector<std::shared_ptr<Piece>> rowFive{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
-    std::vector<std::shared_ptr<Piece>> rowSix{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
-    std::vector<std::shared_ptr<Piece>> rowSev{blackPawnOne, blackPawnTwo, 
-                                               blackPawnThree, blackPawnFour, 
-                                               blackPawnFive, blackPawnSix, 
-                                               blackPawnSev, blackPawnEight};
+    std::vector<std::unique_ptr<Piece>> rowOne;
+    rowOne.push_back(std::move(whitePawnOne));
+    rowOne.push_back(std::move(whitePawnTwo));
+    rowOne.push_back(std::move(whitePawnThree));
+    rowOne.push_back(std::move(whitePawnFour));
+    rowOne.push_back(std::move(whitePawnFive));
+    rowOne.push_back(std::move(whitePawnSix));
+    rowOne.push_back(std::move(whitePawnSev));
+    rowOne.push_back(std::move(whitePawnEight));
 
-    std::vector<std::shared_ptr<Piece>> rowEight{blackRookOne, blackKnightOne, 
-                                               blackBishopOne, blackQueen, 
-                                               blackKing, blackBishopTwo, 
-                                               blackKnightTwo, blackRookTwo};
+    std::vector<std::unique_ptr<Piece>> rowTwo;
+    rowTwo.push_back(std::move(whiteRookOne));
+    rowTwo.push_back(std::move(whiteKnightOne));
+    rowTwo.push_back(std::move(whiteBishopOne));
+    rowTwo.push_back(std::move(whiteQueen));
+    rowTwo.push_back(std::move(whiteKing));
+    rowTwo.push_back(std::move(whiteBishopTwo));
+    rowTwo.push_back(std::move(whiteKnightTwo));
+    rowTwo.push_back(std::move(whiteRookTwo));
+    
+    std::vector<std::unique_ptr<Piece>> rowThree{};
+    rowThree.push_back(nullptr);
+    rowThree.push_back(nullptr);
+    rowThree.push_back(nullptr);
+    rowThree.push_back(nullptr);
+    rowThree.push_back(nullptr);
+    rowThree.push_back(nullptr);
+    rowThree.push_back(nullptr);
+    rowThree.push_back(nullptr);
+
+    std::vector<std::unique_ptr<Piece>> rowFour;
+    rowFour.push_back(nullptr);
+    rowFour.push_back(nullptr);
+    rowFour.push_back(nullptr);
+    rowFour.push_back(nullptr);
+    rowFour.push_back(nullptr);
+    rowFour.push_back(nullptr);
+    rowFour.push_back(nullptr);
+    rowFour.push_back(nullptr);
+
+    std::vector<std::unique_ptr<Piece>> rowFive;
+    rowFive.push_back(nullptr);
+    rowFive.push_back(nullptr);
+    rowFive.push_back(nullptr);
+    rowFive.push_back(nullptr);
+    rowFive.push_back(nullptr);
+    rowFive.push_back(nullptr);
+    rowFive.push_back(nullptr);
+    rowFive.push_back(nullptr);
+
+    std::vector<std::unique_ptr<Piece>> rowSix;
+    rowSix.push_back(nullptr);
+    rowSix.push_back(nullptr);
+    rowSix.push_back(nullptr);
+    rowSix.push_back(nullptr);
+    rowSix.push_back(nullptr);
+    rowSix.push_back(nullptr);
+    rowSix.push_back(nullptr);
+    rowSix.push_back(nullptr);
+
+    std::vector<std::unique_ptr<Piece>> rowSev;
+    rowSev.push_back(std::move(blackPawnOne));
+    rowSev.push_back(std::move(blackPawnTwo));
+    rowSev.push_back(std::move(blackPawnThree));
+    rowSev.push_back(std::move(blackPawnFour));
+    rowSev.push_back(std::move(blackPawnFive));
+    rowSev.push_back(std::move(blackPawnSix));
+    rowSev.push_back(std::move(blackPawnSev));
+    rowSev.push_back(std::move(blackPawnEight));
+
+    std::vector<std::unique_ptr<Piece>> rowEight;
+    rowEight.push_back(std::move(blackRookOne));
+    rowEight.push_back(std::move(blackKnightOne));
+    rowEight.push_back(std::move(blackBishopOne));
+    rowEight.push_back(std::move(blackQueen));
+    rowEight.push_back(std::move(blackKing));
+    rowEight.push_back(std::move(blackBishopTwo));
+    rowEight.push_back(std::move(blackKnightTwo));
+    rowEight.push_back(std::move(blackRookTwo));
 
     //add all rows to board
-    board.push_back(rowOne);
-    board.push_back(rowTwo);
-    board.push_back(rowThree);
-    board.push_back(rowFour);
-    board.push_back(rowFive);
-    board.push_back(rowSix);
-    board.push_back(rowSev);
-    board.push_back(rowEight);
+    board.push_back(std::move(rowOne));
+    board.push_back(std::move(rowTwo));
+    board.push_back(std::move(rowThree));
+    board.push_back(std::move(rowFour));
+    board.push_back(std::move(rowFive));
+    board.push_back(std::move(rowSix));
+    board.push_back(std::move(rowSev));
+    board.push_back(std::move(rowEight));
 }
 
+Board::~Board() {}
 
-std::vector<std::vector<std::shared_ptr<Piece>>> Board::getBoard() const {return board;}
+int Board::getRows() {return boardRows;}
+
+int Board::getCols() {return boardCols;}
+
+Piece * Board::getPieceAt(int col, int row) const {
+    return board[col][row].get();
+}
+
+//still needs to be implemented
+bool Board::validMove(Piece * piece, Position curPos, Position newPos) const {
+    return true;
+}
+
+void Board::changeBoard(Move move) {
+    Position curPos = move.getCurPos();
+    Position newPos = move.getNewPos();
+    Piece * piece = board[curPos.col][curPos.row].get();
+
+    if (Board::validMove(piece, curPos, newPos)) {
+        //change state of board
+        board[newPos.col][newPos.row] = std::move(board[curPos.col][curPos.row]);
+    } else {
+        //throw exception
+        throw InvalidMove{};
+    }
+
+}
+
+/*void test() {
+    Board board{};
+
+    for(int i = 0; i < board.getCols(); i++) {
+        for (int j = 0; j < board.getRows(); j++) {
+            if(board.getPieceAt(i, j)) {
+                std::cout << "P ";
+            } else {
+                std::cout << "N ";
+            }
+        }
+        std::cout << std::endl;
+    }
+}*/
 
 
