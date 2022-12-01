@@ -10,7 +10,7 @@
 
 enum gameStatus{IN_PLAY, CHECK, CHECKMATE};
 
-class Game : public Subject{
+class Game : public Subject {
     std::unique_ptr<Board> board;
     std::vector<Move> pastMoves;
     Colour turn;
