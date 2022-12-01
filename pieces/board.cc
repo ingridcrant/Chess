@@ -3,42 +3,48 @@
 #include <vector>
 #include <memory>
 #include "../shared.h"
+#include "pawn.h"
+#include "king.h"
+#include "bishop.h"
+#include "rook.h"
+#include "queen.h"
+#include "knight.h"
 
 Board::Board() {
     // create all the piece pointers
-    auto whitePawnOne = std::make_unique<Piece>();
-    auto whitePawnTwo = std::make_unique<Piece>();
-    auto whitePawnThree = std::make_unique<Piece>();
-    auto whitePawnFour = std::make_unique<Piece>();
-    auto whitePawnFive = std::make_unique<Piece>();
-    auto whitePawnSix = std::make_unique<Piece>();
-    auto whitePawnSev = std::make_unique<Piece>();
-    auto whitePawnEight = std::make_unique<Piece>();
-    auto whiteKing = std::make_unique<Piece>();
-    auto whiteQueen = std::make_unique<Piece>();
-    auto whiteRookOne = std::make_unique<Piece>();
-    auto whiteRookTwo = std::make_unique<Piece>();
-    auto whiteBishopOne = std::make_unique<Piece>();
-    auto whiteBishopTwo = std::make_unique<Piece>();
-    auto whiteKnightOne = std::make_unique<Piece>();
-    auto whiteKnightTwo = std::make_unique<Piece>();
+    auto whitePawnOne = std::make_unique<Pawn>(WHITE, 'P', Position{1, 0});
+    auto whitePawnTwo = std::make_unique<Pawn>(WHITE, 'P', Position{1, 1});
+    auto whitePawnThree = std::make_unique<Pawn>(WHITE, 'P', Position{1, 2});
+    auto whitePawnFour = std::make_unique<Pawn>(WHITE, 'P', Position{1, 3});
+    auto whitePawnFive = std::make_unique<Pawn>(WHITE, 'P', Position{1, 4});
+    auto whitePawnSix = std::make_unique<Pawn>(WHITE, 'P', Position{1, 5});
+    auto whitePawnSev = std::make_unique<Pawn>(WHITE, 'P', Position{1, 6});
+    auto whitePawnEight = std::make_unique<Pawn>(WHITE, 'P', Position{1, 7});
+    auto whiteKing = std::make_unique<King>(WHITE, 'K', Position{0, 4});
+    auto whiteQueen = std::make_unique<Queen>(WHITE, 'Q', Position{0, 3});
+    auto whiteRookOne = std::make_unique<Rook>(WHITE, 'R', Position{0, 0});
+    auto whiteRookTwo = std::make_unique<Rook>(WHITE, 'R', Position{0, 7});
+    auto whiteBishopOne = std::make_unique<Bishop>(WHITE, 'B', Position{0, 2});
+    auto whiteBishopTwo = std::make_unique<Bishop>(WHITE, 'B', Position{0, 5});
+    auto whiteKnightOne = std::make_unique<Knight>(WHITE, 'N', Position{0, 1});
+    auto whiteKnightTwo = std::make_unique<Knight>(WHITE, 'N', Position{0, 6});
 
-    auto blackPawnOne = std::make_unique<Piece>();
-    auto blackPawnTwo = std::make_unique<Piece>();
-    auto blackPawnThree = std::make_unique<Piece>();
-    auto blackPawnFour = std::make_unique<Piece>();
-    auto blackPawnFive = std::make_unique<Piece>();
-    auto blackPawnSix = std::make_unique<Piece>();
-    auto blackPawnSev = std::make_unique<Piece>();
-    auto blackPawnEight = std::make_unique<Piece>();
-    auto blackKing = std::make_unique<Piece>();
-    auto blackQueen = std::make_unique<Piece>();
-    auto blackRookOne = std::make_unique<Piece>();
-    auto blackRookTwo = std::make_unique<Piece>();
-    auto blackBishopOne = std::make_unique<Piece>();
-    auto blackBishopTwo = std::make_unique<Piece>();
-    auto blackKnightOne = std::make_unique<Piece>();
-    auto blackKnightTwo = std::make_unique<Piece>();
+    auto blackPawnOne = std::make_unique<Pawn>(BLACK, 'p', Position{6, 0});
+    auto blackPawnTwo = std::make_unique<Pawn>(BLACK, 'p', Position{6, 1});
+    auto blackPawnThree = std::make_unique<Pawn>(BLACK, 'p', Position{6, 2});
+    auto blackPawnFour = std::make_unique<Pawn>(BLACK, 'p', Position{6, 3});
+    auto blackPawnFive = std::make_unique<Pawn>(BLACK, 'p', Position{6, 4});
+    auto blackPawnSix = std::make_unique<Pawn>(BLACK, 'p', Position{6, 5});
+    auto blackPawnSev = std::make_unique<Pawn>(BLACK, 'p', Position{6, 6});
+    auto blackPawnEight = std::make_unique<Pawn>(BLACK, 'p', Position{6, 7});
+    auto blackKing = std::make_unique<King>(BLACK, 'k', Position{7, 4});
+    auto blackQueen = std::make_unique<Queen>(BLACK, 'q', Position{7, 3});
+    auto blackRookOne = std::make_unique<Rook>(BLACK, 'r', Position{7, 0});
+    auto blackRookTwo = std::make_unique<Rook>(BLACK, 'r', Position{7, 7});
+    auto blackBishopOne = std::make_unique<Bishop>(BLACK, 'b', Position{7, 2});
+    auto blackBishopTwo = std::make_unique<Bishop>(BLACK, 'b', Position{7, 5});
+    auto blackKnightOne = std::make_unique<Knight>(BLACK, 'n', Position{7, 1});
+    auto blackKnightTwo = std::make_unique<Knight>(BLACK, 'n', Position{7, 6});
 
 
     //add all pieces to the board rows

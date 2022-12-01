@@ -1,10 +1,11 @@
-#include "motion.h"
+#include "piece.h"
 
-class Rook : public Motion {
+class Rook : public Piece {
     Distance dist;
     std::vector<Direction> directions;
     bool specialCapture;
 
     public:
-        Rook();
+        Rook(Colour colour, char symbol, Position pos);
+        void generateNextPositions(Board* board) override;
 };

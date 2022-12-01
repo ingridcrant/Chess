@@ -1,10 +1,11 @@
-#include "motion.h"
+#include "piece.h"
 
-class King : public Motion {
+class King : public Piece {
     Distance dist;
     std::vector<Direction> directions;
     bool specialCapture;
 
     public:
-        King();
+        King(Colour colour, char symbol, Position pos);
+        void generateNextPositions(Board* board) override;
 };

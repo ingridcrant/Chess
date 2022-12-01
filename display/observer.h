@@ -8,3 +8,4 @@ class Observer {
   virtual ~Observer() = default;
 };
 #endif
+
