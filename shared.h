@@ -3,6 +3,7 @@
 
 #include <string>
 #include <memory>
+#include "pieces/piece.h"
 
 struct Position {
     int row;
@@ -30,6 +31,7 @@ class Move {
     Position newPos;
     bool promotion; //whether the pawn is getting promoted
     char promoteTo; //what the pawn is getting promoted to
+    Piece* piece;
 
     void convertFormat(std::string str, int counter);
     bool validPromotionPiece(std::string str) const;
@@ -40,6 +42,8 @@ class Move {
         Position getNewPos() const;
         bool getPromotion() const;
         char getPromoteTo() const;
+        Piece* getPiece() const;
+        void setPiece(Piece* piece) const;
 };
 
 bool validPiece(std::string piece);
