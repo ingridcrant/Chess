@@ -11,7 +11,7 @@
 enum gameStatus{IN_PLAY, CHECK, CHECKMATE};
 
 class Game : public Subject {
-    std::unique_ptr<Board> board;
+    Board * board;
     std::vector<Move> pastMoves;
     Colour turn;
     std::vector<std::unique_ptr<Player>> players;
@@ -21,7 +21,7 @@ class Game : public Subject {
     bool properColour(std::string colour) const;
 
     public:
-        explicit Game(std::unique_ptr<Board> board, std::unique_ptr<Player> playerOne, std::unique_ptr<Player> playerTwo);
+        explicit Game(Board * board, std::unique_ptr<Player> playerOne, std::unique_ptr<Player> playerTwo);
         ~Game() = default;
         virtual Piece * getState(int col, int row) const; //get state of one square on the board
         void playGame(); //plays the game
