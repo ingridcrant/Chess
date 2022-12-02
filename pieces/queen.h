@@ -7,5 +7,6 @@ class Queen : public Piece {
 
     public:
         Queen(Colour colour, char symbol, Position pos);
+        ~Queen() = default;
         void generateNextPositions(Board* board) override;
 };
