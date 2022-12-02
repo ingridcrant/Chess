@@ -127,6 +127,7 @@ void Move::convertFormat(std::string str, int counter) {
 }
 
 Move::Move(std::string input) {
+    piece = nullptr;
     int counter = 0;
     std::stringstream ss{input};
     std::string s;
@@ -151,6 +152,9 @@ bool Move::getPromotion() const {return promotion;}
 
 char Move::getPromoteTo() const {return promoteTo;}
 
+Piece* Move::getPiece() const {return piece;}
+
+void Move::setPiece(Piece* newPiece) {piece = newPiece;}
 
 /*void test() {
     try {

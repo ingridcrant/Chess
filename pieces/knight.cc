@@ -7,7 +7,8 @@ Knight::Knight(Colour colour, char symbol, Position pos) : Piece{colour, symbol,
     directions.push_back(KNIGHT_UP_RIGHT);
 }
 
-void Knight::generateNextPositions(Board* board) {
+void Knight::generateNextPositions(Board* board, Move lastMove) {
+    nextPositions.clear();
     for (Direction d : directions) {
         std::map<Position, MoveTypes> nextPositionsInD = this->allPosInDirection(d, board);
         nextPositions.insert(nextPositionsInD.begin(), nextPositionsInD.end());
