@@ -5,7 +5,7 @@
 
 class Human : public Player {
     public:
-        Human(Colour colour, bool check, bool checkmate);
+        Human(Colour colour);
         ~Human() = default;
 };
 

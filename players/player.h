@@ -10,7 +10,7 @@ class Player {
     bool checkmate;
 
     public:
-        Player(Colour colour, bool check, bool checkmate);
+        Player(Colour colour);
         virtual ~Player() = 0;
 };
 
