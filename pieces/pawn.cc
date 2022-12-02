@@ -14,8 +14,8 @@ void Pawn::generateNextPositions(Board* board) {
     // 1. skips two move - DONE
     int dRow = (colour == BLACK) ? -1 : 1;
     if (firstMove) {
-        Position skipTwo = Position{currPos.row, currPos.col + 2 * dx};
-        if (board->getPos(skipTwo.row - dRow, skipTwo.col) == nullptr && board->getPos(skipTwo.row, skipTwo.col) == nullptr) {
+        Position skipTwo = Position{currPos.row, currPos.col + 2 * dRow};
+        if (board->getPieceAt(skipTwo.row - dRow, skipTwo.col) == nullptr && board->getPieceAt(skipTwo.row, skipTwo.col) == nullptr) {
             nextPositions[skipTwo] = SKIP_TWO;
         }
     }

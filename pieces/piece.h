@@ -37,6 +37,7 @@ class Piece {
         virtual char getSymbol();
         virtual bool getSkipsTwo();
         virtual Colour getColour();
+        virtual bool getFirstMove();
         virtual std::map<Position, MoveTypes> getNextPositions();
 };
 

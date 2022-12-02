@@ -5,6 +5,7 @@ class King : public Piece {
     std::vector<Direction> directions;
     bool specialCapture;
     bool inCheck;
+    bool positionInCheck(Board* board, Position pos);
 
     public:
         King(Colour colour, char symbol, Position pos);
