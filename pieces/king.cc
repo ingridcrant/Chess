@@ -12,6 +12,7 @@ King::King(Colour colour, char symbol, Position pos) : Piece{colour, symbol, pos
 }
 
 void King::generateNextPositions(Board* board) {
+    nextPositions.clear();
     // TO DO:
     // 1. remove positions that put King in check - DONE
     // 2. castling

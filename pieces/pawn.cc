@@ -9,6 +9,7 @@ bool Pawn::getSkipsTwo() {
 }
 
 void Pawn::generateNextPositions(Board* board) {
+    nextPositions.clear();
     // TO DO:
     // 1. skips two move - DONE
     int dRow = (colour == BLACK) ? 1 : -1;
