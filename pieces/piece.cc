@@ -6,11 +6,6 @@ Piece::Piece(Colour colour, char symbol, Position pos, Distance dist, bool speci
 InvalidDirection::InvalidDirection(std::string message): message{message} {}
 void InvalidDirection::printMessage() const {std::cout << message << std::endl;};
 
-// map requires operator<
-bool Position::operator<(const Position& other) const {
-    return (row < other.row && col < other.col);
-}
-
 std::map<Position, MoveTypes> Piece::allPosInDirection(Direction direction, Board* board) {
     std::map<Position, MoveTypes> nextPositionsInD;
 
@@ -193,4 +188,12 @@ Position Piece::getPos() {
 
 bool Piece::getSkipsTwo() { 
     return false;
+}
+
+Colour Piece::getColour() {
+    return colour;
+}
+
+std::map<Position, MoveTypes> Piece::getNextPositions() {
+    return nextPositions;
 }

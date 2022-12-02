@@ -1,11 +1,11 @@
+#ifndef PIECE_H
+#define PIECE_H
+
 #include <string>
 #include <vector>
 #include "../shared.h"
 #include "board.h"
 #include <map>
-
-#ifndef PIECE
-#define PIECE
 
 class InvalidDirection {
     std::string message;
@@ -35,6 +35,8 @@ class Piece {
         virtual Position getPos();
         virtual char getSymbol();
         virtual bool getSkipsTwo();
+        virtual Colour getColour();
+        virtual std::map<Position, MoveTypes> getNextPositions();
 };
 
 #endif
