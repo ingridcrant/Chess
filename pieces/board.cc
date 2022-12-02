@@ -168,7 +168,7 @@ void Board::changeBoard(Move move) {
 
 
 void Board::changeBoard(Position pos) {
-    board[pos.row][pos.col] = std::move(nullptr); //memory leak??
+    board[pos.row][pos.col] = std::move(nullptr);
 }
 
 

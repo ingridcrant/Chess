@@ -21,7 +21,7 @@ class Game : public Subject {
     bool properColour(std::string colour) const;
 
     public:
-        explicit Game(Board * board, Player * playerOne, Player * playerTwo);
+        explicit Game(Board * board, Player * playerWhite, Player * playerBlack);
         ~Game() = default;
         virtual Piece * getState(int col, int row) const; //get state of one square on the board
         void playGame(); //plays the game

@@ -1,21 +1,35 @@
 #include "game.h"
 #include "../pieces/piece.h"
+#include "../players/player.h"
 #include <memory>
 #include <vector>
 #include <iostream>
 #include <string>
 
-Game::Game(Board * board, Player * playerOne, Player * playerTwo): board{board}, 
+Game::Game(Board * board, Player * playerWhite, Player * playerBlack): board{board}, 
                                                                                   turn{WHITE}, status{IN_PLAY} {
-    players.push_back(playerOne);
-    players.push_back(playerTwo);
+    players.push_back(playerWhite);
+    players.push_back(playerBlack);
 }
 
 Piece * Game::getState(int col, int row) const {
     return board->getPieceAt(col, row);
 }
 
-void Game::playGame() {} //needs to be implemented
+void Game::playGame() {
+    // get first player
+    int playerIndex = 0;
+    Player * curPlayer;
+    for (int i = 0; i < players.size(); i++) {
+        if (players[i]->getColour() == turn) {
+            curPlayer = players[i];
+            playerIndex = i;
+            break;
+        }
+    }
+
+    
+} 
 
 
 bool Game::verifyProperSetup() const {
