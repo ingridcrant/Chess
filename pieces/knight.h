@@ -8,5 +8,5 @@ class Knight : public Piece {
     public:
         Knight(Colour colour, char symbol, Position pos);
         ~Knight() = default;
-        void generateNextPositions(Board* board) override;
+        void generateNextPositions(Board* board, Move lastMove) override;
 };

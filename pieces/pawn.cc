@@ -8,7 +8,7 @@ bool Pawn::getSkipsTwo() {
     return skipsTwo;
 }
 
-void Pawn::generateNextPositions(Board* board) {
+void Pawn::generateNextPositions(Board* board, Move lastMove) {
     nextPositions.clear();
     // TO DO:
     // 1. skips two move - DONE

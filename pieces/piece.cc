@@ -210,6 +210,12 @@ bool Piece::getFirstMove() {
     return firstMove;
 }
 
+bool Piece::getInCheck() {
+    return false;
+}
+
+void Piece::setInCheck(bool val) {}
+
 std::map<Position, MoveTypes> Piece::getNextPositions() {
     return nextPositions;
 }

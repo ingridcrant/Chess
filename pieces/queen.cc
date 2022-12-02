@@ -11,7 +11,7 @@ Queen::Queen(Colour colour, char symbol, Position pos) : Piece{colour, symbol, p
     directions.push_back(RIGHT_DOWN_DIAGONAL);
 }
 
-void Queen::generateNextPositions(Board* board) {
+void Queen::generateNextPositions(Board* board, Move lastMove) {
     nextPositions.clear();
     for (Direction d : directions) {
         std::map<Position, MoveTypes> nextPositionsInD = this->allPosInDirection(d, board);

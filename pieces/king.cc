@@ -11,6 +11,14 @@ King::King(Colour colour, char symbol, Position pos) : Piece{colour, symbol, pos
     directions.push_back(RIGHT_DOWN_DIAGONAL);
 }
 
+bool getInCheck() {
+    return inCheck;
+}
+
+void setInCheck(bool val) {
+    inCheck = val;
+}
+
 bool King::positionInCheck(Board* board, Position pos) {
     Colour opposingColour = (colour == WHITE) ? BLACK : WHITE;
 
@@ -29,7 +37,7 @@ bool King::positionInCheck(Board* board, Position pos) {
     return false;
 }
 
-void King::generateNextPositions(Board* board) {
+void King::generateNextPositions(Board* board, Move lastMove) {
     nextPositions.clear();
     // TO DO:
     // 1. remove positions that put King in check - DONE
