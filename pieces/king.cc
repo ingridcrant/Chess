@@ -13,10 +13,29 @@ King::King(Colour colour, char symbol, Position pos) : Piece{colour, symbol, pos
 
 void King::generateNextPositions(Board* board) {
     // TO DO:
-    // 1. remove positions that put King in check
+    // 1. remove positions that put King in check - DONE
     // 2. castling
     for (Direction d : directions) {
         std::vector<Position> nextPositionsInD = this->allPosInDirection(d, board);
         nextPositions.insert(nextPositions.end(), nextPositionsInD.begin(), nextPositionsInD.end());
     }
+
+    // 1 - removing positions that put King in check
+    Colour opposingColour = (colour == WHITE) ? BLACK : WHITE;
+
+    for (int r = 0; r < board->getRows(); r++) {
+        for (int c = 0; c < board->getCols(); c++) {
+            Piece* nextPiece = board->getPieceAt(r, c);
+            if (nextPiece != nullptr && nextPiece->getColour() == opposingColour) {
+                for (auto nextPossibleMove : nextPossibleMoves) {
+                    if (nextPiece->getNextPositions().find(nextPossibleMove.first) != nextPiece->getNextPositions().end()) {
+                        nextPossibleMoves.erase(nextPossibleMove.first);
+                    }
+                }
+            }
+        }
+    }
+
+    // 2 - castling
+    nextPositions.insert(nextPossibleMoves.begin(), nextPossibleMoves.end());
 }
