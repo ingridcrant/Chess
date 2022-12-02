@@ -27,7 +27,7 @@ class Piece {
         bool firstMove = true;
         bool specialCapture;
 
-        virtual void generateNextPositions(Board* board) = 0;
+        virtual void generateNextPositions(Board* board, Move lastMove) = 0;
         std::map<Position, MoveTypes> allPosInDirection(Direction direction, Board* board);
         bool validateMove(Position newPos);
     public:
@@ -37,6 +37,9 @@ class Piece {
         virtual char getSymbol();
         virtual bool getSkipsTwo();
         virtual Colour getColour();
+        virtual bool getFirstMove();
+        virtual bool getInCheck();
+        virtual void setInCheck(bool val);
         virtual std::map<Position, MoveTypes> getNextPositions();
 };
 

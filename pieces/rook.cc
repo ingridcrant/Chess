@@ -7,7 +7,8 @@ Rook::Rook(Colour colour, char symbol, Position pos) : Piece{colour, symbol, pos
     directions.push_back(RIGHT);
 }
 
-void Rook::generateNextPositions(Board* board) {
+void Rook::generateNextPositions(Board* board, Move lastMove) {
+    nextPositions.clear();
     // TO DO:
     // 1. castling
     for (Direction d : directions) {

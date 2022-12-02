@@ -11,15 +11,70 @@ King::King(Colour colour, char symbol, Position pos) : Piece{colour, symbol, pos
     directions.push_back(RIGHT_DOWN_DIAGONAL);
 }
 
-void King::generateNextPositions(Board* board) {
+bool King::getInCheck() {
+    return inCheck;
+}
+
+void King::setInCheck(bool val) {
+    inCheck = val;
+}
+
+bool King::positionInCheck(Board* board, Position pos) {
+    Colour opposingColour = (colour == WHITE) ? BLACK : WHITE;
+
+    for (int r = 0; r < board->getRows(); r++) {
+        for (int c = 0; c < board->getCols(); c++) {
+            Piece* nextPiece = board->getPieceAt(r, c);
+            if (nextPiece != nullptr && nextPiece->getColour() == opposingColour) {
+                for (auto nextPossibleMove : nextPositions) {
+                    if (nextPiece->getNextPositions().find(pos) != nextPiece->getNextPositions().end()) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+
+void King::generateNextPositions(Board* board, Move lastMove) {
+    nextPositions.clear();
     // TO DO:
     // 1. remove positions that put King in check - DONE
-    // 2. castling
+    // 2. castling - DONE
 
     std::map<Position, MoveTypes> nextPossibleMoves;
     for (Direction d : directions) {
         std::map<Position, MoveTypes> nextPositionsInD = this->allPosInDirection(d, board);
         nextPossibleMoves.insert(nextPositionsInD.begin(), nextPositionsInD.end());
+    }
+
+    // 2 - castling
+    //     NOTE: can only handling castling in normal board setup
+    int endRow = (colour == BLACK) ? 7 : 0;
+    if (firstMove && !inCheck && currPos.row == endRow && currPos.col == 4) {
+        int dCol = (colour == BLACK) ? -1 : 1;
+        char rookTarget = (colour == BLACK) ? 'r' : 'R';
+
+        // castle right
+        Piece* rightCornerPiece = board->getPieceAt(currPos.row, currPos.col + 3 * dCol);
+        bool noPiecesBetween = (board->getPieceAt(currPos.row, currPos.col + dCol) == nullptr && board->getPieceAt(currPos.row, currPos.col + 2 * dCol) == nullptr);
+        if (rightCornerPiece != nullptr && noPiecesBetween && rightCornerPiece->getFirstMove() && rightCornerPiece->getSymbol() == rookTarget) {
+            bool noChecksInBetween = (!positionInCheck(board, Position{currPos.row, currPos.col + dCol}) && !positionInCheck(board, Position{currPos.row, currPos.col + 2 * dCol}));
+            if (noChecksInBetween) {
+                nextPossibleMoves[Position{currPos.row, currPos.col + 3 * dCol}] = CASTLE_RIGHT;
+            }
+        }
+
+        // castle left
+        Piece* leftCornerPiece = board->getPieceAt(currPos.row, currPos.col - 4 * dCol);
+        noPiecesBetween = (board->getPieceAt(currPos.row, currPos.col - dCol) == nullptr && board->getPieceAt(currPos.row, currPos.col - 2 * dCol) == nullptr);
+        if (leftCornerPiece != nullptr && noPiecesBetween && leftCornerPiece->getFirstMove() && leftCornerPiece->getSymbol() == rookTarget) {
+            bool noChecksInBetween = (!positionInCheck(board, Position{currPos.row, currPos.col - dCol}) && !positionInCheck(board, Position{currPos.row, currPos.col - 2 * dCol}));
+            if (noChecksInBetween) {
+                nextPossibleMoves[Position{currPos.row, currPos.col - 3 * dCol}] = CASTLE_LEFT;
+            }
+        }
     }
 
     // 1 - removing positions that put King in check
@@ -38,6 +93,5 @@ void King::generateNextPositions(Board* board) {
         }
     }
 
-    // 2 - castling
     nextPositions.insert(nextPossibleMoves.begin(), nextPossibleMoves.end());
 }

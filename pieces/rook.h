@@ -8,5 +8,5 @@ class Rook : public Piece {
     public:
         Rook(Colour colour, char symbol, Position pos);
         ~Rook() = default;
-        void generateNextPositions(Board* board) override;
+        void generateNextPositions(Board* board, Move lastMove) override;
 };
