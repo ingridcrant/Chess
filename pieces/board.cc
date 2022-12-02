@@ -166,14 +166,25 @@ void Board::changeBoard(Move move) {
 
 }
 
-//TODO:
+
 void Board::changeBoard(Position pos) {
     board[pos.col][pos.row] = std::move(nullptr); //memory leak??
 }
 
-//TODO:
+
 void Board::changeBoard(char piece, Position pos) {
-    
+    bool done = false;
+
+    for (int col = boardCols - 1; col >= 0; col--) {
+        for (int row = 0; row < boardRows; row++) {
+            if (board[col][row]->getSymbol() == piece) {
+                board[pos.col][pos.row] = std::move(board[col][row]);
+                done = true;
+                break;
+            }
+        }
+        if (done) break;
+    }
 }
 
 
@@ -183,12 +194,26 @@ void Board::changeBoard(char piece, Position pos) {
 /*void test() {
     Board board{};
 
-    for(int i = 0; i < board.getCols(); i++) {
+    for(int i = board.getCols() - 1; i >= 0; i--) {
         for (int j = 0; j < board.getRows(); j++) {
             if(board.getPieceAt(i, j)) {
-                std::cout << board.getPieceAt(i, j)->symbol;
+                std::cout << board.getPieceAt(i, j)->getSymbol();
             } else {
-                std::cout << "N ";
+                std::cout << "-";
+            }
+        }
+        std::cout << std::endl;
+    }
+
+    board.changeBoard('k', Position{3, 5});
+    std::cout << std::endl;
+
+    for(int i = board.getCols() - 1; i >= 0; i--) {
+        for (int j = 0; j < board.getRows(); j++) {
+            if(board.getPieceAt(i, j)) {
+                std::cout << board.getPieceAt(i, j)->getSymbol();
+            } else {
+                std::cout << "-";
             }
         }
         std::cout << std::endl;
