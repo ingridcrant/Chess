@@ -22,19 +22,24 @@ int alphaToNum(char c) {
     }
 }
 
-bool validPiece(char c) {
-    switch(c) {
-        case 'r':
-        case 'R':
-        case 'q':
-        case 'Q':
-        case 'n':
-        case 'N':
-        case 'b':
-        case 'B':
-            return true;
-        default:
-            return false;
+bool validPiece(std::string str) {
+    if (str.length() == 1) {
+        switch(str[0]) {
+            case 'r':
+            case 'R':
+            case 'q':
+            case 'Q':
+            case 'n':
+            case 'N':
+            case 'b':
+            case 'B':
+                return true;
+            default:
+                return false;
+        }
+
+    } else {
+        throw InvalidInput("Invalid input.");
     }
 
 }
@@ -92,12 +97,8 @@ void Move::convertFormat(std::string str, int counter) {
         newPos = convertToPos(str);
     }
     //string represents a piece that pawn should be promoted to
-    else if (str.length() == 1 && counter == 2) {
-        if(Move::validPiece(str[0])) {
-            promoteTo = str[0];
-        } else {
-            throw InvalidInput{"Not a valid piece."};
-        }
+    else if (counter == 2 && validPiece(str)) {
+        promoteTo = str[0];
     }
 }
 

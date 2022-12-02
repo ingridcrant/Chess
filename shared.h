@@ -30,9 +30,7 @@ class Move {
     bool promotion; //whether the pawn is getting promoted
     char promoteTo; //what the pawn is getting promoted to
 
-    int alphaToNum(char c);
     void convertFormat(std::string str, int counter);
-    bool validPiece(char c);
 
     public:
         Move(std::string input);
