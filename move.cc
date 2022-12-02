@@ -16,7 +16,7 @@ int alphaToNum(char c) {
         case 'e': return 4;
         case 'f': return 5;
         case 'g': return 6;
-        case 'h': return 8;
+        case 'h': return 7;
         default:
             throw InvalidInput{"Column out of scope."};
     }
@@ -33,6 +33,10 @@ bool validPiece(std::string str) {
             case 'N':
             case 'b':
             case 'B':
+            case 'p':
+            case 'P':
+            case 'k':
+            case 'K':
                 return true;
             default:
                 return false;
@@ -41,7 +45,6 @@ bool validPiece(std::string str) {
     } else {
         throw InvalidInput("Invalid input.");
     }
-
 }
 
 Position convertToPos(std::string str) {
@@ -54,8 +57,8 @@ Position convertToPos(std::string str) {
 
         // check if the row is inputted as a proper digit under 8
         if (isdigit(str[1])) {
-            row = str[1] - '0';
-            if (row > 7) {
+            row = str[1] - '0' - 1;
+            if (row > 7 || row < 0) {
                 throw InvalidInput{"Row out of scope."};
             }
 
@@ -85,6 +88,27 @@ Colour convertToColour(std::string colour) {
     }
 }
 
+bool Move::validPromotionPiece(std::string str) const {
+    if (str.length() == 1) {
+        switch(str[0]) {
+            case 'r':
+            case 'R':
+            case 'q':
+            case 'Q':
+            case 'n':
+            case 'N':
+            case 'b':
+            case 'B':
+                return true;
+            default:
+                return false;
+        }
+
+    } else {
+        throw InvalidInput("Invalid input.");
+    }
+
+}
 
 void Move::convertFormat(std::string str, int counter) {
 
@@ -97,7 +121,7 @@ void Move::convertFormat(std::string str, int counter) {
         newPos = convertToPos(str);
     }
     //string represents a piece that pawn should be promoted to
-    else if (counter == 2 && validPiece(str)) {
+    else if (counter == 2 && Move::validPromotionPiece(str)) {
         promoteTo = str[0];
     }
 }

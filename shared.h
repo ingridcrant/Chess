@@ -32,6 +32,7 @@ class Move {
     char promoteTo; //what the pawn is getting promoted to
 
     void convertFormat(std::string str, int counter);
+    bool validPromotionPiece(std::string str) const;
 
     public:
         Move(std::string input);
