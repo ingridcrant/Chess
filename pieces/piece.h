@@ -31,6 +31,7 @@ class Piece {
         bool validateMove(Position newPos);
     public:
         Piece(Colour colour, char symbol, Position currPos, Distance dist, bool specialCapture);
+        virtual ~Piece() = default;
 };
 
 #endif

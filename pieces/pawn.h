@@ -8,5 +8,6 @@ class Pawn : public Piece {
     
     public:
         Pawn(Colour colour, char symbol, Position pos);
+        ~Pawn() = default;
         void generateNextPositions(Board* board) override;
 };

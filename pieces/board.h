@@ -19,7 +19,7 @@ class Board {
 
     public:
         Board(); 
-        ~Board();
+        ~Board() = default;
         int getRows();
         int getCols();
         Piece * getPieceAt(int col, int row) const;
