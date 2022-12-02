@@ -48,65 +48,65 @@ Board::Board() {
 
 
     //add all pieces to the board rows
-    std::vector<std::unique_ptr<Piece>> rowOne;
-    rowOne.push_back(std::move(whitePawnOne));
-    rowOne.push_back(std::move(whitePawnTwo));
-    rowOne.push_back(std::move(whitePawnThree));
-    rowOne.push_back(std::move(whitePawnFour));
-    rowOne.push_back(std::move(whitePawnFive));
-    rowOne.push_back(std::move(whitePawnSix));
-    rowOne.push_back(std::move(whitePawnSev));
-    rowOne.push_back(std::move(whitePawnEight));
-
     std::vector<std::unique_ptr<Piece>> rowTwo;
-    rowTwo.push_back(std::move(whiteRookOne));
-    rowTwo.push_back(std::move(whiteKnightOne));
-    rowTwo.push_back(std::move(whiteBishopOne));
-    rowTwo.push_back(std::move(whiteQueen));
-    rowTwo.push_back(std::move(whiteKing));
-    rowTwo.push_back(std::move(whiteBishopTwo));
-    rowTwo.push_back(std::move(whiteKnightTwo));
-    rowTwo.push_back(std::move(whiteRookTwo));
+    rowTwo.push_back(std::move(whitePawnOne));
+    rowTwo.push_back(std::move(whitePawnTwo));
+    rowTwo.push_back(std::move(whitePawnThree));
+    rowTwo.push_back(std::move(whitePawnFour));
+    rowTwo.push_back(std::move(whitePawnFive));
+    rowTwo.push_back(std::move(whitePawnSix));
+    rowTwo.push_back(std::move(whitePawnSev));
+    rowTwo.push_back(std::move(whitePawnEight));
+
+    std::vector<std::unique_ptr<Piece>> rowOne;
+    rowOne.push_back(std::move(whiteRookOne));
+    rowOne.push_back(std::move(whiteKnightOne));
+    rowOne.push_back(std::move(whiteBishopOne));
+    rowOne.push_back(std::move(whiteQueen));
+    rowOne.push_back(std::move(whiteKing));
+    rowOne.push_back(std::move(whiteBishopTwo));
+    rowOne.push_back(std::move(whiteKnightTwo));
+    rowOne.push_back(std::move(whiteRookTwo));
     
     std::vector<std::unique_ptr<Piece>> rowThree{};
-    rowThree.push_back(nullptr);
-    rowThree.push_back(nullptr);
-    rowThree.push_back(nullptr);
-    rowThree.push_back(nullptr);
-    rowThree.push_back(nullptr);
-    rowThree.push_back(nullptr);
-    rowThree.push_back(nullptr);
-    rowThree.push_back(nullptr);
+    rowThree.push_back(std::move(nullptr));
+    rowThree.push_back(std::move(nullptr));
+    rowThree.push_back(std::move(nullptr));
+    rowThree.push_back(std::move(nullptr));
+    rowThree.push_back(std::move(nullptr));
+    rowThree.push_back(std::move(nullptr));
+    rowThree.push_back(std::move(nullptr));
+    rowThree.push_back(std::move(nullptr));
 
     std::vector<std::unique_ptr<Piece>> rowFour;
-    rowFour.push_back(nullptr);
-    rowFour.push_back(nullptr);
-    rowFour.push_back(nullptr);
-    rowFour.push_back(nullptr);
-    rowFour.push_back(nullptr);
-    rowFour.push_back(nullptr);
-    rowFour.push_back(nullptr);
-    rowFour.push_back(nullptr);
+    rowFour.push_back(std::move(nullptr));
+    rowFour.push_back(std::move(nullptr));
+    rowFour.push_back(std::move(nullptr));
+    rowFour.push_back(std::move(nullptr));
+    rowFour.push_back(std::move(nullptr));
+    rowFour.push_back(std::move(nullptr));
+    rowFour.push_back(std::move(nullptr));
+    rowFour.push_back(std::move(nullptr));
 
     std::vector<std::unique_ptr<Piece>> rowFive;
-    rowFive.push_back(nullptr);
-    rowFive.push_back(nullptr);
-    rowFive.push_back(nullptr);
-    rowFive.push_back(nullptr);
-    rowFive.push_back(nullptr);
-    rowFive.push_back(nullptr);
-    rowFive.push_back(nullptr);
-    rowFive.push_back(nullptr);
+    rowFive.push_back(std::move(nullptr));
+    rowFive.push_back(std::move(nullptr));
+    rowFive.push_back(std::move(nullptr));
+    rowFive.push_back(std::move(nullptr));
+    rowFive.push_back(std::move(nullptr));
+    rowFive.push_back(std::move(nullptr));
+    rowFive.push_back(std::move(nullptr));
+    rowFive.push_back(std::move(nullptr));
 
     std::vector<std::unique_ptr<Piece>> rowSix;
-    rowSix.push_back(nullptr);
-    rowSix.push_back(nullptr);
-    rowSix.push_back(nullptr);
-    rowSix.push_back(nullptr);
-    rowSix.push_back(nullptr);
-    rowSix.push_back(nullptr);
-    rowSix.push_back(nullptr);
-    rowSix.push_back(nullptr);
+    rowSix.push_back(std::move(nullptr));
+    rowSix.push_back(std::move(nullptr));
+    rowSix.push_back(std::move(nullptr));
+    rowSix.push_back(std::move(nullptr));
+    rowSix.push_back(std::move(nullptr));
+    rowSix.push_back(std::move(nullptr));
+    rowSix.push_back(std::move(nullptr));
+    rowSix.push_back(std::move(nullptr));
 
     std::vector<std::unique_ptr<Piece>> rowSev;
     rowSev.push_back(std::move(blackPawnOne));
@@ -129,7 +129,7 @@ Board::Board() {
     rowEight.push_back(std::move(blackRookTwo));
 
     //add all rows to board
-    board.push_back(std::move(rowOne));
+    board.push_back(std::move(rowOne)); 
     board.push_back(std::move(rowTwo));
     board.push_back(std::move(rowThree));
     board.push_back(std::move(rowFour));
@@ -137,9 +137,8 @@ Board::Board() {
     board.push_back(std::move(rowSix));
     board.push_back(std::move(rowSev));
     board.push_back(std::move(rowEight));
+    
 }
-
-Board::~Board() {}
 
 int Board::getRows() {return boardRows;}
 
@@ -149,7 +148,6 @@ Piece * Board::getPieceAt(int col, int row) const {
     return board[col][row].get();
 }
 
-//still needs to be implemented
 bool Board::validMove(Piece * piece, Position curPos, Position newPos) const {
     return true;
 }
@@ -161,13 +159,26 @@ void Board::changeBoard(Move move) {
 
     if (Board::validMove(piece, curPos, newPos)) {
         //change state of board
-        board[newPos.col][newPos.row] = std::move(board[curPos.col][curPos.row]);
+        board[newPos.col][newPos.row] = std::move(board[curPos.col][curPos.row]); //memory leak??
     } else {
-        //throw exception
         throw InvalidMove{};
     }
 
 }
+
+//TODO:
+void Board::changeBoard(Position pos) {
+    board[pos.col][pos.row] = std::move(nullptr); //memory leak??
+}
+
+//TODO:
+void Board::changeBoard(char piece, Position pos) {
+    
+}
+
+
+
+
 
 /*void test() {
     Board board{};
@@ -175,7 +186,7 @@ void Board::changeBoard(Move move) {
     for(int i = 0; i < board.getCols(); i++) {
         for (int j = 0; j < board.getRows(); j++) {
             if(board.getPieceAt(i, j)) {
-                std::cout << "P ";
+                std::cout << board.getPieceAt(i, j)->symbol;
             } else {
                 std::cout << "N ";
             }

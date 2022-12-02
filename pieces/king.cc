@@ -15,9 +15,11 @@ void King::generateNextPositions(Board* board) {
     // TO DO:
     // 1. remove positions that put King in check - DONE
     // 2. castling
+
+    std::map<Position, MoveTypes> nextPossibleMoves;
     for (Direction d : directions) {
-        std::vector<Position> nextPositionsInD = this->allPosInDirection(d, board);
-        nextPositions.insert(nextPositions.end(), nextPositionsInD.begin(), nextPositionsInD.end());
+        std::map<Position, MoveTypes> nextPositionsInD = this->allPosInDirection(d, board);
+        nextPossibleMoves.insert(nextPositionsInD.begin(), nextPositionsInD.end());
     }
 
     // 1 - removing positions that put King in check

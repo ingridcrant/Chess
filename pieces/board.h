@@ -10,7 +10,7 @@ class Piece;
 
 class InvalidMove {};
 
-class Board : std::enable_shared_from_this<Board> {
+class Board {
     int boardRows = 8;
     int boardCols = 8;
     std::vector<std::vector<std::unique_ptr<Piece>>> board; //[col (letter)][row (int)]
@@ -19,11 +19,13 @@ class Board : std::enable_shared_from_this<Board> {
 
     public:
         Board(); 
-        ~Board();
+        ~Board() = default;
         int getRows();
         int getCols();
         Piece * getPieceAt(int col, int row) const;
         void changeBoard(Move move); //change state of board based on move
+        void changeBoard(Position pos); //for removing a piece from that position
+        void changeBoard(char piece, Position pos); //for placing piece in that position
 
 };
 

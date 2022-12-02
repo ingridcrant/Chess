@@ -7,5 +7,6 @@ class King : public Piece {
 
     public:
         King(Colour colour, char symbol, Position pos);
+        ~King() = default;
         void generateNextPositions(Board* board) override;
 };
