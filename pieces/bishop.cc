@@ -9,7 +9,7 @@ Bishop::Bishop(Colour colour, char symbol, Position pos) : Piece{colour, symbol,
 
 void Bishop::generateNextPositions(Board* board) {
     for (Direction d : directions) {
-        std::vector<Position> nextPositionsInD = this->allPosInDirection(d, board);
-        nextPositions.insert(nextPositions.end(), nextPositionsInD.begin(), nextPositionsInD.end());
+        std::map<Position, MoveTypes> nextPositionsInD = this->allPosInDirection(d, board);
+        nextPositions.insert(nextPositionsInD.begin(), nextPositionsInD.end());
     }
 }
