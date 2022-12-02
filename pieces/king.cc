@@ -15,8 +15,28 @@ void King::generateNextPositions(Board* board) {
     // TO DO:
     // 1. remove positions that put King in check
     // 2. castling
+
+    std::map<Position, MoveTypes> nextPossibleMoves;
     for (Direction d : directions) {
-        std::vector<Position> nextPositionsInD = this->allPosInDirection(d, board);
-        nextPositions.insert(nextPositions.end(), nextPositionsInD.begin(), nextPositionsInD.end());
+        std::map<Position, MoveTypes> nextPositionsInD = this->allPosInDirection(d, board);
+        nextPossibleMoves.insert(nextPositionsInD.begin(), nextPositionsInD.end());
     }
+
+    // 1 - removing positions that put King in check
+    Colour opposingColour = (colour == WHITE) ? BLACK : WHITE;
+
+    for (int r = 0; r < board->getRows(); r++) {
+        for (int c = 0; c < board->getCols(); c++) {
+            Piece* nextPiece = board->getPieceAt(r, c);
+            if (nextPiece != nullptr && nextPiece->getColour() == opposingColour) {
+                for (auto nextPossibleMove : nextPossibleMoves) {
+                    if (nextPiece->getNextPositions().find(nextPossibleMove.first) != nextPiece->getNextPositions().end()) {
+                        nextPossibleMoves.erase(nextPossibleMove.first);
+                    }
+                }
+            }
+        }
+    }
+
+    nextPositions.insert(nextPossibleMoves.begin(), nextPossibleMoves.end());
 }
