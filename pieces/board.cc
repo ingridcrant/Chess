@@ -144,8 +144,8 @@ int Board::getRows() {return boardRows;}
 
 int Board::getCols() {return boardCols;}
 
-Piece * Board::getPieceAt(int col, int row) const {
-    return board[col][row].get();
+Piece * Board::getPieceAt(int row, int col) const {
+    return board[row][col].get();
 }
 
 bool Board::validMove(Piece * piece, Position curPos, Position newPos) const {
@@ -159,7 +159,7 @@ void Board::changeBoard(Move move) {
 
     if (Board::validMove(piece, curPos, newPos)) {
         //change state of board
-        board[newPos.col][newPos.row] = std::move(board[curPos.col][curPos.row]); //memory leak??
+        board[newPos.row][newPos.col] = std::move(board[curPos.col][curPos.row]); //memory leak??
     } else {
         throw InvalidMove{};
     }
@@ -168,7 +168,7 @@ void Board::changeBoard(Move move) {
 
 
 void Board::changeBoard(Position pos) {
-    board[pos.col][pos.row] = std::move(nullptr); //memory leak??
+    board[pos.row][pos.col] = std::move(nullptr); //memory leak??
 }
 
 
@@ -177,8 +177,8 @@ void Board::changeBoard(char piece, Position pos) {
 
     for (int col = boardCols - 1; col >= 0; col--) {
         for (int row = 0; row < boardRows; row++) {
-            if (board[col][row]->getSymbol() == piece) {
-                board[pos.col][pos.row] = std::move(board[col][row]);
+            if (board[row][col] && board[row][col]->getSymbol() == piece) {
+                board[pos.row][pos.col] = std::move(board[row][col]);
                 done = true;
                 break;
             }
@@ -194,8 +194,8 @@ void Board::changeBoard(char piece, Position pos) {
 /*void test() {
     Board board{};
 
-    for(int i = board.getCols() - 1; i >= 0; i--) {
-        for (int j = 0; j < board.getRows(); j++) {
+    for(int i = board.getRows() - 1; i >= 0; i--) {
+        for (int j = 0; j < board.getCols(); j++) {
             if(board.getPieceAt(i, j)) {
                 std::cout << board.getPieceAt(i, j)->getSymbol();
             } else {
@@ -208,8 +208,8 @@ void Board::changeBoard(char piece, Position pos) {
     board.changeBoard('k', Position{3, 5});
     std::cout << std::endl;
 
-    for(int i = board.getCols() - 1; i >= 0; i--) {
-        for (int j = 0; j < board.getRows(); j++) {
+    for(int i = board.getRows() - 1; i >= 0; i--) {
+        for (int j = 0; j < board.getCols(); j++) {
             if(board.getPieceAt(i, j)) {
                 std::cout << board.getPieceAt(i, j)->getSymbol();
             } else {
