@@ -3,7 +3,6 @@
 
 #include <string>
 #include <memory>
-#include "pieces/piece.h"
 
 struct Position {
     int row;
@@ -26,6 +25,8 @@ class InvalidInput {
 
 };
 
+class Piece; // forward declaration
+
 class Move {
     Position curPos;
     Position newPos;
@@ -43,7 +44,7 @@ class Move {
         bool getPromotion() const;
         char getPromoteTo() const;
         Piece* getPiece() const;
-        void setPiece(Piece* piece) const;
+        void setPiece(Piece* newPiece);
 };
 
 bool validPiece(std::string piece);

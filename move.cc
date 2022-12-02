@@ -154,7 +154,7 @@ char Move::getPromoteTo() const {return promoteTo;}
 
 Piece* Move::getPiece() const {return piece;}
 
-void Move::setPiece(Piece* newPiece) const {piece = newPiece;}
+void Move::setPiece(Piece* newPiece) {piece = newPiece;}
 
 /*void test() {
     try {

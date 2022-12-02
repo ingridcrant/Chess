@@ -11,11 +11,11 @@ King::King(Colour colour, char symbol, Position pos) : Piece{colour, symbol, pos
     directions.push_back(RIGHT_DOWN_DIAGONAL);
 }
 
-bool getInCheck() {
+bool King::getInCheck() {
     return inCheck;
 }
 
-void setInCheck(bool val) {
+void King::setInCheck(bool val) {
     inCheck = val;
 }
 
