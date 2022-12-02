@@ -6,11 +6,13 @@
 struct Position {
     int row;
     int col;
+    bool operator<(const Position& other) const;
 };
 
 enum Direction { UP, DOWN, LEFT, RIGHT, LEFT_UP_DIAGONAL, LEFT_DOWN_DIAGONAL, RIGHT_UP_DIAGONAL, RIGHT_DOWN_DIAGONAL, KNIGHT_UP_LEFT, KNIGHT_UP_RIGHT, KNIGHT_DOWN_LEFT, KNIGHT_DOWN_RIGHT, KNIGHT_LEFT_DOWN, KNIGHT_LEFT_UP, KNIGHT_RIGHT_DOWN, KNIGHT_RIGHT_UP };
 enum Distance { ONE, INFINITE };
 enum Colour { WHITE, BLACK };
+enum MoveTypes { MOVE, CAPTURE, EN_PASSANT, CASTLE };
 
 #include <string>
 #include <memory>

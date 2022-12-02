@@ -11,7 +11,7 @@ void Rook::generateNextPositions(Board* board) {
     // TO DO:
     // 1. castling
     for (Direction d : directions) {
-        std::vector<Position> nextPositionsInD = this->allPosInDirection(d, board);
-        nextPositions.insert(nextPositions.end(), nextPositionsInD.begin(), nextPositionsInD.end());
+        std::map<Position, MoveTypes> nextPositionsInD = this->allPosInDirection(d, board);
+        nextPositions.insert(nextPositionsInD.begin(), nextPositionsInD.end());
     }
 }

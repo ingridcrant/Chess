@@ -6,8 +6,13 @@ Piece::Piece(Colour colour, char symbol, Position pos, Distance dist, bool speci
 InvalidDirection::InvalidDirection(std::string message): message{message} {}
 void InvalidDirection::printMessage() const {std::cout << message << std::endl;};
 
-std::vector<Position> Piece::allPosInDirection(Direction direction, Board* board) {
-    std::vector<Position> nextPositionsInD;
+// map requires operator<
+bool Position::operator<(const Position& other) const {
+    return (row < other.row && col < other.col);
+}
+
+std::map<Position, MoveTypes> Piece::allPosInDirection(Direction direction, Board* board) {
+    std::map<Position, MoveTypes> nextPositionsInD;
 
     int dx = 1;
     int dy = 1;
@@ -25,94 +30,142 @@ std::vector<Position> Piece::allPosInDirection(Direction direction, Board* board
     if (direction == LEFT) {
         for (int d = 0; d < dx; d++) {
             int i = d * aim;
-            if (0 < currPos.row || currPos.row >= 8 || currPos.col - i < 0 || currPos.col - i >= 8) break;
-            if (board->getPieceAt(currPos.row, currPos.col - i) != nullptr) break;
+            const Position nextSpot = Position{currPos.row, currPos.col - i};
+
+            if (0 > currPos.row || currPos.row >= 8 || currPos.col - i < 0 || currPos.col - i >= 8) break;
+            if (board->getPieceAt(currPos.row, currPos.col - i) != nullptr) {
+                nextPositionsInD[nextSpot] = CAPTURE;
+                break;
+            }
         
-            Position nextSpot = Position{currPos.row, currPos.col - i};
-            nextPositionsInD.emplace_back(nextSpot);
+            nextPositionsInD[nextSpot] = MOVE;
         }
     } else if (direction == RIGHT) {
         for (int d = 0; d < dx; d++) {
             int i = d * aim;
-            if (0 < currPos.row || currPos.row >= 8 || currPos.col + i < 0 || currPos.col + i >= 8) break;
-            if (board->getPieceAt(currPos.row, currPos.col + i) != nullptr) break;
+            const Position nextSpot = Position{currPos.row, currPos.col + i};
+
+            if (0 > currPos.row || currPos.row >= 8 || currPos.col + i < 0 || currPos.col + i >= 8) break;
+            if (board->getPieceAt(currPos.row, currPos.col + i) != nullptr) {
+                nextPositionsInD[nextSpot] = CAPTURE;
+                break;
+            }
         
-            Position nextSpot = Position{currPos.row, currPos.col + i};
-            nextPositionsInD.emplace_back(nextSpot);
+            nextPositionsInD[nextSpot] = MOVE;
         }
     } else if (direction == UP) {
         for (int d = 0; d < dy; d++) {
             int i = d * aim;
-            if (0 < currPos.row + i || currPos.row + i >= 8 || currPos.col < 0 || currPos.col >= 8) break;
-            if (board->getPieceAt(currPos.row + i, currPos.col) != nullptr) break;
+            const Position nextSpot = Position{currPos.row + i, currPos.col};
+
+            if (0 > currPos.row + i || currPos.row + i >= 8 || currPos.col < 0 || currPos.col >= 8) break;
+            if (board->getPieceAt(currPos.row + i, currPos.col) != nullptr) {
+                nextPositionsInD[nextSpot] = CAPTURE;
+                break;
+            }
         
-            Position nextSpot = Position{currPos.row + i, currPos.col};
-            nextPositionsInD.emplace_back(nextSpot);
+            nextPositionsInD[nextSpot] = MOVE;
         }
     } else if (direction == DOWN) {
         for (int d = 0; d < dy; d++) {
             int i = d * aim;
-            if (0 < currPos.row - i || currPos.row - i >= 8 || currPos.col < 0 || currPos.col >= 8) break;
-            if (board->getPieceAt(currPos.row - i, currPos.col) != nullptr) break;
+            const Position nextSpot = Position{currPos.row - i, currPos.col};
 
-            Position nextSpot = Position{currPos.row - i, currPos.col};
-            nextPositionsInD.emplace_back(nextSpot);
+            if (0 > currPos.row - i || currPos.row - i >= 8 || currPos.col < 0 || currPos.col >= 8) break;
+            if (board->getPieceAt(currPos.row - i, currPos.col) != nullptr) {
+                nextPositionsInD[nextSpot] = CAPTURE;
+                break;
+            }
+            
+            nextPositionsInD[nextSpot] = MOVE;
         }
     } else if (direction == LEFT_UP_DIAGONAL) {
         for (int d = 0; d < dy; d++) {
             int i = d * aim;
-            if (0 < currPos.row + i || currPos.row + i >= 8 || currPos.col - i < 0 || currPos.col - i >= 8) break;
-            if (board->getPieceAt(currPos.row + i, currPos.col - i) != nullptr) break;
+            const Position nextSpot = Position{currPos.row + i, currPos.col - i};
 
-            Position nextSpot = Position{currPos.row + i, currPos.col - i};
-            nextPositionsInD.emplace_back(nextSpot);
+            if (0 > currPos.row + i || currPos.row + i >= 8 || currPos.col - i < 0 || currPos.col - i >= 8) break;
+            if (board->getPieceAt(currPos.row + i, currPos.col - i) != nullptr) {
+                nextPositionsInD[nextSpot] = CAPTURE;
+                break;
+            }
+
+            nextPositionsInD[nextSpot] = MOVE;
         }
     } else if (direction == LEFT_DOWN_DIAGONAL) {
         for (int d = 0; d < dy; d++) {
             int i = d * aim;
-            if (0 < currPos.row - i || currPos.row - i >= 8 || currPos.col - i < 0 || currPos.col - i >= 8) break;
-            if (board->getPieceAt(currPos.row - i, currPos.col - i) != nullptr) break;
+            const Position nextSpot = Position{currPos.row - i, currPos.col - i};
+
+            if (0 > currPos.row - i || currPos.row - i >= 8 || currPos.col - i < 0 || currPos.col - i >= 8) break;
+            if (board->getPieceAt(currPos.row - i, currPos.col - i) != nullptr) {
+                nextPositionsInD[nextSpot] = CAPTURE;
+                break;
+            }
             
-            Position nextSpot = Position{currPos.row - i, currPos.col - i};
-            nextPositionsInD.emplace_back(nextSpot);
+            nextPositionsInD[nextSpot] = MOVE;
         }
     } else if (direction == RIGHT_UP_DIAGONAL) {
         for (int d = 0; d < dy; d++) {
             int i = d * aim;
-            if (0 < currPos.row + i || currPos.row + i >= 8 || currPos.col + i < 0 || currPos.col + i >= 8) break;
-            if (board->getPieceAt(currPos.row + i, currPos.col + i) != nullptr) break;
+            const Position nextSpot = Position{currPos.row + i, currPos.col + i};
 
-            Position nextSpot = Position{currPos.row + i, currPos.col + i};
-            nextPositionsInD.emplace_back(nextSpot);
+            if (0 > currPos.row + i || currPos.row + i >= 8 || currPos.col + i < 0 || currPos.col + i >= 8) break;
+            if (board->getPieceAt(currPos.row + i, currPos.col + i) != nullptr) {
+                nextPositionsInD[nextSpot] = CAPTURE;
+                break;
+            }
+
+            nextPositionsInD[nextSpot] = MOVE;
         }
     } else if (direction == RIGHT_DOWN_DIAGONAL) {
         for (int d = 0; d < dy; d++) {
             int i = d * aim;
-            if (0 < currPos.row - i || currPos.row - i >= 8 || currPos.col + i < 0 || currPos.col + i >= 8) break;
-            if (board->getPieceAt(currPos.row - i, currPos.col + i) != nullptr) break;
+            const Position nextSpot = Position{currPos.row - i, currPos.col + i};
 
-            Position nextSpot = Position{currPos.row - i, currPos.col + i};
-            nextPositionsInD.emplace_back(nextSpot);
+            if (0 > currPos.row - i || currPos.row - i >= 8 || currPos.col + i < 0 || currPos.col + i >= 8) break;
+            if (board->getPieceAt(currPos.row - i, currPos.col + i) != nullptr) {
+                nextPositionsInD[nextSpot] = CAPTURE;
+                break;
+            }
+
+            nextPositionsInD[nextSpot] = MOVE;
         }
     } else if (direction == KNIGHT_DOWN_LEFT) {
         if (0 <= currPos.row - 3 * aim && currPos.row - 3 * aim < 8 && currPos.col - aim >= 0 && currPos.col - aim < 8) {
-            Position nextSpot = Position{currPos.row - 3 * aim, currPos.col - aim};
-            nextPositionsInD.emplace_back(nextSpot);
+            const Position nextSpot = Position{currPos.row - 3 * aim, currPos.col - aim};
+            if (board->getPieceAt(currPos.row - 3 * aim, currPos.col - aim) != nullptr) {
+                nextPositionsInD[nextSpot] = CAPTURE;
+            } else {
+                nextPositionsInD[nextSpot] = MOVE;
+            }
         }
     } else if (direction == KNIGHT_DOWN_RIGHT) {
         if (0 <= currPos.row - 3 * aim && currPos.row - 3 * aim < 8 && currPos.col + aim >= 0 && currPos.col + aim < 8) {
-            Position nextSpot = Position{currPos.row - 3 * aim, currPos.col + aim};
-            nextPositionsInD.emplace_back(nextSpot);
+            const Position nextSpot = Position{currPos.row - 3 * aim, currPos.col + aim};
+            if (board->getPieceAt(currPos.row - 3 * aim, currPos.col + aim) != nullptr) {
+                nextPositionsInD[nextSpot] = CAPTURE;
+            } else {
+                nextPositionsInD[nextSpot] = MOVE;
+            }
         }
     } else if (direction == KNIGHT_UP_LEFT) {
         if (0 <= currPos.row + 3 * aim && currPos.row + 3 * aim < 8 && currPos.col - aim >= 0 && currPos.col - aim < 8) {
-            Position nextSpot = Position{currPos.row + 3 * aim, currPos.col - aim};
-            nextPositionsInD.emplace_back(nextSpot);
+            const Position nextSpot = Position{currPos.row + 3 * aim, currPos.col - aim};
+            if (board->getPieceAt(currPos.row + 3 * aim, currPos.col - aim) != nullptr) {
+                nextPositionsInD[nextSpot] = CAPTURE;
+            } else {
+                nextPositionsInD[nextSpot] = MOVE;
+            }
         }
     } else if (direction == KNIGHT_UP_RIGHT) {
         if (0 <= currPos.row + 3 * aim && currPos.row + 3 * aim < 8 && currPos.col + aim >= 0 && currPos.col + aim < 8) {
-            Position nextSpot = Position{currPos.row + 3 * aim, currPos.col + aim};
-            nextPositionsInD.emplace_back(nextSpot);
+            const Position nextSpot = Position{currPos.row + 3 * aim, currPos.col + aim};
+            if (board->getPieceAt(currPos.row + 3 * aim, currPos.col + aim) != nullptr) {
+                nextPositionsInD[nextSpot] = CAPTURE;
+            } else {
+                nextPositionsInD[nextSpot] = MOVE;
+            }
         }
     } else {
         throw InvalidDirection{"Invalid direction."};
@@ -122,8 +175,8 @@ std::vector<Position> Piece::allPosInDirection(Direction direction, Board* board
 }
 
 bool Piece::validateMove(Position newPos) {
-    for (Position pos : nextPositions) {
-        if (pos.row == newPos.row && pos.col == newPos.col) {
+    for (auto const pair : nextPositions) {
+        if (pair.first.row == newPos.row && pair.first.col == newPos.col) {
             return true;
         }
     }

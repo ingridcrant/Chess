@@ -13,18 +13,8 @@ void Pawn::generateNextPositions(Board* board) {
     // 1. skips two move - DONE
     // 2. en passant
 
-    // 1.
-    if (firstMove) {
-        Position skipTwo = Position{currPos.row + 2, currPos.col};
-        if (colour == BLACK) {
-            skipTwo.row = currPos.row - 2;
-        }
-
-        nextPositions.emplace_back(skipTwo);
-    }
-
     for (Direction d : directions) {
-        std::vector<Position> nextPositionsInD = this->allPosInDirection(d, board);
-        nextPositions.insert(nextPositions.end(), nextPositionsInD.begin(), nextPositionsInD.end());
+        std::map<Position, MoveTypes> nextPositionsInD = this->allPosInDirection(d, board);
+        nextPositions.insert(nextPositionsInD.begin(), nextPositionsInD.end());
     }
 }

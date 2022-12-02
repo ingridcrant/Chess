@@ -2,6 +2,7 @@
 #include <vector>
 #include "../shared.h"
 #include "board.h"
+#include <map>
 
 #ifndef PIECE
 #define PIECE
@@ -21,13 +22,13 @@ class Piece {
         char symbol;
         Distance dist;
         std::vector<Direction> directions;
-        std::vector<Position> nextPositions;
+        std::map<Position, MoveTypes> nextPositions;
         Position currPos;
         bool firstMove = true;
         bool specialCapture;
 
         virtual void generateNextPositions(Board* board) = 0;
-        std::vector<Position> allPosInDirection(Direction direction, Board* board);
+        std::map<Position, MoveTypes> allPosInDirection(Direction direction, Board* board);
         bool validateMove(Position newPos);
     public:
         Piece(Colour colour, char symbol, Position currPos, Distance dist, bool specialCapture);
