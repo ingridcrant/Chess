@@ -13,7 +13,7 @@ King::King(Colour colour, char symbol, Position pos) : Piece{colour, symbol, pos
 
 void King::generateNextPositions(Board* board) {
     // TO DO:
-    // 1. remove positions that put King in check
+    // 1. remove positions that put King in check - DONE
     // 2. castling
 
     std::map<Position, MoveTypes> nextPossibleMoves;
@@ -38,5 +38,6 @@ void King::generateNextPositions(Board* board) {
         }
     }
 
+    // 2 - castling
     nextPositions.insert(nextPossibleMoves.begin(), nextPossibleMoves.end());
 }
