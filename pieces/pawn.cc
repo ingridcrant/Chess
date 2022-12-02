@@ -1,7 +1,7 @@
 #include "pawn.h"
 
 Pawn::Pawn(Colour colour, char symbol, Position pos) : Piece{colour, symbol, pos, ONE, true}, skipsTwo(false) {
-    directions.push_back(UP);
+    directions.push_back(PAWN_UP);
 }
 
 bool Pawn::getSkipsTwo() { 

@@ -61,6 +61,18 @@ std::map<Position, MoveTypes> Piece::allPosInDirection(Direction direction, Boar
         
             nextPositionsInD[nextSpot] = MOVE;
         }
+    } else if (direction == PAWN_UP) {
+        if (currPos.row + aim >= 0 && currPos.row + aim < board->getRows()) {
+            if (board->getPieceAt(currPos.row + aim, currPos.col) == nullptr) {
+            nextPositionsInD[Position{currPos.row + aim, currPos.col}] = MOVE;
+            }
+            if (0 <= currPos.col - 1 && currPos.col - 1 < board->getCols() && board->getPieceAt(currPos.row + aim, currPos.col - 1) != nullptr) {
+                nextPositionsInD[Position{currPos.row + aim, currPos.col - 1}] = CAPTURE;
+            }
+            if (0 <= currPos.col + 1 && currPos.col + 1 < board->getCols() && board->getPieceAt(currPos.row + aim, currPos.col + 1) == nullptr) {
+                nextPositionsInD[Position{currPos.row + aim, currPos.col + 1}] = CAPTURE;
+            }
+        }
     } else if (direction == DOWN) {
         for (int d = 0; d < dy; d++) {
             int i = d * aim;
