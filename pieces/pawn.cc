@@ -12,7 +12,7 @@ void Pawn::generateNextPositions(Board* board) {
     nextPositions.clear();
     // TO DO:
     // 1. skips two move - DONE
-    int dRow = (colour == BLACK) ? 1 : -1;
+    int dRow = (colour == BLACK) ? -1 : 1;
     if (firstMove) {
         Position skipTwo = Position{currPos.row, currPos.col + 2 * dx};
         if (board->getPos(skipTwo.row - dRow, skipTwo.col) == nullptr && board->getPos(skipTwo.row, skipTwo.col) == nullptr) {

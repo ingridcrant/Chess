@@ -4,6 +4,7 @@ class King : public Piece {
     Distance dist;
     std::vector<Direction> directions;
     bool specialCapture;
+    bool inCheck;
 
     public:
         King(Colour colour, char symbol, Position pos);

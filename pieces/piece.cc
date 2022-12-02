@@ -194,6 +194,10 @@ Colour Piece::getColour() {
     return colour;
 }
 
+bool Piece::getFirstMove() {
+    return firstMove;
+}
+
 std::map<Position, MoveTypes> Piece::getNextPositions() {
     return nextPositions;
 }
