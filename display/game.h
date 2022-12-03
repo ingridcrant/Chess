@@ -23,7 +23,7 @@ class Game : public Subject {
     public:
         explicit Game(Board * board, Player * playerWhite, Player * playerBlack);
         ~Game() = default;
-        Piece * getState(int row, int col) const; //get state of one square on the board
+        Piece * getState(int row, int col) const override; //get state of one square on the board
         Colour playGame(bool draw); //plays the game and returns winner and passes in bool to determine if it's a draw
         void customSetup(); //handles harness for custom game setup
 };
