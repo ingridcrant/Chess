@@ -6,17 +6,10 @@
 class Computer : public Player {
 
     public:
-    Computer(Colour colour);
-    virtual ~Computer() = 0;
+        Computer(Colour colour);
+        virtual ~Computer() = default;
+        virtual Move chooseMove() = 0;
 
 };
-
-class LevelOne : public Computer {
-
-    public:
-    LevelOne(Colour colour);
-    ~LevelOne() = default;
-};
-
 #endif
 

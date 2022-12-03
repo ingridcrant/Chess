@@ -7,6 +7,7 @@ class Human : public Player {
     public:
         Human(Colour colour);
         ~Human() = default;
+        Move chooseMove();
 };
 
 #endif
