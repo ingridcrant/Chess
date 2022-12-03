@@ -27,12 +27,12 @@ void Pawn::generateNextPositions(Board* board, Move lastMove) {
         Position opponentPawnPos = lastMove.getPiece()->getPos();
         if (opponentPawnPos.col - 1 == currPos.col) {
             if (opponentPawnPos.row - opponentDCol == opponentPawnPos.row - opponentDCol) {
-                Position enPassant = Position{opponentPawnPos.row - opponentDCol, opponentDCol.col - 1};
+                Position enPassant = Position{opponentPawnPos.row - opponentDCol, opponentPawnPos.col - 1};
                 nextPositions[enPassant] = EN_PASSANT;
             }
         } else if (opponentPawnPos.col + 1 == currPos.col) {
             if (opponentPawnPos.row - opponentDCol == opponentPawnPos.row - opponentDCol) {
-                Position enPassant = Position{opponentPawnPos.row - opponentDCol, opponentDCol.col + 1};
+                Position enPassant = Position{opponentPawnPos.row - opponentDCol, opponentPawnPos.col + 1};
                 nextPositions[enPassant] = EN_PASSANT;
             }
         }
