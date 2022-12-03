@@ -54,6 +54,9 @@ Colour Game::playGame(bool draw) {
             //choose Move from player, if throws exception then go again
             try {
                 move = curPlayer->chooseMove();
+                if (board->getPieceAt(move.getCurPos().row, move.getCurPos().col)->getColour() != curPlayer->getColour()) {
+                    throw InvalidInput("Atempting to move opponent's piece");
+                }
             } catch (InvalidInput err) {
                 err.printMessage();
                 playerIndex--; //player goes again
