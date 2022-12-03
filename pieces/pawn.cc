@@ -20,8 +20,23 @@ void Pawn::generateNextPositions(Board* board, Move lastMove) {
         }
     }
 
-    // 2. en passant
-
+    // 2. en passant - DONE
+    char opponentPawn = (colour == BLACK) ? 'p' : 'P';
+    int opponentDCol = (colour == BLACK) ? 1 : -1;
+    if (lastMove.getPiece()->getSymbol() == opponentPawn && lastMove.getPiece()->getSkipsTwo()) {
+        Position opponentPawnPos = lastMove.getPiece()->getPos();
+        if (opponentPawnPos.col - 1 == currPos.col) {
+            if (opponentPawnPos.row - opponentDCol == opponentPawnPos.row - opponentDCol) {
+                Position enPassant = Position{opponentPawnPos.row - opponentDCol, opponentDCol.col - 1};
+                nextPositions[enPassant] = EN_PASSANT;
+            }
+        } else if (opponentPawnPos.col + 1 == currPos.col) {
+            if (opponentPawnPos.row - opponentDCol == opponentPawnPos.row - opponentDCol) {
+                Position enPassant = Position{opponentPawnPos.row - opponentDCol, opponentDCol.col + 1};
+                nextPositions[enPassant] = EN_PASSANT;
+            }
+        }
+    }
     // 3. regular motion
     for (Direction d : directions) {
         std::map<Position, MoveTypes> nextPositionsInD = this->allPosInDirection(d, board);
