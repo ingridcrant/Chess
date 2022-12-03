@@ -147,6 +147,10 @@ int Board::getRows() {return boardRows;}
 
 int Board::getCols() {return boardCols;}
 
+Piece* Board::getKingWhite() {return kingWhite;}
+
+Piece* Board::getKingBlack() {return kingBlack;}
+
 Piece * Board::getPieceAt(int row, int col) const {
     return board[row][col].get();
 }
@@ -196,6 +200,7 @@ void Board::changeBoard(char piece, Position pos) {
         for (int row = 0; row < boardRows; row++) {
             if (board[row][col] && board[row][col]->getSymbol() == piece) {
                 board[pos.row][pos.col] = std::move(board[row][col]);
+                board[pos.row][pos.col].get()->setPos(Position{pos.row, pos.col});
                 done = true;
 
                 //if king was moved, update king pointer

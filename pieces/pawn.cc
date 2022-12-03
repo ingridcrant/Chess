@@ -15,7 +15,7 @@ void Pawn::generateNextPositions(Board* board, Move lastMove) {
     int dRow = (colour == BLACK) ? -1 : 1;
     if (firstMove) {
         Position skipTwo = Position{currPos.row, currPos.col + 2 * dRow};
-        if (board->getPieceAt(skipTwo.row - dRow, skipTwo.col) == nullptr && board->getPieceAt(skipTwo.row, skipTwo.col) == nullptr) {
+        if (board->getPieceAt(skipTwo.row - dRow, skipTwo.col) == nullptr && board->getPieceAt(skipTwo.row, skipTwo.col) == nullptr && !movePutsKingInCheck(board, lastMove, skipTwo)) {
             nextPositions[skipTwo] = SKIP_TWO;
         }
     }
@@ -26,20 +26,37 @@ void Pawn::generateNextPositions(Board* board, Move lastMove) {
     if (lastMove.getPiece()->getSymbol() == opponentPawn && lastMove.getPiece()->getSkipsTwo()) {
         Position opponentPawnPos = lastMove.getPiece()->getPos();
         if (opponentPawnPos.col - 1 == currPos.col) {
-            if (opponentPawnPos.row - opponentDCol == opponentPawnPos.row - opponentDCol) {
+            if (opponentPawnPos.row == currPos.row) {
                 Position enPassant = Position{opponentPawnPos.row - opponentDCol, opponentPawnPos.col - 1};
-                nextPositions[enPassant] = EN_PASSANT;
+
+                // checking that en passant doesn't put king in check
+                std::unique_ptr<Piece> capturedPiece {std::move(board->getPieceAt(opponentPawnPos.row, opponentPawnPos.col))};
+                board->changeBoard(capturedPiece->getPos());
+                if (movePutsKingInCheck(board, lastMove, enPassant)) {
+                    nextPositions[enPassant] = EN_PASSANT;
+                }
+
+                board->changeBoard(capturedPiece->getSymbol(), opponentPawnPos);
             }
         } else if (opponentPawnPos.col + 1 == currPos.col) {
-            if (opponentPawnPos.row - opponentDCol == opponentPawnPos.row - opponentDCol) {
+            if (opponentPawnPos.row == currPos.row) {
                 Position enPassant = Position{opponentPawnPos.row - opponentDCol, opponentPawnPos.col + 1};
-                nextPositions[enPassant] = EN_PASSANT;
+
+                // checking that en passant doesn't put king in check
+                std::unique_ptr<Piece> capturedPiece {std::move(board->getPieceAt(opponentPawnPos.row, opponentPawnPos.col))};
+                board->changeBoard(capturedPiece->getPos());
+                if (movePutsKingInCheck(board, lastMove, enPassant)) {
+                    nextPositions[enPassant] = EN_PASSANT;
+                }
+
+                board->changeBoard(capturedPiece->getSymbol(), opponentPawnPos);
             }
         }
     }
+
     // 3. regular motion
     for (Direction d : directions) {
-        std::map<Position, MoveTypes> nextPositionsInD = this->allPosInDirection(d, board);
+        std::map<Position, MoveTypes> nextPositionsInD = this->allPosInDirection(d, lastMove, board);
         nextPositions.insert(nextPositionsInD.begin(), nextPositionsInD.end());
     }
 }

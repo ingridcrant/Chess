@@ -19,24 +19,6 @@ void King::setInCheck(bool val) {
     inCheck = val;
 }
 
-bool King::positionInCheck(Board* board, Position pos) {
-    Colour opposingColour = (colour == WHITE) ? BLACK : WHITE;
-
-    for (int r = 0; r < board->getRows(); r++) {
-        for (int c = 0; c < board->getCols(); c++) {
-            Piece* nextPiece = board->getPieceAt(r, c);
-            if (nextPiece != nullptr && nextPiece->getColour() == opposingColour) {
-                for (auto nextPossibleMove : nextPositions) {
-                    if (nextPiece->getNextPositions().find(pos) != nextPiece->getNextPositions().end()) {
-                        return true;
-                    }
-                }
-            }
-        }
-    }
-    return false;
-}
-
 void King::generateNextPositions(Board* board, Move lastMove) {
     nextPositions.clear();
     // TO DO:
@@ -45,7 +27,7 @@ void King::generateNextPositions(Board* board, Move lastMove) {
 
     std::map<Position, MoveTypes> nextPossibleMoves;
     for (Direction d : directions) {
-        std::map<Position, MoveTypes> nextPositionsInD = this->allPosInDirection(d, board);
+        std::map<Position, MoveTypes> nextPositionsInD = this->allPosInDirection(d, lastMove, board);
         nextPossibleMoves.insert(nextPositionsInD.begin(), nextPositionsInD.end());
     }
 
@@ -60,7 +42,7 @@ void King::generateNextPositions(Board* board, Move lastMove) {
         Piece* rightCornerPiece = board->getPieceAt(currPos.row, currPos.col + 3 * dCol);
         bool noPiecesBetween = (board->getPieceAt(currPos.row, currPos.col + dCol) == nullptr && board->getPieceAt(currPos.row, currPos.col + 2 * dCol) == nullptr);
         if (rightCornerPiece != nullptr && noPiecesBetween && rightCornerPiece->getFirstMove() && rightCornerPiece->getSymbol() == rookTarget) {
-            bool noChecksInBetween = (!positionInCheck(board, Position{currPos.row, currPos.col + dCol}) && !positionInCheck(board, Position{currPos.row, currPos.col + 2 * dCol}));
+            bool noChecksInBetween = (!movePutsKingInCheck(board, lastMove, Position{currPos.row, currPos.col + dCol}) && !movePutsKingInCheck(board, lastMove, Position{currPos.row, currPos.col + 2 * dCol}));
             if (noChecksInBetween) {
                 nextPossibleMoves[Position{currPos.row, currPos.col + 3 * dCol}] = CASTLE_RIGHT;
             }
@@ -70,25 +52,9 @@ void King::generateNextPositions(Board* board, Move lastMove) {
         Piece* leftCornerPiece = board->getPieceAt(currPos.row, currPos.col - 4 * dCol);
         noPiecesBetween = (board->getPieceAt(currPos.row, currPos.col - dCol) == nullptr && board->getPieceAt(currPos.row, currPos.col - 2 * dCol) == nullptr);
         if (leftCornerPiece != nullptr && noPiecesBetween && leftCornerPiece->getFirstMove() && leftCornerPiece->getSymbol() == rookTarget) {
-            bool noChecksInBetween = (!positionInCheck(board, Position{currPos.row, currPos.col - dCol}) && !positionInCheck(board, Position{currPos.row, currPos.col - 2 * dCol}));
+            bool noChecksInBetween = (!movePutsKingInCheck(board, lastMove, Position{currPos.row, currPos.col - dCol}) && !movePutsKingInCheck(board, lastMove, Position{currPos.row, currPos.col - 2 * dCol}));
             if (noChecksInBetween) {
                 nextPossibleMoves[Position{currPos.row, currPos.col - 3 * dCol}] = CASTLE_LEFT;
-            }
-        }
-    }
-
-    // 1 - removing positions that put King in check
-    Colour opposingColour = (colour == WHITE) ? BLACK : WHITE;
-
-    for (int r = 0; r < board->getRows(); r++) {
-        for (int c = 0; c < board->getCols(); c++) {
-            Piece* nextPiece = board->getPieceAt(r, c);
-            if (nextPiece != nullptr && nextPiece->getColour() == opposingColour) {
-                for (auto nextPossibleMove : nextPossibleMoves) {
-                    if (nextPiece->getNextPositions().find(nextPossibleMove.first) != nextPiece->getNextPositions().end()) {
-                        nextPossibleMoves.erase(nextPossibleMove.first);
-                    }
-                }
             }
         }
     }

@@ -10,7 +10,7 @@ Knight::Knight(Colour colour, char symbol, Position pos) : Piece{colour, symbol,
 void Knight::generateNextPositions(Board* board, Move lastMove) {
     nextPositions.clear();
     for (Direction d : directions) {
-        std::map<Position, MoveTypes> nextPositionsInD = this->allPosInDirection(d, board);
+        std::map<Position, MoveTypes> nextPositionsInD = this->allPosInDirection(d, lastMove, board);
         nextPositions.insert(nextPositionsInD.begin(), nextPositionsInD.end());
     }
 }

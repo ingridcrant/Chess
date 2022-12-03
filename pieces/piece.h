@@ -28,8 +28,10 @@ class Piece {
         bool specialCapture;
 
         virtual void generateNextPositions(Board* board, Move lastMove) = 0;
-        std::map<Position, MoveTypes> allPosInDirection(Direction direction, Board* board);
-        bool validateMove(Position newPos);
+        std::map<Position, MoveTypes> allPosInDirection(Direction direction, Move lastMove, Board* board);
+        bool validateMove(Position newPos, Board* board, Move lastMove);
+        bool movePutsKingInCheck(Board* board, Move lastMove, Position newPos);
+
     public:
         Piece(Colour colour, char symbol, Position currPos, Distance dist, bool specialCapture);
         virtual ~Piece() = default;
@@ -40,6 +42,7 @@ class Piece {
         virtual bool getFirstMove();
         virtual bool getInCheck();
         virtual void setInCheck(bool val);
+        virtual void setPos(Position pos);
         virtual std::map<Position, MoveTypes> getNextPositions();
 };
 

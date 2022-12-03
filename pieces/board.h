@@ -25,6 +25,8 @@ class Board {
         ~Board() = default;
         int getRows();
         int getCols();
+        Piece* getKingWhite();
+        Piece* getKingBlack();
         Piece * getPieceAt(int row, int col) const;
         void changeBoard(Move move); //change state of board based on move
         void changeBoard(Position pos); //for removing a piece from that position
