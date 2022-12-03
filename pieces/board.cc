@@ -9,6 +9,7 @@
 #include "rook.h"
 #include "queen.h"
 #include "knight.h"
+#include <iostream>
 
 Board::Board() {
     // create all the piece pointers
@@ -137,7 +138,9 @@ Board::Board() {
     board.push_back(std::move(rowSix));
     board.push_back(std::move(rowSev));
     board.push_back(std::move(rowEight));
-    
+
+    kingWhite = board[0][4].get();
+    kingBlack = board[7][4].get();
 }
 
 int Board::getRows() {return boardRows;}
@@ -152,6 +155,17 @@ bool Board::validMove(Piece * piece, Position curPos, Position newPos) const {
     return true;
 }
 
+
+void Board::updateKingPointer(Position pos) {
+    if (board[pos.row][pos.col]->getSymbol() == 'k') {
+        kingBlack = board[pos.row][pos.col].get();
+    }
+    else if (board[pos.row][pos.col]->getSymbol() == 'K') {
+        kingWhite = board[pos.row][pos.col].get();
+    }
+}
+
+
 void Board::changeBoard(Move move) {
     Position curPos = move.getCurPos();
     Position newPos = move.getNewPos();
@@ -159,7 +173,10 @@ void Board::changeBoard(Move move) {
 
     if (Board::validMove(piece, curPos, newPos)) {
         //change state of board
-        board[newPos.row][newPos.col] = std::move(board[curPos.col][curPos.row]); //memory leak??
+        board[newPos.row][newPos.col] = std::move(board[curPos.col][curPos.row]);
+
+        //if king was moved, update king pointer
+        Board::updateKingPointer(newPos);
     } else {
         throw InvalidMove{};
     }
@@ -180,6 +197,9 @@ void Board::changeBoard(char piece, Position pos) {
             if (board[row][col] && board[row][col]->getSymbol() == piece) {
                 board[pos.row][pos.col] = std::move(board[row][col]);
                 done = true;
+
+                //if king was moved, update king pointer
+                Board::updateKingPointer(pos);
                 break;
             }
         }
@@ -188,7 +208,36 @@ void Board::changeBoard(char piece, Position pos) {
 }
 
 
+//TODO: Test
+bool Board::boardInCheck(Colour colour) const {
+    if (colour == WHITE && kingWhite->getInCheck()) {
+        return true;
+    }
+    else if (colour == BLACK && kingBlack->getInCheck()) {
+        return true;
+    }
 
+    return false;
+}
+
+
+//TODO: Test
+bool Board::boardInCheckmate(Colour colour) const {
+    if (colour == WHITE && kingWhite->getNextPositions().empty()) {
+        return true;
+    }
+    else if (colour == BLACK && kingBlack->getNextPositions().empty()) {
+        return true;
+    }
+
+    return false;
+}
+
+
+//TODO: Implement
+bool Board::boardInStalemate() const {
+    //must check that both sides have no possible moves
+}
 
 
 /*void test() {
