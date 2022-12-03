@@ -11,7 +11,11 @@ class Player {
 
     public:
         Player(Colour colour);
-        virtual ~Player() = 0;
+        virtual ~Player() = default;
+        Colour getColour() {return colour;}
+        bool getCheck() {return check;}
+        bool getCheckmate() {return checkmate;}
+        virtual Move chooseMove() = 0;
 };
 
 
