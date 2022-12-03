@@ -8,7 +8,7 @@ class LevelOne : public Computer {
     public:
         LevelOne(Colour colour);
         ~LevelOne() = default;
-        Move chooseMove();
+        Move chooseMove() override;
 };
 
 #endif
