@@ -1,28 +1,25 @@
 #include <memory>
 #include <iostream>
+#include <vector>
 #include "pieces/board.h"
 #include "display/game.h"
 #include "players/human.h"
 #include "pieces/piece.h"
+#include "display/textObserver.h"
 
 int main() {
     auto b = std::make_unique<Board>();
     auto p1 = std::make_unique<Human>(WHITE);
     auto p2 = std::make_unique<Human>(BLACK);
+    std::vector<Player *> players;
+    players.push_back(p1.get());
+    players.push_back(p2.get());
+    std::vector<Observer*> observers;
 
-    Game g = Game{b.get(), p1.get(), p2.get()};
+    auto g = std::make_shared<Game>(b.get());
+    auto text = std::make_unique<TextObserver>(g, 8, 8);
     //std::cout << b->getPieceAt(0, 4)->getSymbol() << std::endl; row 0, col 4 is K
-    g.customSetup();
+    g->customSetup();
 
-    for(int i = b->getRows() - 1; i >= 0; i--) {
-        for (int j = 0; j < b->getCols(); j++) {
-            if(b->getPieceAt(i, j)) {
-                std::cout << b->getPieceAt(i, j)->getSymbol();
-            } else {
-                std::cout << "-";
-            }
-        }
-        std::cout << std::endl;
-    }
 }
 

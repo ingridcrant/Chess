@@ -6,17 +6,19 @@
 #include <iostream>
 #include <string>
 
-Game::Game(Board * board, Player * playerWhite, Player * playerBlack): board{board}, 
-                                                                                  turn{WHITE}, status{IN_PLAY} {
-    players.push_back(playerWhite);
-    players.push_back(playerBlack);
+Game::Game(Board * board): board{board}, turn{WHITE}, status{IN_PLAY} {}
+
+char Game::getState(int row, int col) const {
+    if (board->getPieceAt(row, col)) {
+        return board->getPieceAt(row, col)->getSymbol();
+    }
+    else if ((row + col) % 2 == 0) {
+        return '_';
+    }
+    return ' ';
 }
 
-Piece * Game::getState(int col, int row) const {
-    return board->getPieceAt(col, row);
-}
-
-Colour Game::playGame(bool draw) {
+Colour Game::playGame(bool draw, std::vector<Player *> players) {
     bool done = false;
     Colour winner;
 
@@ -54,6 +56,9 @@ Colour Game::playGame(bool draw) {
             //choose Move from player, if throws exception then go again
             try {
                 move = curPlayer->chooseMove();
+                if (board->getPieceAt(move.getCurPos().row, move.getCurPos().col)->getColour() != curPlayer->getColour()) {
+                    throw InvalidInput("Atempting to move opponent's piece");
+                }
             } catch (InvalidInput err) {
                 err.printMessage();
                 playerIndex--; //player goes again
