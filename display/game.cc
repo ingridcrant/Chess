@@ -6,17 +6,19 @@
 #include <iostream>
 #include <string>
 
-Game::Game(Board * board, Player * playerWhite, Player * playerBlack): board{board}, 
-                                                                                  turn{WHITE}, status{IN_PLAY} {
-    players.push_back(playerWhite);
-    players.push_back(playerBlack);
+Game::Game(Board * board): board{board}, turn{WHITE}, status{IN_PLAY} {}
+
+char Game::getState(int row, int col) const {
+    if (board->getPieceAt(row, col)) {
+        return board->getPieceAt(row, col)->getSymbol();
+    }
+    else if ((row + col) % 2 == 0) {
+        return '_';
+    }
+    return ' ';
 }
 
-Piece * Game::getState(int col, int row) const {
-    return board->getPieceAt(col, row);
-}
-
-Colour Game::playGame(bool draw) {
+Colour Game::playGame(bool draw, std::vector<Player *> players) {
     bool done = false;
     Colour winner;
 
