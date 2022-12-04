@@ -23,7 +23,7 @@ class Game : public Subject {
         explicit Game(Board * board);
         ~Game() = default;
         char getState(int row, int col) const override; //get state of one square on the board
-        Colour playGame(bool draw, std::vector<Player *> players); //plays the game and returns winner and passes in bool to determine if it's a draw
+        Colour playGame(bool & draw, std::vector<Player *> players); //plays the game and returns winner and passes in bool to determine if it's a draw
         void customSetup(); //handles harness for custom game setup
 };
 

@@ -1,4 +1,5 @@
 ./main
+./chess
 *.o
 *.d
 .vscode/
