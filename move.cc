@@ -140,7 +140,8 @@ Move::Move(std::string input) {
         counter++;
     }
 
-    if (counter == 2) promotion = false;
+    if (counter < 2) throw InvalidInput{"Not enough input."};
+    else if (counter == 2) promotion = false;
     else if (counter == 3) promotion = true;
 }
 

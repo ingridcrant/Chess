@@ -1,9 +1,9 @@
 CXX = g++
 CXXFLAGS = -std=c++14 -g -MMD -Wall -Wextra \
 		   -I display -I pieces -I players
-EXEC = main
+EXEC = chess
 OBJECTS = main.o move.o\
-		  graphicalObserver.o subject.o textObserver.o\
+		  graphicalObserver.o subject.o textObserver.o window.o\
 		  board.o piece.o king.o knight.o pawn.o queen.o rook.o bishop.o\
 		  game.o shared.o\
 		  computer.o human.o levelOne.o player.o
@@ -13,7 +13,7 @@ DEPENDS = ${OBJECTS:.o=.d}
 VPATH=display:pieces:players
 
 ${EXEC}: ${OBJECTS}
-	${CXX} ${CXXFLAGS} ${OBJECTS} -o ${EXEC}
+	${CXX} ${CXXFLAGS} ${OBJECTS} -o ${EXEC} -lX11
 
 -include ${DEPENDS}
 
