@@ -19,6 +19,7 @@ char Game::getState(int row, int col) const {
 }
 
 Colour Game::playGame(bool & draw, std::vector<Player *> players) {
+    notifyObservers();
     bool done = false;
     Colour winner;
 
@@ -59,7 +60,6 @@ Colour Game::playGame(bool & draw, std::vector<Player *> players) {
                 if (!board->getPieceAt(move.getCurPos().row, move.getCurPos().col) || board->getPieceAt(move.getCurPos().row, move.getCurPos().col)->getColour() != curPlayer->getColour()) {
                     throw InvalidInput("Atempting to move an invalid piece");
                 }
-                std::cout << "HELLO" << std::endl;
             } catch (InvalidInput err) {
                 err.printMessage();
                 std::cout << "Try again." << std::endl; 
@@ -73,9 +73,7 @@ Colour Game::playGame(bool & draw, std::vector<Player *> players) {
 
             //call changeBoard, if fails then player goes again
             try {
-                std::cout << "HELLO2" << std::endl;
                 board->changeBoard(move);
-                std::cout << "HELLO3" << std::endl;
                 notifyObservers();
 
                 //check if board is in check
@@ -156,6 +154,7 @@ bool Game::verifyProperSetup() const {
 
 void Game::customSetup() {
     std::string cmd;
+    notifyObservers();
 
     while(std::cin >> cmd) {
         if (cmd == "+") {
