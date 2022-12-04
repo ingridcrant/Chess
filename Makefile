@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -std=c++14 -g -MMD -Wall -Wextra \
 		   -I display -I pieces -I players
-EXEC = main
+EXEC = chess
 OBJECTS = main.o move.o\
 		  graphicalObserver.o subject.o textObserver.o window.o\
 		  board.o piece.o king.o knight.o pawn.o queen.o rook.o bishop.o\
