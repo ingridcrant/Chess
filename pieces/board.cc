@@ -148,7 +148,10 @@ int Board::getRows() {return boardRows;}
 int Board::getCols() {return boardCols;}
 
 Piece * Board::getPieceAt(int row, int col) const {
-    return board[row][col].get();
+    if (board[row][col]) {
+        return board[row][col].get();
+    }
+    return nullptr;
 }
 
 bool Board::validMove(Piece * piece, Position curPos, Position newPos) const {
@@ -169,11 +172,12 @@ void Board::updateKingPointer(Position pos) {
 void Board::changeBoard(Move move) {
     Position curPos = move.getCurPos();
     Position newPos = move.getNewPos();
-    Piece * piece = board[curPos.col][curPos.row].get();
+
+    Piece * piece = board[curPos.row][curPos.col].get();
 
     if (Board::validMove(piece, curPos, newPos)) {
         //change state of board
-        board[newPos.row][newPos.col] = std::move(board[curPos.col][curPos.row]);
+        board[newPos.row][newPos.col] = std::move(board[curPos.row][curPos.col]);
 
         //if king was moved, update king pointer
         Board::updateKingPointer(newPos);
