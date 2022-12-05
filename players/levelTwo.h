@@ -3,10 +3,12 @@
 
 #include "computer.h"
 
+class Board;
+
 class LevelTwo : public Computer {
 
     public:
-        LevelTwo(Colour colour);
+        LevelTwo(Colour colour, Board * board);
         ~LevelTwo() = default;
         Move chooseMove() override;
 };

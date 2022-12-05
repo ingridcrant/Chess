@@ -1,8 +1,8 @@
 #include "levelTwo.h"
 #include "../shared.h"
+#include "../pieces/board.h"
 
-
-LevelTwo::LevelTwo(Colour colour): Computer(colour) {}
+LevelTwo::LevelTwo(Colour colour, Board * board): Computer(colour, board) {}
 
 //TODO
 Move LevelTwo::chooseMove() {

@@ -14,15 +14,15 @@
 #include <string>
 
 
-std::unique_ptr<Player> createPlayer(std::string str, Colour col) {
+std::unique_ptr<Player> createPlayer(std::string str, Colour col, Board * board) {
     if (str == "human") {
         return std::make_unique<Human>(col);
     }
     else if (str == "one") {
-        return std::make_unique<LevelOne>(col);
+        return std::make_unique<LevelOne>(col, board);
     }
     else if (str == "two") {
-        return std::make_unique<LevelTwo>(col);
+        return std::make_unique<LevelTwo>(col, board);
     } else {
         throw InvalidInput{"Not a type of player."};
     }
@@ -57,8 +57,8 @@ int main() {
 
             try {
                 //create the player pointers
-                auto playerOne = std::move(createPlayer(playerOneStr, WHITE));
-                auto playerTwo = std::move(createPlayer(playerTwoStr, BLACK));
+                auto playerOne = std::move(createPlayer(playerOneStr, WHITE, b.get()));
+                auto playerTwo = std::move(createPlayer(playerTwoStr, BLACK, b.get()));
                 players.push_back(playerOne.get());
                 players.push_back(playerTwo.get());
 

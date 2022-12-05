@@ -1,7 +1,8 @@
 #include "human.h"
+#include "../pieces/board.h"
 #include <iostream>
 
-Human::Human(Colour colour): Player(colour) {}
+Human::Human(Colour colour): Player{colour} {}
 
 Move Human::chooseMove() {
     std::string move;

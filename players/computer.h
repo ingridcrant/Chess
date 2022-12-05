@@ -3,10 +3,13 @@
 
 #include "player.h"
 
+class Board;
+
 class Computer : public Player {
+    Board * board;
 
     public:
-        Computer(Colour colour);
+        Computer(Colour colour, Board * board);
         virtual ~Computer() = default;
         virtual Move chooseMove() = 0;
 
