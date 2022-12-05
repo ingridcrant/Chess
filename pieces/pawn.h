@@ -3,12 +3,12 @@
 class Pawn : public Piece {
     Distance dist;
     std::vector<Direction> directions;
-    bool specialCapture;
     bool skipsTwo;
     
     public:
         Pawn(Colour colour, char symbol, Position pos);
         ~Pawn() = default;
-        void generateNextPositions(Board* board, Move lastMove) override;
+        void generateNextPositions(std::vector<std::vector<Piece*>> board, int rows, int cols, Move* lastMove, bool checkIfKingInCheck = true) override;
         bool getSkipsTwo() override;
+        void setSkipsTwo(bool val) override;
 };

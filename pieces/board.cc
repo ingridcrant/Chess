@@ -147,15 +147,15 @@ int Board::getRows() {return boardRows;}
 
 int Board::getCols() {return boardCols;}
 
+Piece* Board::getKingWhite() {return kingWhite;}
+
+Piece* Board::getKingBlack() {return kingBlack;}
+
 Piece * Board::getPieceAt(int row, int col) const {
     if (board[row][col]) {
         return board[row][col].get();
     }
     return nullptr;
-}
-
-bool Board::validMove(Piece * piece, Position curPos, Position newPos) const {
-    return true;
 }
 
 
@@ -167,26 +167,6 @@ void Board::updateKingPointer(Position pos) {
         kingWhite = board[pos.row][pos.col].get();
     }
 }
-
-
-void Board::changeBoard(Move move) {
-    Position curPos = move.getCurPos();
-    Position newPos = move.getNewPos();
-
-    Piece * piece = board[curPos.row][curPos.col].get();
-
-    if (Board::validMove(piece, curPos, newPos)) {
-        //change state of board
-        board[newPos.row][newPos.col] = std::move(board[curPos.row][curPos.col]);
-
-        //if king was moved, update king pointer
-        Board::updateKingPointer(newPos);
-    } else {
-        throw InvalidMove{};
-    }
-
-}
-
 
 void Board::changeBoard(Position pos) {
     board[pos.row][pos.col] = std::move(nullptr);
@@ -200,6 +180,7 @@ void Board::changeBoard(char piece, Position pos) {
         for (int row = 0; row < boardRows; row++) {
             if (board[row][col] && board[row][col]->getSymbol() == piece) {
                 board[pos.row][pos.col] = std::move(board[row][col]);
+                board[pos.row][pos.col].get()->setPos(Position{pos.row, pos.col});
                 done = true;
 
                 //if king was moved, update king pointer
@@ -211,6 +192,101 @@ void Board::changeBoard(char piece, Position pos) {
     }
 }
 
+void Board::changeBoard(Move move, Move* lastMove) {
+    Position curPos = move.getCurPos();
+    Position newPos = move.getNewPos();
+
+    Piece * piece = board[curPos.row][curPos.col].get();
+
+    if (Board::validMove(piece, lastMove, curPos, newPos)) {
+        // change state of board based on MoveTypes
+        // MOVE, CAPTURE, SKIP_TWO, EN_PASSANT, CASTLE_LEFT, CASTLE_RIGHT
+        MoveTypes moveType = piece->getNextPositions()[newPos];
+
+        if (moveType == MOVE || moveType == CAPTURE) {
+            board[newPos.row][newPos.col] = std::move(board[curPos.row][curPos.col]);
+        } else if (moveType == SKIP_TWO) {
+            board[newPos.row][newPos.col] = std::move(board[curPos.row][curPos.col]);
+            piece->setSkipsTwo(true);
+        } else if (moveType == EN_PASSANT) {
+            // eliminate avoided piece
+            int dRow = (piece->getColour() == BLACK) ? -1 : 1;
+            board[newPos.row][newPos.col] = std::move(board[curPos.row][curPos.col]);
+            board[newPos.row - dRow][newPos.col] = std::move(nullptr);
+        } else if (moveType == CASTLE_LEFT) {
+            board[newPos.row][2] = std::move(board[newPos.row][4]);
+            board[newPos.row][0] = std::move(board[newPos.row][3]);
+        } else {
+            board[newPos.row][6] = std::move(board[newPos.row][4]);
+            board[newPos.row][5] = std::move(board[newPos.row][7]);
+        }
+
+        if (move.getPromotion()) {
+            if (piece->getColour() == BLACK) {
+                if (newPos.row == 0)  {
+                    if (move.getPromoteTo() == 'r') {
+                        piece->setDirections({UP, DOWN, LEFT, RIGHT});
+                        piece->setDistance(INFINITE);
+                    } else if (move.getPromoteTo() == 'n') {
+                        piece->setDirections({KNIGHT_DOWN_LEFT, KNIGHT_DOWN_RIGHT, KNIGHT_LEFT_DOWN, KNIGHT_LEFT_UP, KNIGHT_RIGHT_DOWN, KNIGHT_RIGHT_UP, KNIGHT_UP_LEFT, KNIGHT_UP_RIGHT});
+                        piece->setDistance(INFINITE);
+                    } else if (move.getPromoteTo() == 'b') {
+                        piece->setDirections({LEFT_UP_DIAGONAL, LEFT_DOWN_DIAGONAL, RIGHT_UP_DIAGONAL, RIGHT_DOWN_DIAGONAL});
+                        piece->setDistance(INFINITE);
+                    } else if (move.getPromoteTo() == 'q') {
+                        piece->setDirections({UP, DOWN, LEFT, RIGHT, LEFT_UP_DIAGONAL, LEFT_DOWN_DIAGONAL, RIGHT_UP_DIAGONAL, RIGHT_DOWN_DIAGONAL});
+                        piece->setDistance(INFINITE);
+                    } else {
+                        throw InvalidInput{"Invalid promotion piece"};
+                    }
+                } else {
+                    throw InvalidMove{};
+                }
+            } else {
+                if (newPos.row == getRows() - 1)  {
+                    if (move.getPromoteTo() == 'R') {
+                        piece->setDirections({UP, DOWN, LEFT, RIGHT});
+                        piece->setDistance(INFINITE);
+                    } else if (move.getPromoteTo() == 'N') {
+                        piece->setDirections({KNIGHT_DOWN_LEFT, KNIGHT_DOWN_RIGHT, KNIGHT_LEFT_DOWN, KNIGHT_LEFT_UP, KNIGHT_RIGHT_DOWN, KNIGHT_RIGHT_UP, KNIGHT_UP_LEFT, KNIGHT_UP_RIGHT});
+                        piece->setDistance(INFINITE);
+                    } else if (move.getPromoteTo() == 'B') {
+                        piece->setDirections({LEFT_UP_DIAGONAL, LEFT_DOWN_DIAGONAL, RIGHT_UP_DIAGONAL, RIGHT_DOWN_DIAGONAL});
+                        piece->setDistance(INFINITE);
+                    } else if (move.getPromoteTo() == 'Q') {
+                        piece->setDirections({UP, DOWN, LEFT, RIGHT, LEFT_UP_DIAGONAL, LEFT_DOWN_DIAGONAL, RIGHT_UP_DIAGONAL, RIGHT_DOWN_DIAGONAL});
+                        piece->setDistance(INFINITE);
+                    } else {
+                        throw InvalidInput{"Invalid promotion piece"};
+                    }
+                } else {
+                    throw InvalidMove{};
+                }
+            }
+        }
+
+        piece->notFirstMove();
+        piece->setPos(newPos);
+
+        //if king was moved, update king pointer
+        Board::updateKingPointer(newPos);
+    } else {
+        throw InvalidMove{};
+    }
+}
+
+std::vector<std::vector<Piece*>> Board::copyBoard() {
+    std::vector<std::vector<Piece*>> boardCopy;
+    for (int r = 0; r < getRows(); r++) {
+        std::vector<Piece*> row;
+        for (int c = 0; c < getCols(); c++) {
+            row.push_back(getPieceAt(r, c));
+        }
+        boardCopy.push_back(std::move(row));
+    }
+
+    return boardCopy;
+}
 
 //TODO: Test
 bool Board::boardInCheck(Colour colour) const {
@@ -227,20 +303,52 @@ bool Board::boardInCheck(Colour colour) const {
 
 //TODO: FIX CURRENTLY WRONG
 bool Board::boardInCheckmate(Colour colour) const {
-    if (colour == WHITE && kingWhite->getNextPositions().empty()) {
+    if (colour == WHITE && kingWhite->getInCheck() && kingWhite->getNextPositions().empty()) {
         return true;
     }
-    else if (colour == BLACK && kingBlack->getNextPositions().empty()) {
+    else if (colour == BLACK && kingBlack->getInCheck() && kingBlack->getNextPositions().empty()) {
         return true;
     }
 
     return false;
 }
 
+bool Board::validMove(Piece* piece, Move* lastMove, Position curPos, Position newPos) {
+    std::vector<std::vector<Piece*>> boardCopy = copyBoard();
+
+    // call generateAllMoves with a board copy
+    piece->generateNextPositions(boardCopy, boardRows, boardCols, lastMove, true);
+    for (auto nextPos : piece->getNextPositions()) {
+        if (nextPos.first.row == newPos.row && nextPos.first.col == newPos.col) {
+            return true;
+        }
+    }
+    return false;
+}
+
 
 //TODO: Implement
-bool Board::boardInStalemate() const {
+bool Board::boardInStalemate(Colour colour) const {
     //must check that both sides have no possible moves
+    if (colour == WHITE) {
+        for (int r = 0; r < boardRows; r++) {
+            for (int c = 0; c < boardCols; c++) {
+                if (getPieceAt(r, c) && getPieceAt(r, c)->getColour() == WHITE && !getPieceAt(r, c)->getNextPositions().empty()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    } else {
+        for (int r = 0; r < boardRows; r++) {
+            for (int c = 0; c < boardCols; c++) {
+                if (getPieceAt(r, c) && getPieceAt(r, c)->getColour() == BLACK && !getPieceAt(r, c)->getNextPositions().empty()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }
 
 

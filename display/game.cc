@@ -19,8 +19,9 @@ char Game::getState(int row, int col) const {
 }
 
 Colour Game::playGame(bool & draw, std::vector<Player *> players) {
-    notifyObservers();
     bool done = false;
+    Move* lastMovePtr = nullptr;
+    Move lastMove = Move{"a2 a1"}; //randomly construct
     Colour winner;
 
     // get first player
@@ -60,6 +61,7 @@ Colour Game::playGame(bool & draw, std::vector<Player *> players) {
                 if (!board->getPieceAt(move.getCurPos().row, move.getCurPos().col) || board->getPieceAt(move.getCurPos().row, move.getCurPos().col)->getColour() != curPlayer->getColour()) {
                     throw InvalidInput("Atempting to move an invalid piece");
                 }
+                std::cout << "HELLO" << std::endl;
             } catch (InvalidInput err) {
                 err.printMessage();
                 std::cout << "Try again." << std::endl; 
@@ -73,7 +75,11 @@ Colour Game::playGame(bool & draw, std::vector<Player *> players) {
 
             //call changeBoard, if fails then player goes again
             try {
-                board->changeBoard(move);
+                std::cout << "HELLO2" << std::endl;
+                board->changeBoard(move, lastMovePtr);
+                lastMove = move;
+                lastMovePtr = &move;
+                std::cout << "HELLO3" << std::endl;
                 notifyObservers();
 
                 //check if board is in check
@@ -154,7 +160,6 @@ bool Game::verifyProperSetup() const {
 
 void Game::customSetup() {
     std::string cmd;
-    notifyObservers();
 
     while(std::cin >> cmd) {
         if (cmd == "+") {
@@ -207,7 +212,6 @@ void Game::customSetup() {
         }
         else if (cmd == "done") {
             if (Game::verifyProperSetup()) {
-                std::cout << "Back to main menu." << std::endl;
                 break;
             } else {
                 std::cout << "Board not set up correctly." << std::endl;
