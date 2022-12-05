@@ -30,7 +30,6 @@ class Board {
         void changeBoard(Move move, Move* lastMove); //change state of board based on move
         void changeBoard(Position pos); //for removing a piece from that position
         void changeBoard(char piece, Position pos); //for placing piece in that position
-        void changeBoard(Piece* piece, Position pos); //for placing piece in pos
         bool boardInCheck(Colour colour) const; //whether colour is in check
         bool boardInCheckmate(Colour colour) const;
         bool boardInStalemate(Colour colour) const;
