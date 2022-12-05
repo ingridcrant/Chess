@@ -1,15 +1,19 @@
 #ifndef COMP_H
 #define COMP_H
 
-#include "player.h"
+#include "playerImpl.h"
 
-class Computer : public Player {
+class Board;
+
+class Computer : public PlayerImpl {
+
+    protected:
+        Board * board;
 
     public:
-        Computer(Colour colour);
-        virtual ~Computer() = default;
+        Computer(Board * board): board{board} {}
+        ~Computer() = default;
         virtual Move chooseMove() = 0;
-
 };
-#endif
 
+#endif

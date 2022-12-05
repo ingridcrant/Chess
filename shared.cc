@@ -1,4 +1,5 @@
 #include "shared.h"
+#include <string>
 
 // map requires operator<
 bool Position::operator<(Position const& other) const {
@@ -13,3 +14,10 @@ bool Position::operator<(Position const& other) const {
 bool Position::operator==(Position const& other) const {
     return (this->row == other.row && this->col == other.col);
 }
+
+
+std::string getColourStr(Colour colour) {
+    if (colour == WHITE) return "White";
+    else return "Black";
+}
+

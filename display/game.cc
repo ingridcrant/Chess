@@ -21,7 +21,6 @@ char Game::getState(int row, int col) const {
 Colour Game::playGame(bool & draw, std::vector<Player *> players) {
     bool done = false;
     Colour winner;
-    Move* lastMove = nullptr;
 
     // get first player
     int playerIndex = 0;
@@ -57,11 +56,13 @@ Colour Game::playGame(bool & draw, std::vector<Player *> players) {
             //choose Move from player, if throws exception then go again
             try {
                 move = curPlayer->chooseMove();
-                if (board->getPieceAt(move.getCurPos().row, move.getCurPos().col)->getColour() != curPlayer->getColour()) {
-                    throw InvalidInput("Atempting to move opponent's piece");
+                if (!board->getPieceAt(move.getCurPos().row, move.getCurPos().col) || board->getPieceAt(move.getCurPos().row, move.getCurPos().col)->getColour() != curPlayer->getColour()) {
+                    throw InvalidInput("Atempting to move an invalid piece");
                 }
+                std::cout << "HELLO" << std::endl;
             } catch (InvalidInput err) {
                 err.printMessage();
+                std::cout << "Try again." << std::endl; 
                 playerIndex--; //player goes again
             }
 
@@ -72,7 +73,9 @@ Colour Game::playGame(bool & draw, std::vector<Player *> players) {
 
             //call changeBoard, if fails then player goes again
             try {
-                board->changeBoard(move, lastMove);
+                std::cout << "HELLO2" << std::endl;
+                board->changeBoard(move);
+                std::cout << "HELLO3" << std::endl;
                 notifyObservers();
 
                 //check if board is in check
@@ -89,7 +92,7 @@ Colour Game::playGame(bool & draw, std::vector<Player *> players) {
 
                     draw = false;
                     done = true;
-                } else if (board->boardInStalemate(curPlayer->getColour())) { //check if board is in a stalemate
+                } else { //check if board is in a stalemate
                     std::cout << "Stalemate!" << std::endl;
                     draw = true;
                     done = true;
@@ -107,8 +110,8 @@ Colour Game::playGame(bool & draw, std::vector<Player *> players) {
         }
 
         //change to next player
-        playerIndex++;
         if (playerIndex == players.size()) playerIndex = 0;
+        else playerIndex++;
 
     }
 
