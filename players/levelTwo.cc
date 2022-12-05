@@ -2,7 +2,7 @@
 #include "../shared.h"
 #include "../pieces/board.h"
 
-LevelTwo::LevelTwo(Colour colour, Board * board): Computer(colour, board) {}
+LevelTwo::LevelTwo(Board * board): Computer(board) {}
 
 //TODO
 Move LevelTwo::chooseMove() {

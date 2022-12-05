@@ -207,6 +207,7 @@ void Game::customSetup() {
         }
         else if (cmd == "done") {
             if (Game::verifyProperSetup()) {
+                std::cout << "Back to main menu." << std::endl;
                 break;
             } else {
                 std::cout << "Board not set up correctly." << std::endl;

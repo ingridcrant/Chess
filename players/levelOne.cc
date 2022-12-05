@@ -3,7 +3,7 @@
 #include "../pieces/board.h"
 
 
-LevelOne::LevelOne(Colour colour, Board * board): Computer{colour, board} {}
+LevelOne::LevelOne(Board * board): Computer{board} {}
 
 //TODO
 Move LevelOne::chooseMove() {

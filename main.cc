@@ -14,15 +14,15 @@
 #include <string>
 
 
-std::unique_ptr<Player> createPlayer(std::string str, Colour col, Board * board) {
+std::unique_ptr<PlayerImpl> getPlayerImpl(std::string str, Board * board) {
     if (str == "human") {
-        return std::make_unique<Human>(col);
+        return std::make_unique<Human>();
     }
     else if (str == "one") {
-        return std::make_unique<LevelOne>(col, board);
+        return std::make_unique<LevelOne>(board);
     }
     else if (str == "two") {
-        return std::make_unique<LevelTwo>(col, board);
+        return std::make_unique<LevelTwo>(board);
     } else {
         throw InvalidInput{"Not a type of player."};
     }
@@ -39,10 +39,13 @@ int main() {
     auto text = std::make_unique<TextObserver>(g, 8, 8);
     auto window = std::make_unique<Xwindow>();
     auto graph = std::make_unique<GraphicalObserver>(g, std::move(window), 8, 8);
+
+    
+    auto human = std::make_unique<Human>();
+    auto playerOne = std::make_unique<Player>(WHITE, human.get()); //default
+    auto playerTwo = std::make_unique<Player>(BLACK, human.get()); //default
     
     std::string cmd;
-    float whiteWins = 0;
-    float blackWins = 0;
 
     std::cout << "WELCOME TO CHESS! To play as a computer, type in either 'one' or 'two' for the levels. Please enter your commands:" << std::endl;
 
@@ -56,20 +59,28 @@ int main() {
             std::cin >> playerOneStr >> playerTwoStr;
 
             try {
-                //create the player pointers
-                auto playerOne = std::move(createPlayer(playerOneStr, WHITE, b.get()));
-                auto playerTwo = std::move(createPlayer(playerTwoStr, BLACK, b.get()));
+                //add the player behaviour pointers
+                playerOne->setBehaviour(getPlayerImpl(playerOneStr, b.get()).get());
+                playerTwo->setBehaviour(getPlayerImpl(playerTwoStr, b.get()).get());
                 players.push_back(playerOne.get());
                 players.push_back(playerTwo.get());
 
                 Colour winner = g->playGame(draw, players);
 
                 if(draw) {
-                    whiteWins += 0.5;
-                    blackWins += 0.5;
+                    //increase everyone by 0.5
+                    for (int i = 0 ; i < players.size(); i++) {
+                        players[i]->increaseWin(0.5);
+                    }
+                    
+
                 } else {
-                    if (winner == WHITE) whiteWins++;
-                    else blackWins++;
+                    //increase winner points
+                    for (int i = 0 ; i < players.size(); i++) {
+                        if (players[i]->getColour() == winner) {
+                            players[i]->increaseWin(1);
+                        }
+                    }
                 }
 
             } catch (InvalidInput err) {
@@ -84,8 +95,10 @@ int main() {
     }
 
     std::cout << "Final score:" << std::endl;
-    std::cout << "White: " << whiteWins << std::endl;
-    std::cout << "Black: " << whiteWins << std::endl;
+    //print out everyone's final scores
+    for (int i = 0 ; i < players.size(); i++) {
+        std::cout << getColourStr(players[i]->getColour()) << ": " << players[i]->getWins() << std::endl;
+    }
 
 }
 

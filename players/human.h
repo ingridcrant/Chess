@@ -1,11 +1,12 @@
 #ifndef HUMAN_H
 #define HUMAN_H
 
-#include "player.h"
+#include "../shared.h"
+#include "playerImpl.h"
 
-class Human : public Player {
+class Human : public PlayerImpl {
     public:
-        Human(Colour colour);
+        Human();
         ~Human() = default;
         Move chooseMove() override;
 };

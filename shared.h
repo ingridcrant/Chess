@@ -16,6 +16,8 @@ enum Distance { ONE, INFINITE };
 enum Colour { WHITE, BLACK };
 enum MoveTypes { MOVE, CAPTURE, SKIP_TWO, INCHECK, EN_PASSANT, CASTLE_LEFT, CASTLE_RIGHT };
 
+std::string getColourStr(Colour colour);
+
 class InvalidInput {
     std::string message;
 

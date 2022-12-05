@@ -8,7 +8,7 @@ class Board;
 class LevelOne : public Computer {
 
     public:
-        LevelOne(Colour colour, Board * board);
+        LevelOne(Board * board);
         ~LevelOne() = default;
         Move chooseMove() override;
 };
