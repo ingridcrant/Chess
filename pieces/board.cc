@@ -225,7 +225,7 @@ bool Board::boardInCheck(Colour colour) const {
 }
 
 
-//TODO: Test
+//TODO: FIX CURRENTLY WRONG
 bool Board::boardInCheckmate(Colour colour) const {
     if (colour == WHITE && kingWhite->getNextPositions().empty()) {
         return true;
