@@ -4,18 +4,25 @@
 #include <string>
 #include "../shared.h"
 
+class PlayerImpl;
+
 class Player {
     Colour colour;
     bool check;
     bool checkmate;
+    PlayerImpl * behaviour;
+    float wins;
 
     public:
-        Player(Colour colour);
-        virtual ~Player() = default;
+        Player(Colour colour, PlayerImpl * behaviour);
+        ~Player() = default;
         Colour getColour() {return colour;}
         bool getCheck() {return check;}
         bool getCheckmate() {return checkmate;}
-        virtual Move chooseMove() = 0;
+        float getWins() {return wins;}
+        void increaseWin(float num) {wins += num;}
+        void setBehaviour(PlayerImpl * behaviour);
+        Move chooseMove();
 };
 
 
