@@ -18,9 +18,10 @@ char Game::getState(int row, int col) const {
     return ' ';
 }
 
-Colour Game::playGame(bool draw, std::vector<Player *> players) {
+Colour Game::playGame(bool & draw, std::vector<Player *> players) {
     bool done = false;
     Colour winner;
+    Move* lastMove = nullptr;
 
     // get first player
     int playerIndex = 0;
@@ -56,9 +57,6 @@ Colour Game::playGame(bool draw, std::vector<Player *> players) {
             //choose Move from player, if throws exception then go again
             try {
                 move = curPlayer->chooseMove();
-                std::cout << "TESTTEST" << std::endl;
-                std::cout << move.getCurPos().row << " " << move.getCurPos().col << std::endl;
-                std::cout << move.get.row << " " << move.getCurPos().col << std::endl;
                 if (board->getPieceAt(move.getCurPos().row, move.getCurPos().col)->getColour() != curPlayer->getColour()) {
                     throw InvalidInput("Atempting to move opponent's piece");
                 }
@@ -74,7 +72,7 @@ Colour Game::playGame(bool draw, std::vector<Player *> players) {
 
             //call changeBoard, if fails then player goes again
             try {
-                board->changeBoard(move);
+                board->changeBoard(move, lastMove);
                 notifyObservers();
 
                 //check if board is in check
@@ -91,7 +89,7 @@ Colour Game::playGame(bool draw, std::vector<Player *> players) {
 
                     draw = false;
                     done = true;
-                } else { //check if board is in a stalemate
+                } else if (board->boardInStalemate(curPlayer->getColour())) { //check if board is in a stalemate
                     std::cout << "Stalemate!" << std::endl;
                     draw = true;
                     done = true;
@@ -109,8 +107,8 @@ Colour Game::playGame(bool draw, std::vector<Player *> players) {
         }
 
         //change to next player
+        playerIndex++;
         if (playerIndex == players.size()) playerIndex = 0;
-        else playerIndex++;
 
     }
 

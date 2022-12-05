@@ -8,5 +8,5 @@ class Bishop : public Piece {
     public:
         Bishop(Colour colour, char symbol, Position pos);
         ~Bishop() = default;
-        void generateNextPositions(Board* board, Move lastMove) override;
+        void generateNextPositions(std::vector<std::vector<Piece*>> board, int rows, int cols, Move* lastMove, bool checkIfKingInCheck = true) override;
 };

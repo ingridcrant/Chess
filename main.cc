@@ -19,7 +19,8 @@ int main() {
     auto g = std::make_shared<Game>(b.get());
     auto text = std::make_unique<TextObserver>(g, 8, 8);
     //std::cout << b->getPieceAt(0, 4)->getSymbol() << std::endl; row 0, col 4 is K
-    g->customSetup();
+    bool draw = false;
+    Colour c = g->playGame(draw, players);
 
 }
 

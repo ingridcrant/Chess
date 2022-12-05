@@ -27,23 +27,30 @@ class Piece {
         bool firstMove = true;
         bool specialCapture;
 
-        virtual void generateNextPositions(Board* board, Move lastMove) = 0;
-        std::map<Position, MoveTypes> allPosInDirection(Direction direction, Move lastMove, Board* board);
-        bool validateMove(Position newPos, Board* board, Move lastMove);
-        bool movePutsKingInCheck(Board* board, Move lastMove, Position newPos);
+        std::map<Position, MoveTypes> allPosInDirection(Direction direction, Move* lastMove, int rows, int cols, std::vector<std::vector<Piece*>> board, bool checkIfKingInCheck = true);
+        // bool validateMove(Position newPos, Board* board, Move* lastMove);
+        bool movePutsKingInCheck(std::vector<std::vector<Piece*>> board, Move* lastMove, int rows, int cols, Position newPos, bool checkIfKingInCheck = true);
 
     public:
         Piece(Colour colour, char symbol, Position currPos, Distance dist, bool specialCapture);
         virtual ~Piece() = default;
         virtual Position getPos();
+        virtual Distance getDist();
         virtual char getSymbol();
         virtual bool getSkipsTwo();
-        virtual Colour getColour();
+        virtual bool getSpecialCapture();
         virtual bool getFirstMove();
+        virtual std::vector<Direction> getDirections();
+        virtual Colour getColour();
         virtual bool getInCheck();
         virtual void setInCheck(bool val);
+        virtual void setSkipsTwo(bool val);
         virtual void setPos(Position pos);
+        virtual void notFirstMove();
         virtual std::map<Position, MoveTypes> getNextPositions();
+        virtual void generateNextPositions(std::vector<std::vector<Piece*>> board, int rows, int cols, Move* lastMove, bool checkIfKingInCheck = true) = 0;
+        virtual void setDirections(std::vector<Direction> dirs);
+        virtual void setDistance(Distance d);
 };
 
 #endif
