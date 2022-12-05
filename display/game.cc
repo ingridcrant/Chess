@@ -20,6 +20,8 @@ char Game::getState(int row, int col) const {
 
 Colour Game::playGame(bool & draw, std::vector<Player *> players) {
     bool done = false;
+    Move* lastMovePtr = nullptr;
+    Move lastMove = Move{"a2 a1"}; //randomly construct
     Colour winner;
 
     // get first player
@@ -74,7 +76,9 @@ Colour Game::playGame(bool & draw, std::vector<Player *> players) {
             //call changeBoard, if fails then player goes again
             try {
                 std::cout << "HELLO2" << std::endl;
-                board->changeBoard(move);
+                board->changeBoard(move, lastMovePtr);
+                lastMove = move;
+                lastMovePtr = &move;
                 std::cout << "HELLO3" << std::endl;
                 notifyObservers();
 

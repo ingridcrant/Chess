@@ -1,14 +1,14 @@
 #include "graphicalObserver.h"
 #include <iostream>
 
-int GraphicalObserver::getColour(char c, int row, int col) const { 
+int GraphicalObserver::getColour(char c, int row, int col) const {
     if (c == '_' || (row + col) % 2 == 0) return Xwindow::Blue;
     else return Xwindow::White;
 }
 
 GraphicalObserver::GraphicalObserver(std::shared_ptr<Game> subject, std::unique_ptr<Xwindow> w, int rows, int cols): subject{subject}, window{std::move(w)}, rows{rows}, cols{cols} {
     subject->attach(this);
-    
+
     // intiialize stateOfBoard with
     std::vector<char> rowOne = {'_', ' ', '_', ' ', '_', ' ', '_', ' '};
     std::vector<char> rowTwo = {' ', '_', ' ', '_', ' ', '_', ' ', '_'};
@@ -67,7 +67,7 @@ void GraphicalObserver::notify() {
             }
         }
     }
-    
+
 }
 
 GraphicalObserver::~GraphicalObserver() {
