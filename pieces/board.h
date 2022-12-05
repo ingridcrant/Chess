@@ -17,8 +17,6 @@ class Board {
     Piece * kingWhite = nullptr;
     Piece * kingBlack = nullptr;
 
-    bool validMove(Piece * piece, Move* lastMove, Position curPos, Position newPos) const;
-
     public:
         Board(); 
         ~Board() = default;
