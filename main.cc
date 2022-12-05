@@ -4,8 +4,28 @@
 #include "pieces/board.h"
 #include "display/game.h"
 #include "players/human.h"
-#include "pieces/piece.h"
+#include "players/levelOne.h"
+#include "players/levelTwo.h"
+#include "shared.h"
 #include "display/textObserver.h"
+#include "display/graphicalObserver.h"
+#include "pieces/piece.h"
+#include <iostream>
+#include <string>
+
+std::unique_ptr<PlayerImpl> getPlayerImpl(std::string str, Board * board) {
+    if (str == "human") {
+        return std::make_unique<Human>();
+    }
+    else if (str == "one") {
+        return std::make_unique<LevelOne>(board);
+    }
+    else if (str == "two") {
+        return std::make_unique<LevelTwo>(board);
+    } else {
+        throw InvalidInput{"Not a type of player."};
+    }
+}
 
 int main() {
     auto b = std::make_unique<Board>();
