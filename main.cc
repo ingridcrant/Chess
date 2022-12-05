@@ -9,6 +9,7 @@
 #include "shared.h"
 #include "display/textObserver.h"
 #include "display/graphicalObserver.h"
+#include "pieces/piece.h"
 #include <iostream>
 #include <string>
 
@@ -17,10 +18,10 @@ std::unique_ptr<Player> createPlayer(std::string str, Colour col) {
     if (str == "human") {
         return std::make_unique<Human>(col);
     }
-    else if (str == "One") {
+    else if (str == "one") {
         return std::make_unique<LevelOne>(col);
     }
-    else if (str == "Two") {
+    else if (str == "two") {
         return std::make_unique<LevelTwo>(col);
     } else {
         throw InvalidInput{"Not a type of player."};
@@ -43,7 +44,7 @@ int main() {
     float whiteWins = 0;
     float blackWins = 0;
 
-    std::cout << "WELCOME TO CHESS! To play as a computer, type in either One, Two, or Three for the levels. Please enter your commands:" << std::endl;
+    std::cout << "WELCOME TO CHESS! To play as a computer, type in either 'one' or 'two' for the levels. Please enter your commands:" << std::endl;
 
     while (std::cin >> cmd) {
         if (cmd == "setup") {
