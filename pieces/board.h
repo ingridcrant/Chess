@@ -17,6 +17,10 @@ class Board {
     Piece * kingWhite = nullptr;
     Piece * kingBlack = nullptr;
 
+    std::vector<std::vector<Piece*>> copyBoard();
+    bool validMove(Piece* piece, Move* lastMove, Position curPos, Position newPos);
+    void updateKingPointer(Position pos); //update king pointer is king was moved
+
     public:
         Board(); 
         ~Board() = default;
@@ -31,9 +35,6 @@ class Board {
         bool boardInCheck(Colour colour) const; //whether colour is in check
         bool boardInCheckmate(Colour colour) const;
         bool boardInStalemate(Colour colour) const;
-        void updateKingPointer(Position pos); //update king pointer is king was moved
-        std::vector<std::vector<Piece*>> copyBoard();
-        bool validMove(Piece* piece, Move* lastMove, Position curPos, Position newPos);
 };
 
 #endif
