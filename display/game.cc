@@ -118,6 +118,7 @@ Colour Game::playGame(bool & draw, std::vector<Player *> players) {
     }
 
 
+    board->resetBoard();
     return winner;
 } 
 

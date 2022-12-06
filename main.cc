@@ -29,6 +29,8 @@ int main() {
     auto levelTwo = std::make_unique<LevelTwo>(b.get());
     auto playerOne = std::make_unique<Player>(WHITE, human.get()); //default
     auto playerTwo = std::make_unique<Player>(BLACK, human.get()); //default
+    players.push_back(playerOne.get());
+    players.push_back(playerTwo.get());
 
     std::string cmd;
 
@@ -69,8 +71,6 @@ int main() {
                     throw InvalidInput{"Not a type of player."};
                 }
 
-                players.push_back(playerOne.get());
-                players.push_back(playerTwo.get());
 
                 //play game
                 Colour winner = g->playGame(draw, players);
@@ -91,6 +91,8 @@ int main() {
                         }
                     }
                 }
+
+                std::cout << "You're back at the main menu!" << std::endl;
 
             } catch (InvalidInput err) {
                 err.printMessage();
