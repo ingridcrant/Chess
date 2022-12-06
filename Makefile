@@ -1,6 +1,7 @@
 CXX = g++
 CXXFLAGS = -std=c++14 -g -MMD -Wall -Wextra \
 		   -I display -I pieces -I players
+LDFLAGS = -L/opt/X11/lib -lX11 -lpthread
 EXEC = chess
 OBJECTS = main.o move.o\
 		  graphicalObserver.o subject.o textObserver.o window.o\
@@ -13,7 +14,7 @@ DEPENDS = ${OBJECTS:.o=.d}
 VPATH=display:pieces:players
 
 ${EXEC}: ${OBJECTS}
-	${CXX} ${CXXFLAGS} ${OBJECTS} -o ${EXEC} -lX11
+	${CXX} ${CXXFLAGS} ${OBJECTS} -o ${EXEC}
 
 -include ${DEPENDS}
 
