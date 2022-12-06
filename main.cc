@@ -13,20 +13,6 @@
 #include <iostream>
 #include <string>
 
-std::unique_ptr<PlayerImpl> getPlayerImpl(std::string str, Board * board) {
-    if (str == "human") {
-        return std::make_unique<Human>();
-    }
-    else if (str == "one") {
-        return std::make_unique<LevelOne>(board);
-    }
-    else if (str == "two") {
-        return std::make_unique<LevelTwo>(board);
-    } else {
-        throw InvalidInput{"Not a type of player."};
-    }
-}
-
 int main() {
     auto b = std::make_unique<Board>();
     std::vector<Player *> players;
@@ -34,11 +20,13 @@ int main() {
     bool draw = false;
     auto g = std::make_shared<Game>(b.get());
     auto text = std::make_unique<TextObserver>(g, 8, 8);
-    auto window = std::make_unique<Xwindow>();
-    auto graph = std::make_unique<GraphicalObserver>(g, std::move(window), 8, 8);
+    //auto window = std::make_unique<Xwindow>();
+    //auto graph = std::make_unique<GraphicalObserver>(g, std::move(window), 8, 8);
 
 
     auto human = std::make_unique<Human>();
+    auto levelOne = std::make_unique<LevelOne>(b.get());
+    auto levelTwo = std::make_unique<LevelTwo>(b.get());
     auto playerOne = std::make_unique<Player>(WHITE, human.get()); //default
     auto playerTwo = std::make_unique<Player>(BLACK, human.get()); //default
 
@@ -57,13 +45,37 @@ int main() {
 
             try {
                 //add the player behaviour pointers
-                playerOne->setBehaviour(getPlayerImpl(playerOneStr, b.get()).get());
-                playerTwo->setBehaviour(getPlayerImpl(playerTwoStr, b.get()).get());
+                if (playerOneStr == "human") {
+                    playerOne->setBehaviour(human.get());
+                }
+                else if (playerOneStr == "one") {
+                    playerOne->setBehaviour(levelOne.get());
+                }
+                else if (playerOneStr == "two") {
+                    playerOne->setBehaviour(levelTwo.get());
+                } else {
+                    throw InvalidInput{"Not a type of player."};
+                }
+
+                if (playerTwoStr == "human") {
+                    playerTwo->setBehaviour(human.get());
+                }
+                else if (playerTwoStr == "one") {
+                    playerTwo->setBehaviour(levelOne.get());
+                }
+                else if (playerTwoStr == "two") {
+                    playerTwo->setBehaviour(levelTwo.get());
+                } else {
+                    throw InvalidInput{"Not a type of player."};
+                }
+
                 players.push_back(playerOne.get());
                 players.push_back(playerTwo.get());
 
+                //play game
                 Colour winner = g->playGame(draw, players);
 
+                //determine result
                 if(draw) {
                     //increase everyone by 0.5
                     for (int i = 0 ; i < players.size(); i++) {
@@ -88,6 +100,9 @@ int main() {
         }
         else if (cmd == "done") {
             break;
+        }
+        else {
+            std::cout << "Invalid command, try again." << std::endl;
         }
     }
 
