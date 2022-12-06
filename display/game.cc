@@ -38,6 +38,7 @@ Colour Game::playGame(bool & draw, std::vector<Player *> players) {
     //game loop
     while (!done) {
         curPlayer = players[playerIndex];
+        std::cout << "It is now " << getColourStr(curPlayer->getColour()) << "'s turn!" << std::endl;
         std::string cmd;
         std::cin >> cmd;
 
@@ -113,7 +114,6 @@ Colour Game::playGame(bool & draw, std::vector<Player *> players) {
         //change to next player
         playerIndex++;
         if (playerIndex == players.size()) playerIndex = 0;
-        std::cout << "PLAYER INEX " << playerIndex <<std::endl;
 
     }
 
