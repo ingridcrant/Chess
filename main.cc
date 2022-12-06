@@ -37,6 +37,7 @@ int main() {
     std::cout << "WELCOME TO CHESS! To play as a computer, type in either 'one' or 'two' for the levels. Please enter your commands:" << std::endl;
 
     while (std::cin >> cmd) {
+        std::cout << "command: " << cmd << std::endl;
         if (cmd == "setup") {
             g->customSetup();
         }
