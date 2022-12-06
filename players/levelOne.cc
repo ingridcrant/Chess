@@ -12,6 +12,11 @@ Move LevelOne::chooseMove(Move* lastMove) {
     std::vector<Position> possibleMoves;
     std::vector<Piece*> pieces;
 
+    if(!lastMove) {
+        if (colour == WHITE) return Move{"e2 e4"};
+        else return Move{"d7 d5"};
+    }
+
     for (int r = 0; r < board->getRows(); r++) {
         for (int c = 0; c < board->getCols(); c++) {
             if (boardCopy[r][c] && boardCopy[r][c]->getColour() == colour) {

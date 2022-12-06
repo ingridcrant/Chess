@@ -6,7 +6,12 @@
 
 LevelTwo::LevelTwo(Board * board): Computer(board) {}
 
-Move LevelTwo::chooseMove(Move* lastMove) {
+Move LevelTwo::chooseMove(Move* lastMove) { 
+    if(!lastMove) {
+        if (colour == WHITE) return Move{"e2 e4"};
+        else return Move{"d7 d5"};
+    }
+    
     std::vector<std::vector<Piece*>> boardCopy = board->copyBoard();
     std::vector<Position> captureMoves;
     std::vector<Position> normalMoves;
