@@ -9,11 +9,30 @@ TextObserver::TextObserver(std::shared_ptr<Game> subject, int rows, int cols): s
 
 TextObserver::~TextObserver() {subject->detach(this);}
 
+std::string TextObserver::getPieceImage(char c) {
+    switch (c) {
+        case 'p': return "♟";
+        case 'P': return "♙";
+        case 'k': return "♚";
+        case 'K': return "♔";
+        case 'q': return "♛";
+        case 'Q': return "♕";
+        case 'b': return "♝";
+        case 'B': return "♗";
+        case 'n': return "♞";
+        case 'N': return "♘";
+        case 'r': return "♜";
+        case 'R': return "♖";
+        default:
+            return std::string{c};
+    }
+}
+
 void TextObserver::notify() {
     for(int row = rows - 1; row >= 0; row--) {
         std::cout << row + 1 << " ";
         for (int col = 0; col < cols; col++) {
-            std::cout << subject->getState(row, col);
+            std::cout << getPieceImage(subject->getState(row, col));
         }
         std::cout << std::endl;
     }

@@ -38,6 +38,7 @@ Colour Game::playGame(bool & draw, std::vector<Player *> players) {
     //game loop
     while (!done) {
         curPlayer = players[playerIndex];
+        std::cout << "It is now " << getColourStr(curPlayer->getColour()) << "'s turn!" << std::endl;
         std::string cmd;
         std::cin >> cmd;
 
@@ -63,19 +64,12 @@ Colour Game::playGame(bool & draw, std::vector<Player *> players) {
                 if (!board->getPieceAt(move.getCurPos().row, move.getCurPos().col) || board->getPieceAt(move.getCurPos().row, move.getCurPos().col)->getColour() != curPlayer->getColour()) {
                     throw InvalidInput("Atempting to move an invalid piece");
                 }
-            } catch (InvalidInput err) {
-                err.printMessage();
-                std::cout << "Try again." << std::endl; 
-                playerIndex--; //player goes again
-            }
 
-            //get opponent's colour
-            Colour opponentCol;
-            if (curPlayer->getColour() == WHITE) opponentCol = BLACK;
-            else opponentCol = WHITE;
+                //get opponent's colour
+                Colour opponentCol;
+                if (curPlayer->getColour() == WHITE) opponentCol = BLACK;
+                else opponentCol = WHITE;
 
-            //call changeBoard, if fails then player goes again
-            try {
                 board->changeBoard(move, lastMovePtr);
 
                 lastMove = Move{move.getCurPos(), move.getNewPos(), move.getPiece()};
@@ -103,6 +97,10 @@ Colour Game::playGame(bool & draw, std::vector<Player *> players) {
                 }
 
 
+            } catch (InvalidInput err) {
+                err.printMessage();
+                std::cout << "Try again." << std::endl; 
+                playerIndex--; //player goes again
             } catch (InvalidMove err) {
                 std::cout << "Invalid move, try again." << std::endl;
                 playerIndex--;
@@ -114,12 +112,13 @@ Colour Game::playGame(bool & draw, std::vector<Player *> players) {
         }
 
         //change to next player
+        playerIndex++;
         if (playerIndex == players.size()) playerIndex = 0;
-        else playerIndex++;
 
     }
 
 
+    board->resetBoard();
     return winner;
 } 
 
