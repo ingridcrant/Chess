@@ -22,7 +22,7 @@ class Player {
         float getWins() {return wins;}
         void increaseWin(float num) {wins += num;}
         void setBehaviour(PlayerImpl * behaviour);
-        Move chooseMove();
+        Move chooseMove(Move* lastMove);
 };
 
 

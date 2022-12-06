@@ -22,7 +22,7 @@ Colour Game::playGame(bool & draw, std::vector<Player *> players) {
     notifyObservers();
     bool done = false;
     Move* lastMovePtr = nullptr;
-    Move lastMove = Move{"a2 a1"}; //randomly construct
+    Move lastMove = Move{"a1 a3"}; // random
     Colour winner;
 
     // get first player
@@ -58,7 +58,7 @@ Colour Game::playGame(bool & draw, std::vector<Player *> players) {
 
             //choose Move from player, if throws exception then go again
             try {
-                move = curPlayer->chooseMove();
+                move = curPlayer->chooseMove(lastMovePtr);
                 move.setPiece(board->getPieceAt(move.getCurPos().row, move.getCurPos().col));
                 if (!board->getPieceAt(move.getCurPos().row, move.getCurPos().col) || board->getPieceAt(move.getCurPos().row, move.getCurPos().col)->getColour() != curPlayer->getColour()) {
                     throw InvalidInput("Atempting to move an invalid piece");
@@ -77,8 +77,9 @@ Colour Game::playGame(bool & draw, std::vector<Player *> players) {
             //call changeBoard, if fails then player goes again
             try {
                 board->changeBoard(move, lastMovePtr);
-                lastMove = move;
-                lastMovePtr = &move;
+
+                lastMove = Move{move.getCurPos(), move.getNewPos(), move.getPiece()};
+                lastMovePtr = &lastMove;
                 notifyObservers();
 
                 //check if board is in check

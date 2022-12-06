@@ -126,6 +126,8 @@ void Move::convertFormat(std::string str, int counter) {
     }
 }
 
+Move::Move(Position curPos, Position newPos, Piece* piece): curPos{curPos}, newPos{newPos}, piece{piece} {}
+
 Move::Move(std::string input) {
     piece = nullptr;
     int counter = 0;

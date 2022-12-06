@@ -20,8 +20,8 @@ int main() {
     bool draw = false;
     auto g = std::make_shared<Game>(b.get());
     auto text = std::make_unique<TextObserver>(g, 8, 8);
-    auto window = std::make_unique<Xwindow>();
-    auto graph = std::make_unique<GraphicalObserver>(g, std::move(window), 8, 8);
+//    auto window = std::make_unique<Xwindow>();
+//    auto graph = std::make_unique<GraphicalObserver>(g, std::move(window), 8, 8);
 
 
     auto human = std::make_unique<Human>();

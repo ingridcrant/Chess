@@ -10,7 +10,7 @@ class LevelOne : public Computer {
     public:
         LevelOne(Board * board);
         ~LevelOne() = default;
-        Move chooseMove() override;
+        Move chooseMove(Move* lastMove) override;
 };
 
 #endif

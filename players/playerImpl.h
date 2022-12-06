@@ -12,7 +12,7 @@ class PlayerImpl {
         PlayerImpl() {}
         virtual ~PlayerImpl() = default;
         void setColour(Colour colour) {this->colour = colour;}
-        virtual Move chooseMove() = 0;
+        virtual Move chooseMove(Move* lastMove) = 0;
 };
 
 
