@@ -159,6 +159,18 @@ Piece * Board::getPieceAt(int row, int col) const {
 }
 
 
+void Board::resetBoard() {
+    Board newBoard{};
+
+    for (int row = 0; row < boardRows; row++) {
+        for (int col = 0; col < boardCols; col++) {
+            board[row][col] = std::move(newBoard.board[row][col]);
+        }
+    }
+    
+}
+
+
 void Board::updateKingPointer(Position pos) {
     if (board[pos.row][pos.col]->getSymbol() == 'k') {
         kingBlack = board[pos.row][pos.col].get();

@@ -29,6 +29,7 @@ class Board {
         Piece* getKingBlack();
         Piece * getPieceAt(int row, int col) const;
         std::vector<std::vector<Piece*>> copyBoard();
+        void resetBoard();
         void changeBoard(Move move, Move* lastMove); //change state of board based on move
         void changeBoard(Position pos); //for removing a piece from that position
         void changeBoard(char piece, Position pos); //for placing piece in that position
