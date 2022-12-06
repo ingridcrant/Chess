@@ -20,19 +20,19 @@ Move LevelTwo::chooseMove(Move* lastMove) {
 
     for (int r = 0; r < board->getRows(); r++) {
         for (int c = 0; c < board->getCols(); c++) {
-            if (boardCopy[r][c] && boardCopy[r][c]->getColour() == colour) {
+            if (board->getPieceAt(r, c) && board->getPieceAt(r, c)->getColour() == colour) {
                 oppositeKing->setInCheck(false);
-                boardCopy[r][c]->generateNextPositions(boardCopy, board->getRows(), board->getCols(), lastMove);
-                for (auto pair : boardCopy[r][c]->getNextPositions()) {
+                board->getPieceAt(r, c)->generateNextPositions(boardCopy, board->getRows(), board->getCols(), lastMove);
+                for (auto pair : board->getPieceAt(r, c)->getNextPositions()) {
                     if (oppositeKing->getInCheck()) {
                         checkMoves.emplace_back(pair.first);
-                        checkPieces.emplace_back(boardCopy[r][c]);
+                        checkPieces.emplace_back(board->getPieceAt(r, c));
                     } else if (pair.second == CAPTURE) {
                         captureMoves.emplace_back(pair.first);
-                        capturePieces.emplace_back(boardCopy[r][c]);
+                        capturePieces.emplace_back(board->getPieceAt(r, c));
                     } else {
                         normalMoves.emplace_back(pair.first);
-                        normalPieces.emplace_back(boardCopy[r][c]);
+                        normalPieces.emplace_back(board->getPieceAt(r, c));
                     }
                 }
                 oppositeKing->setInCheck(false);
