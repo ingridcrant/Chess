@@ -13,7 +13,7 @@ class Computer : public PlayerImpl {
     public:
         Computer(Board * board): board{board} {}
         ~Computer() = default;
-        virtual Move chooseMove() = 0;
+        virtual Move chooseMove(Move* lastMove) = 0;
 };
 
 #endif

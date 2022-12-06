@@ -8,7 +8,7 @@ class Human : public PlayerImpl {
     public:
         Human();
         ~Human() = default;
-        Move chooseMove() override;
+        Move chooseMove(Move* lastMove) override;
 };
 
 #endif

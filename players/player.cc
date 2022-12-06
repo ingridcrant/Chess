@@ -7,8 +7,8 @@ void Player::setBehaviour(PlayerImpl * behaviour) {
     this->behaviour = behaviour;
 }
 
-Move Player::chooseMove() {
+Move Player::chooseMove(Move* lastMove) {
     behaviour->setColour(colour);
-    return behaviour->chooseMove();
+    return behaviour->chooseMove(lastMove);
 }
 

@@ -14,7 +14,7 @@ struct Position {
 enum Direction { PAWN_UP, UP, DOWN, LEFT, RIGHT, LEFT_UP_DIAGONAL, LEFT_DOWN_DIAGONAL, RIGHT_UP_DIAGONAL, RIGHT_DOWN_DIAGONAL, KNIGHT_UP_LEFT, KNIGHT_UP_RIGHT, KNIGHT_DOWN_LEFT, KNIGHT_DOWN_RIGHT, KNIGHT_LEFT_DOWN, KNIGHT_LEFT_UP, KNIGHT_RIGHT_DOWN, KNIGHT_RIGHT_UP };
 enum Distance { ONE, INFINITE };
 enum Colour { WHITE, BLACK };
-enum MoveTypes { MOVE, CAPTURE, SKIP_TWO, EN_PASSANT, CASTLE_LEFT, CASTLE_RIGHT };
+enum MoveTypes { MOVE, CAPTURE, IN_CHECK, SKIP_TWO, EN_PASSANT, CASTLE_LEFT, CASTLE_RIGHT };
 
 std::string getColourStr(Colour colour);
 
@@ -40,6 +40,7 @@ class Move {
     bool validPromotionPiece(std::string str) const;
 
     public:
+        Move(Position curPos, Position newPos, Piece* piece);
         Move(std::string input);
         Position getCurPos() const;
         Position getNewPos() const;

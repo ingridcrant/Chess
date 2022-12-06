@@ -4,7 +4,7 @@
 
 Human::Human(): PlayerImpl{} {}
 
-Move Human::chooseMove() {
+Move Human::chooseMove(Move* lastMove) {
     std::string move;
     getline(std::cin, move);
     return Move{move};
