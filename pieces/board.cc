@@ -317,10 +317,12 @@ bool Board::validMove(Piece* piece, Move* lastMove, Position curPos, Position ne
     std::vector<std::vector<Piece*>> boardCopy = copyBoard();
 
     // call generateAllMoves with a board copy
-    piece->generateNextPositions(boardCopy, boardRows, boardCols, lastMove, true);
-    for (auto nextPos : piece->getNextPositions()) {
-        if (nextPos.first.row == newPos.row && nextPos.first.col == newPos.col) {
-            return true;
+    if (boardCopy[curPos.row][curPos.col]) {
+        piece->generateNextPositions(boardCopy, boardRows, boardCols, lastMove, true);
+        for (auto nextPos : piece->getNextPositions()) {
+            if (nextPos.first.row == newPos.row && nextPos.first.col == newPos.col) {
+                return true;
+            }
         }
     }
     return false;
