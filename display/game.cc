@@ -59,6 +59,7 @@ Colour Game::playGame(bool & draw, std::vector<Player *> players) {
             //choose Move from player, if throws exception then go again
             try {
                 move = curPlayer->chooseMove();
+                move.setPiece(board->getPieceAt(move.getCurPos().row, move.getCurPos().col));
                 if (!board->getPieceAt(move.getCurPos().row, move.getCurPos().col) || board->getPieceAt(move.getCurPos().row, move.getCurPos().col)->getColour() != curPlayer->getColour()) {
                     throw InvalidInput("Atempting to move an invalid piece");
                 }
