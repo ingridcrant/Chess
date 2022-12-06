@@ -10,6 +10,8 @@ class TextObserver : public Observer {
     int rows;
     int cols;
 
+    std::string getPieceImage(char c);
+
     public:
     TextObserver(std::shared_ptr<Game> subject, int rows, int cols);
     void notify() override;
