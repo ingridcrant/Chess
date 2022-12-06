@@ -19,6 +19,7 @@ char Game::getState(int row, int col) const {
 }
 
 Colour Game::playGame(bool & draw, std::vector<Player *> players) {
+    notifyObservers();
     bool done = false;
     Move* lastMovePtr = nullptr;
     Move lastMove = Move{"a2 a1"}; //randomly construct
@@ -61,7 +62,6 @@ Colour Game::playGame(bool & draw, std::vector<Player *> players) {
                 if (!board->getPieceAt(move.getCurPos().row, move.getCurPos().col) || board->getPieceAt(move.getCurPos().row, move.getCurPos().col)->getColour() != curPlayer->getColour()) {
                     throw InvalidInput("Atempting to move an invalid piece");
                 }
-                std::cout << "HELLO" << std::endl;
             } catch (InvalidInput err) {
                 err.printMessage();
                 std::cout << "Try again." << std::endl; 
@@ -75,11 +75,9 @@ Colour Game::playGame(bool & draw, std::vector<Player *> players) {
 
             //call changeBoard, if fails then player goes again
             try {
-                std::cout << "HELLO2" << std::endl;
                 board->changeBoard(move, lastMovePtr);
                 lastMove = move;
                 lastMovePtr = &move;
-                std::cout << "HELLO3" << std::endl;
                 notifyObservers();
 
                 //check if board is in check
@@ -96,7 +94,7 @@ Colour Game::playGame(bool & draw, std::vector<Player *> players) {
 
                     draw = false;
                     done = true;
-                } else { //check if board is in a stalemate
+                } else if (board->boardInStalemate(curPlayer->getColour())){ //check if board is in a stalemate
                     std::cout << "Stalemate!" << std::endl;
                     draw = true;
                     done = true;
@@ -159,6 +157,7 @@ bool Game::verifyProperSetup() const {
 
 
 void Game::customSetup() {
+    notifyObservers();
     std::string cmd;
 
     while(std::cin >> cmd) {
@@ -212,6 +211,7 @@ void Game::customSetup() {
         }
         else if (cmd == "done") {
             if (Game::verifyProperSetup()) {
+                std::cout << "Back to main menu." << std::endl;
                 break;
             } else {
                 std::cout << "Board not set up correctly." << std::endl;
