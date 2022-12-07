@@ -75,8 +75,6 @@ Colour Game::playGame(bool & draw, std::vector<Player *> players) {
                 lastMovePtr = &lastMove;
                 notifyObservers();
 
-                //check if board is in check
-                board->generateAllMoves(lastMovePtr);
                 board->boardInCheck(opponentCol);
                 //check if board is in checkmate
                 if (board->boardInCheckmate(opponentCol)) {
