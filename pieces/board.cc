@@ -409,11 +409,14 @@ bool Board::validMove(Piece* piece, Move* lastMove, Position curPos, Position ne
     // call generateAllMoves with a board copy
     if (boardCopy[curPos.row][curPos.col]) {
         piece->generateNextPositions(boardCopy, boardRows, boardCols, lastMove, true);
-        for (auto nextPos : piece->getNextPositions()) {
+        if (piece->getNextPositions().count(newPos)) {
+            return true;
+        }
+        /*for (auto nextPos : piece->getNextPositions()) {
             if (nextPos.first.row == newPos.row && nextPos.first.col == newPos.col) {
                 return true;
             }
-        }
+        }*/
     }
     return false;
 }
