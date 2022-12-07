@@ -26,6 +26,7 @@ class Piece {
         Position currPos;
         bool firstMove = true;
         bool specialCapture;
+        int count = 0;
 
         std::map<Position, MoveTypes> allPosInDirection(Direction direction, Move* lastMove, int rows, int cols, std::vector<std::vector<Piece*>> board, bool checkIfKingInCheck = true);
         // bool validateMove(Position newPos, Board* board, Move* lastMove);
@@ -47,6 +48,8 @@ class Piece {
         virtual void setSkipsTwo(bool val);
         virtual void setPos(Position pos);
         virtual void notFirstMove();
+        virtual void incrementCount();
+        virtual int getCount();
         virtual std::map<Position, MoveTypes> getNextPositions();
         virtual void generateNextPositions(std::vector<std::vector<Piece*>> board, int rows, int cols, Move* lastMove, bool checkIfKingInCheck = true) = 0;
         virtual void setDirections(std::vector<Direction> dirs);

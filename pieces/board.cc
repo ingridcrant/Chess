@@ -174,9 +174,11 @@ void Board::resetBoard() {
 void Board::updateKingPointer(Position pos) {
     if (board[pos.row][pos.col]->getSymbol() == 'k') {
         kingBlack = board[pos.row][pos.col].get();
+        kingBlack->setPos(pos);
     }
     else if (board[pos.row][pos.col]->getSymbol() == 'K') {
         kingWhite = board[pos.row][pos.col].get();
+        kingWhite->setPos(pos);
     }
 }
 
@@ -278,6 +280,7 @@ void Board::changeBoard(Move move, Move* lastMove) {
         }
 
         piece->notFirstMove();
+        piece->incrementCount();
         piece->setPos(newPos);
 
         //if king was moved, update king pointer
@@ -287,11 +290,11 @@ void Board::changeBoard(Move move, Move* lastMove) {
     }
 }
 
-std::vector<std::vector<Piece*>> Board::copyBoard() {
+std::vector<std::vector<Piece*>> Board::copyBoard() const {
     std::vector<std::vector<Piece*>> boardCopy;
-    for (int r = 0; r < getRows(); r++) {
+    for (int r = 0; r < boardRows; r++) {
         std::vector<Piece*> row;
-        for (int c = 0; c < getCols(); c++) {
+        for (int c = 0; c < boardCols; c++) {
             row.push_back(getPieceAt(r, c));
         }
         boardCopy.push_back(std::move(row));
@@ -300,25 +303,99 @@ std::vector<std::vector<Piece*>> Board::copyBoard() {
     return boardCopy;
 }
 
-//TODO: Test
-bool Board::boardInCheck(Colour colour) const {
-    if (colour == WHITE && kingWhite->getInCheck()) {
-        return true;
-    }
-    else if (colour == BLACK && kingBlack->getInCheck()) {
-        return true;
-    }
+void Board::generateAllMoves(Move* lastMove) const {
+    std::vector<std::vector<Piece*>> boardCopy = copyBoard();
 
-    return false;
+    for (int r = 0; r < boardRows; r++) {
+        for (int c = 0; c < boardCols; c++) {
+            if (getPieceAt(r, c) && getPieceAt(r, c)->getColour() == BLACK && !getPieceAt(r, c)->getNextPositions().empty()) {
+                getPieceAt(r, c)->generateNextPositions(boardCopy, boardRows, boardCols, lastMove);
+            }
+        }
+    }
+}
+
+//TODO: Test
+void Board::boardInCheck(Colour opponentCol) const {
+    std::vector<std::vector<Piece*>> boardCopy = copyBoard();
+    if (opponentCol == WHITE) {
+        bool whiteInCheck = false;
+        for (int r = 0; r < boardRows; r++) {
+            for (int c = 0; c < boardCols; c++) {
+                if (getPieceAt(r, c) && getPieceAt(r, c)->getColour() == BLACK && !getPieceAt(r, c)->getNextPositions().empty()) {
+                    for (auto pair: getPieceAt(r, c)->getNextPositions()) {
+                        if (pair.first == kingWhite->getPos()) {
+                            whiteInCheck = true;
+                        }
+                    }
+                }
+            }
+        }
+        kingWhite->setInCheck(whiteInCheck);
+
+        bool movesLeft = false;
+        if (kingWhite->getInCheck()) {
+            for (int r = 0; r < boardRows; r++) {
+                for (int c = 0; c < boardCols; c++) {
+                    if (getPieceAt(r, c) && getPieceAt(r, c)->getColour() == WHITE &&
+                        !getPieceAt(r, c)->getNextPositions().empty()) {
+                        movesLeft = true;
+                    }
+                }
+            }
+        }
+        if (movesLeft) std::cout << "White is in check." << std::endl;
+    } else {
+        bool blackInCheck = false;
+        for (int r = 0; r < boardRows; r++) {
+            for (int c = 0; c < boardCols; c++) {
+                if (getPieceAt(r, c) && getPieceAt(r, c)->getColour() == WHITE &&
+                    !getPieceAt(r, c)->getNextPositions().empty()) {
+                    for (auto pair: getPieceAt(r, c)->getNextPositions()) {
+                        if (pair.first == kingBlack->getPos()) {
+                            blackInCheck = true;
+                        }
+                    }
+                }
+            }
+        }
+        kingBlack->setInCheck(blackInCheck);
+
+        bool movesLeft = false;
+        if (kingBlack->getInCheck()) {
+            for (int r = 0; r < boardRows; r++) {
+                for (int c = 0; c < boardCols; c++) {
+                    if (getPieceAt(r, c) && getPieceAt(r, c)->getColour() == BLACK &&
+                        !getPieceAt(r, c)->getNextPositions().empty()) {
+                    }
+                }
+            }
+        }
+        if (movesLeft) std::cout << "Black is in check." << std::endl;
+    }
 }
 
 
 //TODO: FIX CURRENTLY WRONG
 bool Board::boardInCheckmate(Colour colour) const {
-    if (colour == WHITE && kingWhite->getInCheck() && kingWhite->getNextPositions().empty()) {
+    if (colour == WHITE && kingWhite->getInCheck()) {
+        for (int r = 0; r < boardRows; r++) {
+            for (int c = 0; c < boardCols; c++) {
+                if (getPieceAt(r, c) && getPieceAt(r, c)->getColour() == WHITE && !getPieceAt(r, c)->getNextPositions().empty()) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
-    else if (colour == BLACK && kingBlack->getInCheck() && kingBlack->getNextPositions().empty()) {
+    else if (colour == BLACK && kingBlack->getInCheck()) {
+        for (int r = 0; r < boardRows; r++) {
+            for (int c = 0; c < boardCols; c++) {
+                if (getPieceAt(r, c) && getPieceAt(r, c)->getColour() == BLACK && !getPieceAt(r, c)->getNextPositions().empty()) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
 

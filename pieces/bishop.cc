@@ -12,7 +12,7 @@ void Bishop::generateNextPositions(std::vector<std::vector<Piece*>> board, int r
     for (Direction d : directions) {
         std::map<Position, MoveTypes> nextPositionsInD = this->allPosInDirection(d, lastMove, rows, cols, board, checkIfKingInCheck);
         for (auto pair : nextPositionsInD) {
-            nextPositions[pair.first] = pair.second;
+            nextPositions[std::move(pair.first)] = pair.second;
         }
     }
 }

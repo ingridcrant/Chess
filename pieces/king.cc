@@ -24,11 +24,80 @@ void King::generateNextPositions(std::vector<std::vector<Piece*>> board, int row
     // TO DO:
     // 1. remove positions that put King in check - DONE
     // 2. castling - DONE
+    std::vector<Position> maxPossibilities;
+    maxPossibilities.emplace_back(Position{currPos.row - 1, currPos.col});
+    maxPossibilities.emplace_back(Position{currPos.row + 1, currPos.col});
+    maxPossibilities.emplace_back(Position{currPos.row, currPos.col - 1});
+    maxPossibilities.emplace_back(Position{currPos.row, currPos.col + 1});
+    maxPossibilities.emplace_back(Position{currPos.row - 1, currPos.col - 1});
+    maxPossibilities.emplace_back(Position{currPos.row - 1, currPos.col + 1});
+    maxPossibilities.emplace_back(Position{currPos.row + 1, currPos.col - 1});
+    maxPossibilities.emplace_back(Position{currPos.row + 1, currPos.col + 1});
 
-    for (Direction d : directions) {
-        std::map<Position, MoveTypes> nextPositionsInD = this->allPosInDirection(d, lastMove, rows, cols, board, checkIfKingInCheck);
-        for (auto pair : nextPositionsInD) {
-            nextPositions[pair.first] = pair.second;
+    Position oldPos = getPos();
+
+    for (auto newPos : maxPossibilities) {
+        bool inCheck = false;
+        bool capture = false;
+
+        Colour opposingColour = (colour == BLACK) ? WHITE : BLACK;
+
+        if (newPos.row >= 0 && newPos.row < rows && newPos.col >= 0 && newPos.col < cols) {
+            Piece *capturedPiece = board[newPos.row][newPos.col];
+            bool validPiece = (!capturedPiece || capturedPiece->getColour() == opposingColour);
+            if (validPiece) {
+                if (capturedPiece) capture = true;
+
+                board[newPos.row][newPos.col] = board[oldPos.row][oldPos.col];
+                board[oldPos.row][oldPos.col] = nullptr;
+                setPos(newPos);
+
+                char kingChar = (colour == BLACK) ? 'k' : 'K';
+
+                // check if possible moves of the opponent put king in check
+                if (checkIfKingInCheck) {
+                    bool done = false;
+                    for (int r = 0; r < rows; r++) {
+                        for (int c = 0; c < cols; c++) {
+                            Piece *nextPiece = board[r][c];
+                            if (nextPiece && nextPiece->getColour() == opposingColour) {
+                                nextPiece->generateNextPositions(board, rows, cols, lastMove, false);
+                                for (auto nextPossibleMove: nextPiece->getNextPositions()) {
+                                    if (board[nextPossibleMove.first.row][nextPossibleMove.first.col] &&
+                                        board[nextPossibleMove.first.row][nextPossibleMove.first.col]->getSymbol() ==
+                                        symbol) {
+                                        inCheck = true;
+                                        done = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (done) break;
+                        }
+                        if (done) break;
+                    }
+                }
+
+                board[oldPos.row][oldPos.col] = board[newPos.row][newPos.col];
+                setPos(oldPos);
+                board[newPos.row][newPos.col] = capturedPiece;
+
+                if (checkIfKingInCheck) {
+                    for (int r = 0; r < rows; r++) {
+                        for (int c = 0; c < cols; c++) {
+                            Piece *nextPiece = board[r][c];
+                            if (nextPiece && nextPiece->getColour() == opposingColour) {
+                                nextPiece->generateNextPositions(board, rows, cols, lastMove, false);
+                            }
+                        }
+                    }
+                }
+
+                if (!inCheck) {
+                    if (capture) nextPositions[std::move(newPos)] = CAPTURE;
+                    else nextPositions[std::move(newPos)] = MOVE;
+                }
+            }
         }
     }
 

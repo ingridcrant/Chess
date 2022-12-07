@@ -62,14 +62,13 @@ Colour Game::playGame(bool & draw, std::vector<Player *> players) {
                 move = curPlayer->chooseMove(lastMovePtr);
                 move.setPiece(board->getPieceAt(move.getCurPos().row, move.getCurPos().col));
                 if (!board->getPieceAt(move.getCurPos().row, move.getCurPos().col) || board->getPieceAt(move.getCurPos().row, move.getCurPos().col)->getColour() != curPlayer->getColour()) {
-                    throw InvalidInput("Atempting to move an invalid piece");
+                    throw InvalidInput("Attempting to move an invalid piece");
                 }
 
                 //get opponent's colour
                 Colour opponentCol;
                 if (curPlayer->getColour() == WHITE) opponentCol = BLACK;
                 else opponentCol = WHITE;
-
                 board->changeBoard(move, lastMovePtr);
 
                 lastMove = Move{move.getCurPos(), move.getNewPos(), move.getPiece()};
@@ -77,13 +76,10 @@ Colour Game::playGame(bool & draw, std::vector<Player *> players) {
                 notifyObservers();
 
                 //check if board is in check
-                if (board->boardInCheck(opponentCol)) {
-                    if (opponentCol == WHITE) {
-                        std::cout << "White is in check." << std::endl;
-                    } else std::cout << "Black is in check." << std::endl;
-                }
+                board->generateAllMoves(lastMovePtr);
+                board->boardInCheck(opponentCol);
                 //check if board is in checkmate
-                else if (board->boardInCheckmate(opponentCol)) {
+                if (board->boardInCheckmate(opponentCol)) {
                     if (opponentCol == WHITE) {
                         std::cout << "Checkmate! Black wins!" << std::endl;
                     } else std::cout << "Checkmate! White wins!" << std::endl;
