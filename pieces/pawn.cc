@@ -37,38 +37,43 @@ void Pawn::generateNextPositions(std::vector<std::vector<Piece*>> board, int row
     }
 
     // 2. en passant - DONE
-    char opponentPawn = (colour == BLACK) ? 'p' : 'P';
-    int opponentDCol = (colour == BLACK) ? 1 : -1;
-    if (lastMove && lastMove->getPiece()->getSymbol() == opponentPawn && lastMove->getPiece()->getSkipsTwo()) {
+    char opponentPawn = (colour == BLACK) ? 'P' : 'p';
+    int opponentDRow = (colour == BLACK) ? 1 : -1;
+    /*if (lastMove && lastMove->getNewPos().row == 4 && lastMove->getNewPos().col == 3) {
+        std::cout << "HELLO1 " << lastMove->getPiece()->getSymbol() << std::endl;
+    }*/
+    if (lastMove && lastMove->getPiece()->getSymbol() == opponentPawn && lastMove->getPiece()->getCount() == 1 && lastMove->getPiece()->getSkipsTwo()) {
         Position opponentPawnPos = lastMove->getPiece()->getPos();
-        if (opponentPawnPos.col - 1 == currPos.col) {
+        if (opponentPawnPos.col == currPos.col - 1) {
             if (opponentPawnPos.row == currPos.row) {
-                Position enPassant = Position{opponentPawnPos.row - opponentDCol, opponentPawnPos.col - 1};
+                Position enPassant = Position{opponentPawnPos.row - opponentDRow, opponentPawnPos.col};
 
                 // checking that en passant doesn't put king in check
                 Piece* capturedPiece = board[opponentPawnPos.row][opponentPawnPos.col];
                 board[opponentPawnPos.row][opponentPawnPos.col] = nullptr;
 
                 if (checkIfKingInCheck) {
-                    if (!movePutsKingInCheck(board, lastMove, rows, cols, enPassant)) nextPositions[enPassant] = EN_PASSANT;
+                    if (!movePutsKingInCheck(board, lastMove, rows, cols, enPassant)) {
+                        nextPositions[std::move(enPassant)] = EN_PASSANT;
+                    }
                 } else {
-                    nextPositions[enPassant] = EN_PASSANT;
+                    nextPositions[std::move(enPassant)] = EN_PASSANT;
                 }
 
                 board[opponentPawnPos.row][opponentPawnPos.col] = capturedPiece;
             }
-        } else if (opponentPawnPos.col + 1 == currPos.col) {
+        } else if (opponentPawnPos.col == currPos.col + 1) {
             if (opponentPawnPos.row == currPos.row) {
-                Position enPassant = Position{opponentPawnPos.row - opponentDCol, opponentPawnPos.col + 1};
+                Position enPassant = Position{opponentPawnPos.row - opponentDRow, opponentPawnPos.col};
 
                 // checking that en passant doesn't put king in check
                 Piece* capturedPiece = board[opponentPawnPos.row][opponentPawnPos.col];
                 board[opponentPawnPos.row][opponentPawnPos.col] = nullptr;
 
                 if (checkIfKingInCheck) {
-                    if (!movePutsKingInCheck(board, lastMove, rows, cols, enPassant)) nextPositions[enPassant] = EN_PASSANT;
+                    if (!movePutsKingInCheck(board, lastMove, rows, cols, enPassant)) nextPositions[std::move(enPassant)] = EN_PASSANT;
                 } else {
-                    nextPositions[enPassant] = EN_PASSANT;
+                    nextPositions[std::move(enPassant)] = EN_PASSANT;
                 }
 
                 board[opponentPawnPos.row][opponentPawnPos.col] = capturedPiece;
@@ -78,10 +83,9 @@ void Pawn::generateNextPositions(std::vector<std::vector<Piece*>> board, int row
 
     // 3. regular motion
     for (Direction d : directions) {
-        std::map<Position, MoveTypes> nextPositionsInD = this->allPosInDirection(d, lastMove, rows, cols, board, checkIfKingInCheck);
+        std::map<Position, MoveTypes> nextPositionsInD = std::move(this->allPosInDirection(d, lastMove, rows, cols, board, checkIfKingInCheck));
         for (auto pair : nextPositionsInD) {
-            nextPositions[pair.first] = pair.second;
+            nextPositions[std::move(pair.first)] = pair.second;
         }
     }
-
 }

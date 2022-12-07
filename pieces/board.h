@@ -28,14 +28,15 @@ class Board {
         Piece* getKingWhite();
         Piece* getKingBlack();
         Piece * getPieceAt(int row, int col) const;
-        std::vector<std::vector<Piece*>> copyBoard();
+        std::vector<std::vector<Piece*>> copyBoard() const;
         void resetBoard();
         void changeBoard(Move move, Move* lastMove); //change state of board based on move
         void changeBoard(Position pos); //for removing a piece from that position
         void changeBoard(char piece, Position pos); //for placing piece in that position
-        bool boardInCheck(Colour colour) const; //whether colour is in check
+        void boardInCheck(Colour colour) const; //whether colour is in check
         bool boardInCheckmate(Colour colour) const;
         bool boardInStalemate(Colour colour) const;
+        void generateAllMoves(Move* lastMove) const;
 };
 
 #endif

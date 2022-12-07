@@ -1,7 +1,7 @@
 #include "piece.h"
 #include "iostream"
 
-Piece::Piece(Colour colour, char symbol, Position pos, Distance dist, bool specialCapture):colour{colour}, symbol{symbol}, currPos{pos}, dist{dist}, specialCapture{specialCapture} {}
+Piece::Piece(Colour colour, char symbol, Position pos, Distance dist, bool specialCapture):colour{colour}, symbol{symbol}, currPos{pos}, dist{dist}, specialCapture{specialCapture}, count{0} {}
 
 InvalidDirection::InvalidDirection(std::string message): message{message} {}
 void InvalidDirection::printMessage() const {std::cout << message << std::endl;};
@@ -82,12 +82,11 @@ std::map<Position, MoveTypes> Piece::allPosInDirection(Direction direction, Move
             if (!board[nextSpot.row][nextSpot.col] || board[nextSpot.row][nextSpot.col]->getColour() == opposingColour) {
                 if (!checkIfKingInCheck || !movePutsKingInCheck(board, lastMove, rows, cols, nextSpot)) {
                     if (board[nextSpot.row][nextSpot.col]) {
-                        if (board[nextSpot.row][nextSpot.col]->getSymbol() == opposingKing) board[nextSpot.row][nextSpot.col]->setInCheck(true);
-                        nextPositionsInD[nextSpot] = CAPTURE;
+                        nextPositionsInD[std::move(nextSpot)] = CAPTURE;
                         break;
                     }
 
-                    nextPositionsInD[nextSpot] = MOVE;
+                    nextPositionsInD[std::move(nextSpot)] = MOVE;
                 }
             } else {
                 break;
@@ -103,12 +102,11 @@ std::map<Position, MoveTypes> Piece::allPosInDirection(Direction direction, Move
             if (!board[nextSpot.row][nextSpot.col] || board[nextSpot.row][nextSpot.col]->getColour() == opposingColour) {
                 if (!checkIfKingInCheck || !movePutsKingInCheck(board, lastMove, rows, cols, nextSpot)) {
                     if (board[nextSpot.row][nextSpot.col]) {
-                        if (board[nextSpot.row][nextSpot.col]->getSymbol() == opposingKing) board[nextSpot.row][nextSpot.col]->setInCheck(true);
-                        nextPositionsInD[nextSpot] = CAPTURE;
+                        nextPositionsInD[std::move(nextSpot)] = CAPTURE;
                         break;
                     }
                 
-                    nextPositionsInD[nextSpot] = MOVE;
+                    nextPositionsInD[std::move(nextSpot)] = MOVE;
                 }
             } else {
                 break;
@@ -123,12 +121,11 @@ std::map<Position, MoveTypes> Piece::allPosInDirection(Direction direction, Move
             if (!board[nextSpot.row][nextSpot.col] || board[nextSpot.row][nextSpot.col]->getColour() == opposingColour) {
                 if (!checkIfKingInCheck || !movePutsKingInCheck(board, lastMove, rows, cols, nextSpot)) {
                     if (board[nextSpot.row][nextSpot.col]) {
-                        if (board[nextSpot.row][nextSpot.col]->getSymbol() == opposingKing) board[nextSpot.row][nextSpot.col]->setInCheck(true);
-                        nextPositionsInD[nextSpot] = CAPTURE;
+                        nextPositionsInD[std::move(nextSpot)] = CAPTURE;
                         break;
                     }
                 
-                    nextPositionsInD[nextSpot] = MOVE;
+                    nextPositionsInD[std::move(nextSpot)] = MOVE;
                 }
             } else {
                 break;
@@ -139,15 +136,14 @@ std::map<Position, MoveTypes> Piece::allPosInDirection(Direction direction, Move
             if (!board[currPos.row + aim][currPos.col]) {
                 Position nextSpot = Position{currPos.row + aim, currPos.col};
                 if (!checkIfKingInCheck || !movePutsKingInCheck(board, lastMove, rows, cols, nextSpot)) {
-                    nextPositionsInD[nextSpot] = MOVE;
+                    nextPositionsInD[std::move(nextSpot)] = MOVE;
                 }
             }
             if (0 <= currPos.row + aim && currPos.row + aim < rows && 0 <= currPos.col - 1 && currPos.col - 1 < cols) {
                 if (board[currPos.row + aim][currPos.col - 1] && board[currPos.row + aim][currPos.col - 1]->getColour() == opposingColour) {
                     Position nextSpot = Position{currPos.row + aim, currPos.col - 1};
                     if (!checkIfKingInCheck || !movePutsKingInCheck(board, lastMove, rows, cols, nextSpot)) {
-                        if (board[nextSpot.row][nextSpot.col]->getSymbol() == opposingKing) board[nextSpot.row][nextSpot.col]->setInCheck(true);
-                        nextPositionsInD[nextSpot] = CAPTURE;
+                        nextPositionsInD[std::move(nextSpot)] = CAPTURE;
                     }
                 }
             }
@@ -155,8 +151,7 @@ std::map<Position, MoveTypes> Piece::allPosInDirection(Direction direction, Move
                 if (board[currPos.row + aim][currPos.col + 1] && board[currPos.row + aim][currPos.col + 1]->getColour() == opposingColour) {
                     Position nextSpot = Position{currPos.row + aim, currPos.col + 1};
                     if (!checkIfKingInCheck || !movePutsKingInCheck(board, lastMove, rows, cols, nextSpot)) {
-                        if (board[nextSpot.row][nextSpot.col]->getSymbol() == opposingKing) board[nextSpot.row][nextSpot.col]->setInCheck(true);
-                        nextPositionsInD[nextSpot] = CAPTURE;
+                        nextPositionsInD[std::move(nextSpot)] = CAPTURE;
                     }
                 }
             }
@@ -170,11 +165,10 @@ std::map<Position, MoveTypes> Piece::allPosInDirection(Direction direction, Move
             if (!board[nextSpot.row][nextSpot.col] || board[nextSpot.row][nextSpot.col]->getColour() == opposingColour) {
                 if (!checkIfKingInCheck || !movePutsKingInCheck(board, lastMove, rows, cols, nextSpot)) {
                     if (board[nextSpot.row][nextSpot.col]) {
-                        if (board[nextSpot.row][nextSpot.col]->getSymbol() == opposingKing) board[nextSpot.row][nextSpot.col]->setInCheck(true);
-                        nextPositionsInD[nextSpot] = CAPTURE;
+                        nextPositionsInD[std::move(nextSpot)] = CAPTURE;
                         break;
                     }
-                    nextPositionsInD[nextSpot] = MOVE;
+                    nextPositionsInD[std::move(nextSpot)] = MOVE;
                 }
             } else {
                 break;
@@ -189,12 +183,11 @@ std::map<Position, MoveTypes> Piece::allPosInDirection(Direction direction, Move
             if (!board[nextSpot.row][nextSpot.col] || board[nextSpot.row][nextSpot.col]->getColour() == opposingColour) {
                 if (!checkIfKingInCheck || !movePutsKingInCheck(board, lastMove, rows, cols, nextSpot)) {
                     if (board[nextSpot.row][nextSpot.col]) {
-                        if (board[nextSpot.row][nextSpot.col]->getSymbol() == opposingKing) board[nextSpot.row][nextSpot.col]->setInCheck(true);
-                        nextPositionsInD[nextSpot] = CAPTURE;
+                        nextPositionsInD[std::move(nextSpot)] = CAPTURE;
                         break;
                     }
 
-                    nextPositionsInD[nextSpot] = MOVE;
+                    nextPositionsInD[std::move(nextSpot)] = MOVE;
                 }
             } else {
                 break;
@@ -209,12 +202,11 @@ std::map<Position, MoveTypes> Piece::allPosInDirection(Direction direction, Move
             if (!board[nextSpot.row][nextSpot.col] || board[nextSpot.row][nextSpot.col]->getColour() == opposingColour) {
                 if (!checkIfKingInCheck || !movePutsKingInCheck(board, lastMove, rows, cols, nextSpot)) {
                     if (board[nextSpot.row][nextSpot.col]) {
-                        if (board[nextSpot.row][nextSpot.col]->getSymbol() == opposingKing) board[nextSpot.row][nextSpot.col]->setInCheck(true);
-                        nextPositionsInD[nextSpot] = CAPTURE;
+                        nextPositionsInD[std::move(nextSpot)] = CAPTURE;
                         break;
                     }
                     
-                    nextPositionsInD[nextSpot] = MOVE;
+                    nextPositionsInD[std::move(nextSpot)] = MOVE;
                 }
             } else {
                 break;
@@ -229,12 +221,11 @@ std::map<Position, MoveTypes> Piece::allPosInDirection(Direction direction, Move
             if (!board[nextSpot.row][nextSpot.col] || board[nextSpot.row][nextSpot.col]->getColour() == opposingColour) {
                 if (!checkIfKingInCheck || !movePutsKingInCheck(board, lastMove, rows, cols, nextSpot)) {
                     if (board[nextSpot.row][nextSpot.col]) {
-                        if (board[nextSpot.row][nextSpot.col]->getSymbol() == opposingKing) board[nextSpot.row][nextSpot.col]->setInCheck(true);
-                        nextPositionsInD[nextSpot] = CAPTURE;
+                        nextPositionsInD[std::move(nextSpot)] = CAPTURE;
                         break;
                     }
 
-                    nextPositionsInD[nextSpot] = MOVE;
+                    nextPositionsInD[std::move(nextSpot)] = MOVE;
                 }
             } else {
                 break;
@@ -249,12 +240,11 @@ std::map<Position, MoveTypes> Piece::allPosInDirection(Direction direction, Move
             if (!board[nextSpot.row][nextSpot.col] || board[nextSpot.row][nextSpot.col]->getColour() == opposingColour) {
                 if (!checkIfKingInCheck || !movePutsKingInCheck(board, lastMove, rows, cols, nextSpot)) {
                     if (board[nextSpot.row][nextSpot.col]) {
-                        if (board[nextSpot.row][nextSpot.col]->getSymbol() == opposingKing) board[nextSpot.row][nextSpot.col]->setInCheck(true);
-                        nextPositionsInD[nextSpot] = CAPTURE;
+                        nextPositionsInD[std::move(nextSpot)] = CAPTURE;
                         break;
                     }
 
-                    nextPositionsInD[nextSpot] = MOVE;
+                    nextPositionsInD[std::move(nextSpot)] = MOVE;
                 }
             } else {
                 break;
@@ -266,10 +256,9 @@ std::map<Position, MoveTypes> Piece::allPosInDirection(Direction direction, Move
             if (!board[nextSpot.row][nextSpot.col] || board[nextSpot.row][nextSpot.col]->getColour() == opposingColour) {
                 if (!checkIfKingInCheck || !movePutsKingInCheck(board, lastMove, rows, cols, nextSpot)) {
                     if (board[nextSpot.row][nextSpot.col] && board[nextSpot.row][nextSpot.col]->getColour() == opposingColour) {
-                        if (board[nextSpot.row][nextSpot.col]->getSymbol() == opposingKing) board[nextSpot.row][nextSpot.col]->setInCheck(true);
-                        nextPositionsInD[nextSpot] = CAPTURE;
+                        nextPositionsInD[std::move(nextSpot)] = CAPTURE;
                     } else if (!board[nextSpot.row][nextSpot.col]) {
-                        nextPositionsInD[nextSpot] = MOVE;
+                        nextPositionsInD[std::move(nextSpot)] = MOVE;
                     }
                 }
             }
@@ -280,10 +269,9 @@ std::map<Position, MoveTypes> Piece::allPosInDirection(Direction direction, Move
             if (!board[nextSpot.row][nextSpot.col] || board[nextSpot.row][nextSpot.col]->getColour() == opposingColour) {
                 if (!checkIfKingInCheck || !movePutsKingInCheck(board, lastMove, rows, cols, nextSpot)) {
                     if (board[nextSpot.row][nextSpot.col] && board[nextSpot.row][nextSpot.col]->getColour() == opposingColour) {
-                        if (board[nextSpot.row][nextSpot.col]->getSymbol() == opposingKing) board[nextSpot.row][nextSpot.col]->setInCheck(true);
-                        nextPositionsInD[nextSpot] = CAPTURE;
+                        nextPositionsInD[std::move(nextSpot)] = CAPTURE;
                     } else if (!board[nextSpot.row][nextSpot.col]) {
-                        nextPositionsInD[nextSpot] = MOVE;
+                        nextPositionsInD[std::move(nextSpot)] = MOVE;
                     }
                 }
             }
@@ -294,10 +282,9 @@ std::map<Position, MoveTypes> Piece::allPosInDirection(Direction direction, Move
             if (!board[nextSpot.row][nextSpot.col] || board[nextSpot.row][nextSpot.col]->getColour() == opposingColour) {
                 if (!checkIfKingInCheck || !movePutsKingInCheck(board, lastMove, rows, cols, nextSpot)) {
                     if (board[nextSpot.row][nextSpot.col] && board[nextSpot.row][nextSpot.col]->getColour() == opposingColour) {
-                        if (board[nextSpot.row][nextSpot.col]->getSymbol() == opposingKing) board[nextSpot.row][nextSpot.col]->setInCheck(true);
-                        nextPositionsInD[nextSpot] = CAPTURE;
+                        nextPositionsInD[std::move(nextSpot)] = CAPTURE;
                     } else if (!board[nextSpot.row][nextSpot.col]) {
-                        nextPositionsInD[nextSpot] = MOVE;
+                        nextPositionsInD[std::move(nextSpot)] = MOVE;
                     }
                 }
             }
@@ -308,10 +295,9 @@ std::map<Position, MoveTypes> Piece::allPosInDirection(Direction direction, Move
             if (!board[nextSpot.row][nextSpot.col] || board[nextSpot.row][nextSpot.col]->getColour() == opposingColour) {
                 if (!checkIfKingInCheck || !movePutsKingInCheck(board, lastMove, rows, cols, nextSpot)) {
                     if (board[nextSpot.row][nextSpot.col] && board[nextSpot.row][nextSpot.col]->getColour() == opposingColour) {
-                        if (board[nextSpot.row][nextSpot.col]->getSymbol() == opposingKing) board[nextSpot.row][nextSpot.col]->setInCheck(true);
-                        nextPositionsInD[nextSpot] = CAPTURE;
+                        nextPositionsInD[std::move(nextSpot)] = CAPTURE;
                     } else if (!board[nextSpot.row][nextSpot.col]) {
-                        nextPositionsInD[nextSpot] = MOVE;
+                        nextPositionsInD[std::move(nextSpot)] = MOVE;
                     }
                 }
             }
@@ -389,4 +375,12 @@ void Piece::setDirections(std::vector<Direction> dirs) {
 
 void Piece::setDistance(Distance d) {
     dist = d;
+}
+
+int Piece::getCount() {
+    return count;
+};
+
+void Piece::incrementCount() {
+    count += 1;
 }
