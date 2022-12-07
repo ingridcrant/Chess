@@ -34,7 +34,10 @@ int main() {
 
     std::string cmd;
 
-    std::cout << "WELCOME TO CHESS! To play as a computer, type in either 'one' or 'two' for the levels. Please enter your commands:" << std::endl;
+    std::cout << "WELCOME TO CHESS!" << std::endl;
+    std::cout << "To play a game, enter 'game [human/one/two] [human/one/two]'." << std::endl;
+    std::cout << "To setup the board, enter 'setup'." << std::endl;
+    std::cout <<  "Please enter your commands:" << std::endl;
 
     while (std::cin >> cmd) {
         if (cmd == "setup") {
