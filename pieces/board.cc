@@ -165,6 +165,7 @@ void Board::resetBoard() {
     for (int row = 0; row < boardRows; row++) {
         for (int col = 0; col < boardCols; col++) {
             board[row][col] = std::move(newBoard.board[row][col]);
+            if (board[row][col]) updateKingPointer(Position{row, col});
         }
     }
     
