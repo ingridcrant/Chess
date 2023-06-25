@@ -13,7 +13,7 @@ DEPENDS = ${OBJECTS:.o=.d}
 VPATH=display:pieces:players
 
 ${EXEC}: ${OBJECTS}
-	${CXX} ${CXXFLAGS} ${OBJECTS} -o ${EXEC} -lX11
+	${CXX} ${CXXFLAGS} ${OBJECTS} -o ${EXEC} -I/usr/X11R6/include -L/usr/X11R6/lib -lX11
 
 -include ${DEPENDS}
 
